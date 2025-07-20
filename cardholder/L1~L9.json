@@ -1,0 +1,922 @@
+[
+  {
+    "english": "champion",
+    "chinese": "冠軍"
+  },
+  {
+    "english": "medal",
+    "chinese": "獎牌"
+  },
+  {
+    "english": "injury",
+    "chinese": "受傷"
+  },
+  {
+    "english": "success",
+    "chinese": "成功"
+  },
+  {
+    "english": "immediately",
+    "chinese": "立即；馬上"
+  },
+  {
+    "english": "collapse",
+    "chinese": "倒下"
+  },
+  {
+    "english": "medical",
+    "chinese": "醫療的"
+  },
+  {
+    "english": "staff",
+    "chinese": "全體員工"
+  },
+  {
+    "english": "courage",
+    "chinese": "勇氣"
+  },
+  {
+    "english": "strength",
+    "chinese": "意志力"
+  },
+  {
+    "english": "struggle",
+    "chinese": "艱難地前進"
+  },
+  {
+    "english": "emotional",
+    "chinese": "情緒激動的"
+  },
+  {
+    "english": "admiration",
+    "chinese": "欽佩"
+  },
+  {
+    "english": "respect",
+    "chinese": "尊敬；尊重"
+  },
+  {
+    "english": "take off",
+    "chinese": "出發；起飛"
+  },
+  {
+    "english": "have one's heart set on",
+    "chinese": "一心一意想做某事"
+  },
+  {
+    "english": "speed up",
+    "chinese": "加速"
+  },
+  {
+    "english": "rise to one's feet",
+    "chinese": "（重新）站起來"
+  },
+  {
+    "english": "carry through",
+    "chinese": "幫助⋯⋯渡過難關"
+  },
+  {
+    "english": "warn",
+    "chinese": "警告；提醒"
+  },
+  {
+    "english": "announcement",
+    "chinese": "公告；廣播通知"
+  },
+  {
+    "english": "research",
+    "chinese": "研究"
+  },
+  {
+    "english": "flavor",
+    "chinese": "味道"
+  },
+  {
+    "english": "pressure",
+    "chinese": "壓力"
+  },
+  {
+    "english": "normally",
+    "chinese": "通常"
+  },
+  {
+    "english": "distinguish",
+    "chinese": "分辨"
+  },
+  {
+    "english": "accurately",
+    "chinese": "精確地；準確地"
+  },
+  {
+    "english": "function",
+    "chinese": "運作；起作用"
+  },
+  {
+    "english": "blame",
+    "chinese": "歸咎於；責怪"
+  },
+  {
+    "english": "affect",
+    "chinese": "影響"
+  },
+  {
+    "english": "passenger",
+    "chinese": "乘客"
+  },
+  {
+    "english": "distract",
+    "chinese": "使分心；使轉移注意力"
+  },
+  {
+    "english": "indicate",
+    "chinese": "指出"
+  },
+  {
+    "english": "conditions",
+    "chinese": "情況；環境"
+  },
+  {
+    "english": "solution",
+    "chinese": "解決方法"
+  },
+  {
+    "english": "ingredient",
+    "chinese": "(食物的)材料；成分"
+  },
+  {
+    "english": "recipe",
+    "chinese": "食譜"
+  },
+  {
+    "english": "comparison",
+    "chinese": "比較"
+  },
+  {
+    "english": "remain",
+    "chinese": "保持"
+  },
+  {
+    "english": "provide",
+    "chinese": "提供"
+  },
+  {
+    "english": "pleasant",
+    "chinese": "令人愉快的"
+  },
+  {
+    "english": "be used to",
+    "chinese": "習慣"
+  },
+  {
+    "english": "needless to say",
+    "chinese": "不用說"
+  },
+  {
+    "english": "believe it or not",
+    "chinese": "信不信由你"
+  },
+  {
+    "english": "come up with",
+    "chinese": "想出"
+  },
+  {
+    "english": "in comparison with",
+    "chinese": "和⋯⋯相較之下"
+  },
+  {
+    "english": "regardless of",
+    "chinese": "不管"
+  },
+  {
+    "english": "grace",
+    "chinese": "優美；優雅"
+  },
+  {
+    "english": "desperately",
+    "chinese": "拼命地"
+  },
+  {
+    "english": "reluctantly",
+    "chinese": "勉強地；不情願地"
+  },
+  {
+    "english": "describe",
+    "chinese": "描述"
+  },
+  {
+    "english": "shiver",
+    "chinese": "顫抖"
+  },
+  {
+    "english": "faint",
+    "chinese": "昏厥；暈倒"
+  },
+  {
+    "english": "scientific",
+    "chinese": "科學的"
+  },
+  {
+    "english": "frustration",
+    "chinese": "煩惱；沮喪"
+  },
+  {
+    "english": "stubborn",
+    "chinese": "頑固的；倔強的"
+  },
+  {
+    "english": "rage",
+    "chinese": "暴怒；狂怒"
+  },
+  {
+    "english": "concentration",
+    "chinese": "專注"
+  },
+  {
+    "english": "explain",
+    "chinese": "解釋"
+  },
+  {
+    "english": "sincerity",
+    "chinese": "真誠"
+  },
+  {
+    "english": "confess",
+    "chinese": "坦白；認罪"
+  },
+  {
+    "english": "restore",
+    "chinese": "使恢復；使復原"
+  },
+  {
+    "english": "fade",
+    "chinese": "逐漸消失"
+  },
+  {
+    "english": "hardly",
+    "chinese": "幾乎不"
+  },
+  {
+    "english": "trace",
+    "chinese": "痕跡"
+  },
+  {
+    "english": "depart",
+    "chinese": "去世"
+  },
+  {
+    "english": "regret",
+    "chinese": "懊悔；遺憾"
+  },
+  {
+    "english": "put aside",
+    "chinese": "擱置"
+  },
+  {
+    "english": "from then on",
+    "chinese": "從那時起"
+  },
+  {
+    "english": "all the more",
+    "chinese": "更加；格外"
+  },
+  {
+    "english": "fly into a rage",
+    "chinese": "勃然大怒"
+  },
+  {
+    "english": "for one thing",
+    "chinese": "首先；一方面"
+  },
+  {
+    "english": "be/become filled with",
+    "chinese": "充滿"
+  },
+  {
+    "english": "slip away",
+    "chinese": "消逝；死去"
+  },
+  {
+    "english": "female",
+    "chinese": "女性的"
+  },
+  {
+    "english": "region",
+    "chinese": "地區"
+  },
+  {
+    "english": "forbid",
+    "chinese": "禁止"
+  },
+  {
+    "english": "continue",
+    "chinese": "繼續"
+  },
+  {
+    "english": "educational",
+    "chinese": "教育的"
+  },
+  {
+    "english": "educate",
+    "chinese": "教育"
+  },
+  {
+    "english": "principal",
+    "chinese": "校長"
+  },
+  {
+    "english": "equal",
+    "chinese": "相等的；平等的"
+  },
+  {
+    "english": "control",
+    "chinese": "控制"
+  },
+  {
+    "english": "annoy",
+    "chinese": "惹惱"
+  },
+  {
+    "english": "threaten",
+    "chinese": "威脅；恐嚇"
+  },
+  {
+    "english": "surgery",
+    "chinese": "外科手術"
+  },
+  {
+    "english": "recover",
+    "chinese": "康復"
+  },
+  {
+    "english": "sign",
+    "chinese": "簽名；簽署"
+  },
+  {
+    "english": "persuade",
+    "chinese": "說服；勸說"
+  },
+  {
+    "english": "adopt",
+    "chinese": "採納；領養"
+  },
+  {
+    "english": "policy",
+    "chinese": "政策"
+  },
+  {
+    "english": "ensure",
+    "chinese": "確保；保證"
+  },
+  {
+    "english": "establish",
+    "chinese": "建立；創設"
+  },
+  {
+    "english": "honor",
+    "chinese": "榮譽；向...致敬"
+  },
+  {
+    "english": "weapon",
+    "chinese": "武器"
+  },
+  {
+    "english": "take notice (of)",
+    "chinese": "注意"
+  },
+  {
+    "english": "blow up",
+    "chinese": "炸毀"
+  },
+  {
+    "english": "take away",
+    "chinese": "拿走"
+  },
+  {
+    "english": "speak out",
+    "chinese": "公開發表意見"
+  },
+  {
+    "english": "call for",
+    "chinese": "呼籲"
+  },
+  {
+    "english": "dare",
+    "chinese": "敢"
+  },
+  {
+    "english": "entertain",
+    "chinese": "娛樂"
+  },
+  {
+    "english": "imaginative",
+    "chinese": "有想像力的"
+  },
+  {
+    "english": "consistently",
+    "chinese": "持續地；一貫地"
+  },
+  {
+    "english": "consistent",
+    "chinese": "持續的"
+  },
+  {
+    "english": "parade",
+    "chinese": "遊行"
+  },
+  {
+    "english": "request",
+    "chinese": "要求；請求"
+  },
+  {
+    "english": "extreme",
+    "chinese": "極度的"
+  },
+  {
+    "english": "achieve",
+    "chinese": "達成；實現"
+  },
+  {
+    "english": "passion",
+    "chinese": "熱情；熱愛"
+  },
+  {
+    "english": "hardship",
+    "chinese": "困難"
+  },
+  {
+    "english": "poverty",
+    "chinese": "貧窮；貧困"
+  },
+  {
+    "english": "rescue",
+    "chinese": "解救；營救"
+  },
+  {
+    "english": "career",
+    "chinese": "事業；職業"
+  },
+  {
+    "english": "weave",
+    "chinese": "編織"
+  },
+  {
+    "english": "deliver",
+    "chinese": "遞送；傳送"
+  },
+  {
+    "english": "documentary",
+    "chinese": "紀錄片"
+  },
+  {
+    "english": "overcome",
+    "chinese": "克服"
+  },
+  {
+    "english": "attitude",
+    "chinese": "態度"
+  },
+  {
+    "english": "challenge",
+    "chinese": "挑戰"
+  },
+  {
+    "english": "obstacle",
+    "chinese": "障礙"
+  },
+  {
+    "english": "in addition to",
+    "chinese": "除...之外"
+  },
+  {
+    "english": "for instance",
+    "chinese": "例如"
+  },
+  {
+    "english": "in other words",
+    "chinese": "換句話說"
+  },
+  {
+    "english": "ever since",
+    "chinese": "自從"
+  },
+  {
+    "english": "meet with",
+    "chinese": "遭遇"
+  },
+  {
+    "english": "spring into action",
+    "chinese": "立即行動"
+  },
+  {
+    "english": "in turn",
+    "chinese": "繼而"
+  },
+  {
+    "english": "awful",
+    "chinese": "可怕的；糟糕的"
+  },
+  {
+    "english": "stare",
+    "chinese": "盯著看；凝視"
+  },
+  {
+    "english": "whisper",
+    "chinese": "低語；耳語"
+  },
+  {
+    "english": "rude",
+    "chinese": "無禮的"
+  },
+  {
+    "english": "tease",
+    "chinese": "取笑；嘲弄"
+  },
+  {
+    "english": "purposefully",
+    "chinese": "蓄意地；故意地"
+  },
+  {
+    "english": "scary",
+    "chinese": "可怕的"
+  },
+  {
+    "english": "overhear",
+    "chinese": "無意中聽到"
+  },
+  {
+    "english": "incident",
+    "chinese": "事件"
+  },
+  {
+    "english": "cruel",
+    "chinese": "殘忍的"
+  },
+  {
+    "english": "pretend",
+    "chinese": "假裝"
+  },
+  {
+    "english": "genuinely",
+    "chinese": "真誠地；真正地"
+  },
+  {
+    "english": "apologize",
+    "chinese": "道歉"
+  },
+  {
+    "english": "gradually",
+    "chinese": "逐漸地"
+  },
+  {
+    "english": "approach",
+    "chinese": "接近；靠近"
+  },
+  {
+    "english": "absolutely",
+    "chinese": "非常；完全地"
+  },
+  {
+    "english": "defend",
+    "chinese": "保護；防禦"
+  },
+  {
+    "english": "bully",
+    "chinese": "霸凌者；欺負"
+  },
+  {
+    "english": "ceremony",
+    "chinese": "典禮；儀式"
+  },
+  {
+    "english": "fit in",
+    "chinese": "融入(群體)"
+  },
+  {
+    "english": "around the corner",
+    "chinese": "即將到來"
+  },
+  {
+    "english": "sick to one's stomach",
+    "chinese": "非常噁心；極度不安"
+  },
+  {
+    "english": "make peace",
+    "chinese": "和好"
+  },
+  {
+    "english": "make fun of",
+    "chinese": "嘲笑；開玩笑"
+  },
+  {
+    "english": "at least",
+    "chinese": "至少"
+  },
+  {
+    "english": "apart from",
+    "chinese": "除了...之外"
+  },
+  {
+    "english": "not...anymore",
+    "chinese": "再也沒有；不再"
+  },
+  {
+    "english": "seek",
+    "chinese": "尋求；尋找"
+  },
+  {
+    "english": "brand",
+    "chinese": "品牌"
+  },
+  {
+    "english": "series",
+    "chinese": "系列"
+  },
+  {
+    "english": "technology",
+    "chinese": "科技"
+  },
+  {
+    "english": "worth",
+    "chinese": "值得"
+  },
+  {
+    "english": "foundation",
+    "chinese": "基礎；建立"
+  },
+  {
+    "english": "conference",
+    "chinese": "會議；研討會"
+  },
+  {
+    "english": "increase",
+    "chinese": "增加；增強"
+  },
+  {
+    "english": "organizer",
+    "chinese": "組織者"
+  },
+  {
+    "english": "broad",
+    "chinese": "寬闊的"
+  },
+  {
+    "english": "range",
+    "chinese": "範圍；系列"
+  },
+  {
+    "english": "field",
+    "chinese": "領域"
+  },
+  {
+    "english": "philosophy",
+    "chinese": "哲學；人生觀"
+  },
+  {
+    "english": "launch",
+    "chinese": "發行；發起"
+  },
+  {
+    "english": "collection",
+    "chinese": "一批；一堆"
+  },
+  {
+    "english": "numerous",
+    "chinese": "許多的"
+  },
+  {
+    "english": "celebrity",
+    "chinese": "名人"
+  },
+  {
+    "english": "fascination",
+    "chinese": "著迷；魅力"
+  },
+  {
+    "english": "fiction",
+    "chinese": "小說"
+  },
+  {
+    "english": "discuss",
+    "chinese": "討論；探討"
+  },
+  {
+    "english": "method",
+    "chinese": "方法"
+  },
+  {
+    "english": "as well as",
+    "chinese": "和；以及"
+  },
+  {
+    "english": "for free",
+    "chinese": "免費"
+  },
+  {
+    "english": "at present",
+    "chinese": "目前；現在"
+  },
+  {
+    "english": "give...a try",
+    "chinese": "嘗試"
+  },
+  {
+    "english": "broaden one's horizons",
+    "chinese": "拓展(某人的)視野"
+  },
+  {
+    "english": "exchange",
+    "chinese": "交換"
+  },
+  {
+    "english": "expect",
+    "chinese": "預期；期望"
+  },
+  {
+    "english": "shelter",
+    "chinese": "庇護；遮蔽"
+  },
+  {
+    "english": "fierce",
+    "chinese": "(天氣)強烈的；(情感或動作)激烈的"
+  },
+  {
+    "english": "occupy",
+    "chinese": "佔據；佔用"
+  },
+  {
+    "english": "vehicle",
+    "chinese": "車輛；交通工具"
+  },
+  {
+    "english": "temporary",
+    "chinese": "臨時的"
+  },
+  {
+    "english": "assistant",
+    "chinese": "助理；助手"
+  },
+  {
+    "english": "assist",
+    "chinese": "幫助"
+  },
+  {
+    "english": "originate",
+    "chinese": "源自；發源"
+  },
+  {
+    "english": "origin",
+    "chinese": "起源；由來"
+  },
+  {
+    "english": "elder",
+    "chinese": "年長的"
+  },
+  {
+    "english": "neighborhood",
+    "chinese": "鄰近地區"
+  },
+  {
+    "english": "cooperate",
+    "chinese": "合作"
+  },
+  {
+    "english": "arrange",
+    "chinese": "安排；佈置"
+  },
+  {
+    "english": "relax",
+    "chinese": "放鬆"
+  },
+  {
+    "english": "container",
+    "chinese": "容器"
+  },
+  {
+    "english": "stroll",
+    "chinese": "散步"
+  },
+  {
+    "english": "spirit",
+    "chinese": "精神；心態"
+  },
+  {
+    "english": "curious",
+    "chinese": "好奇的"
+  },
+  {
+    "english": "take part in",
+    "chinese": "參加"
+  },
+  {
+    "english": "take place",
+    "chinese": "舉行；發生"
+  },
+  {
+    "english": "come about",
+    "chinese": "發生"
+  },
+  {
+    "english": "help (...) out",
+    "chinese": "幫助...解決困難"
+  },
+  {
+    "english": "general",
+    "chinese": "一般的；普遍的"
+  },
+  {
+    "english": "derive",
+    "chinese": "源自；起源於"
+  },
+  {
+    "english": "feature",
+    "chinese": "以...為特色"
+  },
+  {
+    "english": "gossip",
+    "chinese": "八卦；流言蜚語"
+  },
+  {
+    "english": "reveal",
+    "chinese": "透露；洩漏"
+  },
+  {
+    "english": "release",
+    "chinese": "發行；發布"
+  },
+  {
+    "english": "chase",
+    "chinese": "追逐"
+  },
+  {
+    "english": "brand",
+    "chinese": "品牌"
+  },
+  {
+    "english": "image",
+    "chinese": "影像；形象"
+  },
+  {
+    "english": "edit",
+    "chinese": "編輯"
+  },
+  {
+    "english": "modify",
+    "chinese": "修改"
+  },
+  {
+    "english": "digitally",
+    "chinese": "數位地"
+  },
+  {
+    "english": "combination",
+    "chinese": "結合；聯合"
+  },
+  {
+    "english": "standard",
+    "chinese": "標準"
+  },
+  {
+    "english": "widespread",
+    "chinese": "廣泛的"
+  },
+  {
+    "english": "usage",
+    "chinese": "用法；使用"
+  },
+  {
+    "english": "constantly",
+    "chinese": "持續地；不斷地"
+  },
+  {
+    "english": "alternative",
+    "chinese": "另類的；可替代的"
+  },
+  {
+    "english": "existing",
+    "chinese": "現有的；目前的"
+  },
+  {
+    "english": "take on",
+    "chinese": "開始具有(某特質)；接下(工作)"
+  },
+  {
+    "english": "later on",
+    "chinese": "後來"
+  },
+  {
+    "english": "in the beginning",
+    "chinese": "起初；一開始"
+  },
+  {
+    "english": "too...to...",
+    "chinese": "太...而不能..."
+  },
+  {
+    "english": "play a/an...role (in)",
+    "chinese": "(在...)扮演...的角色"
+  },
+  {
+    "english": "think up",
+    "chinese": "想出"
+  }
+]

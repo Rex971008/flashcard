@@ -1,0 +1,42 @@
+[
+  {
+    "english": "application",
+    "chinese": "應用程式"
+  },
+  {
+    "english": "server",
+    "chinese": "伺服器"
+  },
+  {
+    "english": "client",
+    "chinese": "客戶端"
+  },
+  {
+    "english": "interface",
+    "chinese": "介面 (UI/API)"
+  },
+  {
+    "english": "framework",
+    "chinese": "框架"
+  },
+  {
+    "english": "library",
+    "chinese": "函式庫"
+  },
+  {
+    "english": "security",
+    "chinese": "安全性"
+  },
+  {
+    "english": "cloud",
+    "chinese": "雲端"
+  },
+  {
+    "english": "deployment",
+    "chinese": "部署"
+  },
+  {
+    "english": "cache",
+    "chinese": "快取"
+  }
+]
