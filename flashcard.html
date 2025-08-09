@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的單字卡 (體驗完善版)</title>
+    <title>我的單字卡 (PWA 完善版)</title>
     
     <!-- PWA Modifications START -->
     <link rel="manifest" href="manifest.json">
@@ -12,7 +12,7 @@
     <!-- PWA Modifications END -->
 
     <style>
-        /* CSS is completely unchanged from the previous version. */
+        /* CSS is completely unchanged */
         html, body {
             height: 100%; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex; justify-content: center; align-items: center; background-color: #f4f7f6; color: #333;
@@ -34,16 +34,9 @@
             width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 15px; align-items: stretch;
         }
         .mode-selector {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            margin-top: 20px;
-            background-color: #e8f5e9;
-            border: 2px solid #a5d6a7;
-            border-radius: 10px;
-            box-sizing: border-box;
+            width: 100%; display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 20px; margin-top: 20px; background-color: #e8f5e9;
+            border: 2px solid #a5d6a7; border-radius: 10px; box-sizing: border-box;
         }
         .mode-selector label { font-size: 1.1em; font-weight: bold; color: #2e7d32; }
         .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
@@ -105,8 +98,6 @@
             transition: color 0.2s, transform 0.2s; display: none;
         }
         #speak-btn:hover { color: #002ab0; transform: scale(1.1); }
-
-
         #deck-management-view { gap: 15px; justify-content: flex-start; align-items: stretch; }
         #deck-manager-title { color: #0277bd; margin: 0 0 10px 0; flex-shrink: 0; text-align: center; }
         .deck-manager-actions {
@@ -117,7 +108,6 @@
         .deck-manager-actions input[type="checkbox"] { transform: scale(1.4); cursor: pointer; }
         #multi-delete-btn { background-color: #f44336; color: white; padding: 8px 15px; font-size: 1em; }
         #multi-delete-btn:hover:not(:disabled) { background-color: #d32f2f; }
-
         .word-list-container {
             width: 100%; flex-grow: 1; overflow-y: auto;
             border: 1px solid #ddd; border-radius: 8px; padding: 10px;
@@ -126,7 +116,6 @@
         .word-list-item { display: flex; justify-content: flex-start; align-items: center; padding: 12px 10px; border-bottom: 1px solid #eee; font-size: 1.1em; gap: 15px; }
         .word-list-item:last-child { border-bottom: none; }
         .word-list-item .word-select-checkbox { transform: scale(1.5); flex-shrink: 0; cursor: pointer; }
-
         .word-content-wrapper { flex-grow: 1; text-align: left; }
         .word-display-container { cursor: pointer; padding: 5px; border-radius: 4px; transition: background-color 0.2s; }
         .word-display-container:hover { background-color: #e0f7fa; }
@@ -144,14 +133,12 @@
         }
         .save-edit-btn { background-color: #4CAF50; color: white; }
         .cancel-edit-btn { background-color: #f44336; color: white; }
-
         .deck-actions-container { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
         #export-deck-btn { background-color: #2196F3; color: white; }
         #export-deck-btn:hover { background-color: #1976D2; }
         #delete-deck-btn { background-color: #c62828; color: white; }
         #delete-deck-btn:hover:not(:disabled) { background-color: #b71c1c; }
         #delete-deck-btn:disabled { background-color: #bdbdbd; cursor: not-allowed; opacity: 0.7; }
-        
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center;
@@ -177,8 +164,6 @@
         .confirm-modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
         #confirm-modal-cancel-btn { background-color: #9e9e9e; color: white; }
         #confirm-modal-confirm-btn { background-color: #c62828; color: white; }
-
-
         #open-add-word-modal-btn {
             position: absolute; bottom: 20px; right: 20px; width: 60px; height: 60px;
             background-color: rgba(76, 175, 80, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -198,7 +183,7 @@
         <button id="back-to-menu-btn" class="top-button" title="返回主菜單">&#x2B05;</button>
         <button id="fullscreen-btn" class="top-button" title="切換全螢幕">&#x21F3;</button>
 
-        <!-- Views -->
+        <!-- The rest of the HTML body is unchanged -->
         <div id="main-menu-view" class="view">
             <div id="main-menu-container" class="main-menu-container"></div>
             <div class="mode-selector">
@@ -275,10 +260,8 @@
         </div>
     </div>
 
-
     <script>
-        // All Javascript code is the same as the previous version...
-        // with the addition of the Service Worker registration code.
+        // All variable declarations are the same
         const DEFAULT_DECK_NAME = "自訂單字卡";
         let allWordCategoriesData = {}; 
         let allOriginalWordsFlat = []; 
@@ -323,223 +306,133 @@
 
         const shuffleArray = (array) => { let t=[...array],c=t.length,r;while(0!==c){r=Math.floor(Math.random()*c);c--;[t[c],t[r]]=[t[r],t[c]]}return t; };
         function saveAppState() { try { localStorage.setItem('allWordDecks', JSON.stringify(allWordCategoriesData)); allOriginalWordsFlat = Object.values(allWordCategoriesData).flat(); } catch (e) { console.error("無法保存單字包列表。", e); } }
-        function loadAppState() { let loadedDecks = {}; try { const savedDecks = localStorage.getItem('allWordDecks'); if (savedDecks) { const parsed = JSON.parse(savedDecks); if (typeof parsed === 'object' && parsed !== null) { loadedDecks = parsed; } } } catch (e) { console.error("載入單字包列表失敗，將重置。", e); loadedDecks = {}; } if (!loadedDecks.hasOwnProperty(DEFAULT_DECK_NAME)) { loadedDecks[DEFAULT_DECK_NAME] = []; } allWordCategoriesData = loadedDecks; allOriginalWordsFlat = Object.values(allWordCategoriesData).flat(); saveAppState(); }
+        function loadAppState() { let loadedDecks = {}; try { const savedDecks = localStorage.getItem('allWordDecks'); if (savedDecks) { const parsed = JSON.parse(savedDecks); if (typeof parsed === 'object' && parsed !== null) { loadedDecks = parsed; } } } catch (e) { console.error("載入單字包列表失敗，將重置。", e); loadedDecks = {}; } if (!loadedDecks.hasOwnProperty(DEFAULT_DECK_NAME)) { loadedDecks[DEFAULT_DECK_NAME] = []; } allWordCategoriesData = loadedDecks; allOriginalWordsFlat = Object.values(allWordCategoriesData).flat(); }
+        
+        // MODIFICATION: New function to automatically load default decks from the server
+        async function loadDefaultDecksFromServer() {
+            try {
+                // 1. Fetch the index file that lists all default decks.
+                const indexResponse = await fetch('./cardholder/index.json');
+                if (!indexResponse.ok) {
+                    console.log('cardholder/index.json not found, skipping default deck loading.');
+                    return; // If index.json doesn't exist, just stop.
+                }
+                const deckFilenames = await indexResponse.json();
+
+                // 2. Create a list of fetch promises for each deck.
+                const fetchPromises = deckFilenames.map(filename => {
+                    const deckName = filename.replace(/\.json$/i, '');
+                    // Only fetch if the deck does NOT already exist in the user's local data.
+                    if (!allWordCategoriesData.hasOwnProperty(deckName)) {
+                        return fetch(`./cardholder/${filename}`).then(res => res.json());
+                    }
+                    return Promise.resolve(null); // Return a resolved promise with null if deck exists
+                });
+                
+                // 3. Wait for all fetches to complete.
+                const newDecksData = await Promise.all(fetchPromises);
+
+                // 4. Process and add the new decks.
+                let decksAdded = false;
+                newDecksData.forEach((deckContent, index) => {
+                    if (deckContent) { // Check if the deck was actually fetched (was not null)
+                        const deckName = deckFilenames[index].replace(/\.json$/i, '');
+                        allWordCategoriesData[deckName] = deckContent;
+                        decksAdded = true;
+                    }
+                });
+
+                // 5. If any new decks were added, save the state.
+                if (decksAdded) {
+                    console.log("Default decks loaded from server.");
+                    saveAppState();
+                }
+
+            } catch (error) {
+                console.error("Error loading default decks from server:", error);
+            }
+        }
+
+
+        // All other functions are unchanged...
         function saveProgress() { try { localStorage.setItem('unfamiliarWordsList', JSON.stringify(unfamiliarWordsInNormalCycle)); } catch (e) { console.error("無法保存不熟單字列表。", e); } }
         function loadUnfamiliarWords() { try { const s = localStorage.getItem('unfamiliarWordsList'); unfamiliarWordsInNormalCycle = s ? JSON.parse(s) : []; } catch (e) { console.error("載入不熟單字列表失敗。", e); unfamiliarWordsInNormalCycle = []; } }
         function saveStudyMode() { try { localStorage.setItem('studyMode', currentStudyMode); } catch (e) { console.error("無法保存學習模式。", e); } }
         function loadStudyMode() { try { const savedMode = localStorage.getItem('studyMode'); if (savedMode === 'zh-first') { currentStudyMode = 'zh-first'; modeToggle.checked = true; } else { currentStudyMode = 'en-first'; modeToggle.checked = false; } } catch (e) { console.error("載入學習模式失敗。", e); currentStudyMode = 'en-first'; } }
-
         function showView(viewName) { for (let id in views) { views[id].classList.remove('active'); } views[viewName].classList.add('active'); const showTopButtons = (viewName === 'flashcard-view' || viewName === 'deck-management-view'); backToMenuBtnTop.style.display = showTopButtons ? 'flex' : 'none'; fullscreenBtn.style.display = showTopButtons ? 'flex' : 'none'; if (viewName === 'main-menu-view') renderMainMenu(); }
         function renderMainMenu() { mainMenuContainer.innerHTML = ''; const createCategoryButton = (categoryName, specialClass = '') => { const item = document.createElement('div'); item.className = `category-item ${specialClass}`; item.innerHTML = `<span>${categoryName}</span><span class="manage-deck-btn" title="管理 '${categoryName}'">⚙️</span>`; item.querySelector('.manage-deck-btn').addEventListener('click', e => { e.stopPropagation(); openDeckManager(categoryName); }); item.addEventListener('click', () => startCategoryLearning(categoryName)); mainMenuContainer.appendChild(item); }; const customDeckNames = Object.keys(allWordCategoriesData).filter(name => name !== DEFAULT_DECK_NAME); customDeckNames.forEach(name => createCategoryButton(name)); if (allWordCategoriesData.hasOwnProperty(DEFAULT_DECK_NAME)) { createCategoryButton(DEFAULT_DECK_NAME, 'default-category'); } const unfamiliarItem = document.createElement('div'); unfamiliarItem.className = 'category-item unfamiliar-category'; unfamiliarItem.innerHTML = `<span>不熟單字</span> <span class="unfamiliar-count">${unfamiliarWordsInNormalCycle.length}</span>`; unfamiliarItem.addEventListener('click', startUnfamiliarReviewMode); mainMenuContainer.appendChild(unfamiliarItem); }
         function openAddWordModal() { addWordModal.classList.add('active'); setTimeout(() => newWordEnglishInput.focus(), 50); }
         function closeAddWordModal() { addWordForm.reset(); addWordFeedback.classList.remove('show'); clearTimeout(feedbackTimeout); addWordModal.classList.remove('active'); }
-
         function showConfirmModal(title, text, onConfirm) { confirmModalTitle.textContent = title; confirmModalText.innerHTML = text; confirmAction = onConfirm; confirmModal.classList.add('active'); }
         function closeConfirmModal() { confirmModal.classList.remove('active'); confirmAction = null; }
-
         function openDeckManager(categoryName) { currentManagingDeck = categoryName; deckManagerTitle.textContent = `管理: ${categoryName}`; if (categoryName === DEFAULT_DECK_NAME) { deleteDeckBtn.disabled = true; deleteDeckBtn.title = "預設單字包無法刪除"; } else { deleteDeckBtn.disabled = false; deleteDeckBtn.title = ""; } renderWordList(categoryName); showView('deck-management-view'); }
-        
         function renderWordList(categoryName) {
-            wordListContainer.innerHTML = '';
-            selectedWordsToDelete.clear();
-            currentlyEditingElement = null;
-
+            wordListContainer.innerHTML = ''; selectedWordsToDelete.clear(); currentlyEditingElement = null;
             const words = allWordCategoriesData[categoryName] || [];
-            if (words.length === 0) {
-                wordListContainer.innerHTML = '<p style="color: #888; padding: 20px 0; text-align: center;">這個單字包是空的。點擊右下角 + 來新增！</p>';
-            } else {
+            if (words.length === 0) { wordListContainer.innerHTML = '<p style="color: #888; padding: 20px 0; text-align: center;">這個單字包是空的。點擊右下角 + 來新增！</p>'; } else {
                 words.forEach(word => {
-                    const item = document.createElement('div');
-                    item.className = 'word-list-item';
-                    item.dataset.originalEnglish = word.english;
-                    
-                    item.innerHTML = `
-                        <input type="checkbox" class="word-select-checkbox" data-english="${word.english}">
-                        <div class="word-content-wrapper">
-                            <div class="word-display-container" title="點擊以編輯">
-                                <span><strong>${word.english}</strong>: ${word.chinese}</span>
-                            </div>
-                            <div class="word-edit-container">
-                                <input class="edit-english" value="${word.english}" placeholder="英文單字">
-                                <input class="edit-chinese" value="${word.chinese}" placeholder="中文翻譯">
-                                <button class="save-edit-btn" title="儲存">&#x2713;</button>
-                                <button class="cancel-edit-btn" title="取消">&times;</button>
-                            </div>
-                        </div>
-                    `;
+                    const item = document.createElement('div'); item.className = 'word-list-item'; item.dataset.originalEnglish = word.english;
+                    item.innerHTML = `<input type="checkbox" class="word-select-checkbox" data-english="${word.english}"><div class="word-content-wrapper"><div class="word-display-container" title="點擊以編輯"><span><strong>${word.english}</strong>: ${word.chinese}</span></div><div class="word-edit-container"><input class="edit-english" value="${word.english}" placeholder="英文單字"><input class="edit-chinese" value="${word.chinese}" placeholder="中文翻譯"><button class="save-edit-btn" title="儲存">&#x2713;</button><button class="cancel-edit-btn" title="取消">&times;</button></div></div>`;
                     wordListContainer.appendChild(item);
                 });
             }
-            updateMultiDeleteUI();
-            selectAllCheckbox.checked = false;
+            updateMultiDeleteUI(); selectAllCheckbox.checked = false;
         }
-
-        function enterEditMode(item) {
-            if (currentlyEditingElement && currentlyEditingElement !== item) {
-                exitEditMode(currentlyEditingElement, false);
-            }
-            currentlyEditingElement = item;
-            item.classList.add('editing');
-            item.querySelector('.edit-english').focus();
-        }
-
+        function enterEditMode(item) { if (currentlyEditingElement && currentlyEditingElement !== item) { exitEditMode(currentlyEditingElement, false); } currentlyEditingElement = item; item.classList.add('editing'); item.querySelector('.edit-english').focus(); }
         function exitEditMode(item, shouldSave) {
             if (!item) return;
-
             if (shouldSave) {
                 const originalEng = item.dataset.originalEnglish;
                 const newEngInput = item.querySelector('.edit-english');
                 const newChiInput = item.querySelector('.edit-chinese');
-                const newEng = newEngInput.value.trim();
-                const newChi = newChiInput.value.trim();
-
-                if (!newEng || !newChi) {
-                    alert('英文和中文欄位都不能為空！');
-                    return;
-                }
-
-                if (newEng.toLowerCase() !== originalEng.toLowerCase() && allWordCategoriesData[currentManagingDeck].some(w => w.english.toLowerCase() === newEng.toLowerCase())) {
-                    alert(`單字 "${newEng}" 已存在於此單字包中！`);
-                    return;
-                }
-
+                const newEng = newEngInput.value.trim(); const newChi = newChiInput.value.trim();
+                if (!newEng || !newChi) { alert('英文和中文欄位都不能為空！'); return; }
+                if (newEng.toLowerCase() !== originalEng.toLowerCase() && allWordCategoriesData[currentManagingDeck].some(w => w.english.toLowerCase() === newEng.toLowerCase())) { alert(`單字 "${newEng}" 已存在於此單字包中！`); return; }
                 const wordIndex = allWordCategoriesData[currentManagingDeck].findIndex(w => w.english === originalEng);
                 if (wordIndex > -1) {
-                    allWordCategoriesData[currentManagingDeck][wordIndex] = { english: newEng, chinese: newChi };
-                    saveAppState();
-
-                    item.querySelector('.word-display-container span').innerHTML = `<strong>${newEng}</strong>: ${newChi}`;
-                    item.dataset.originalEnglish = newEng;
-                    item.querySelector('.word-select-checkbox').dataset.english = newEng;
+                    allWordCategoriesData[currentManagingDeck][wordIndex] = { english: newEng, chinese: newChi }; saveAppState();
+                    item.querySelector('.word-display-container span').innerHTML = `<strong>${newEng}</strong>: ${newChi}`; item.dataset.originalEnglish = newEng; item.querySelector('.word-select-checkbox').dataset.english = newEng;
                 }
             } else {
-                const originalEng = item.dataset.originalEnglish;
-                const originalWord = allWordCategoriesData[currentManagingDeck].find(w => w.english === originalEng);
-                if (originalWord) {
-                     item.querySelector('.edit-english').value = originalWord.english;
-                     item.querySelector('.edit-chinese').value = originalWord.chinese;
-                }
+                const originalEng = item.dataset.originalEnglish; const originalWord = allWordCategoriesData[currentManagingDeck].find(w => w.english === originalEng);
+                if (originalWord) { item.querySelector('.edit-english').value = originalWord.english; item.querySelector('.edit-chinese').value = originalWord.chinese; }
             }
-            
-            item.classList.remove('editing');
-            if (currentlyEditingElement === item) {
-                currentlyEditingElement = null;
-            }
+            item.classList.remove('editing'); if (currentlyEditingElement === item) { currentlyEditingElement = null; }
         }
-
         function handleWordSelectionChange(event) {
-            const checkbox = event.target;
-            const wordEng = checkbox.dataset.english;
-            if (checkbox.checked) {
-                selectedWordsToDelete.add(wordEng);
-            } else {
-                selectedWordsToDelete.delete(wordEng);
-            }
+            const checkbox = event.target; const wordEng = checkbox.dataset.english;
+            if (checkbox.checked) { selectedWordsToDelete.add(wordEng); } else { selectedWordsToDelete.delete(wordEng); }
             const allWordCheckboxes = wordListContainer.querySelectorAll('.word-select-checkbox');
             selectAllCheckbox.checked = allWordCheckboxes.length > 0 && selectedWordsToDelete.size === allWordCheckboxes.length;
             updateMultiDeleteUI();
         }
-
         function updateMultiDeleteUI() {
             const count = selectedWordsToDelete.size;
-            if (count > 0) {
-                multiDeleteBtn.disabled = false;
-                multiDeleteBtn.textContent = `刪除已選 (${count})`;
-            } else {
-                multiDeleteBtn.disabled = true;
-                multiDeleteBtn.textContent = `刪除已選 (0)`;
-            }
+            if (count > 0) { multiDeleteBtn.disabled = false; multiDeleteBtn.textContent = `刪除已選 (${count})`; } else { multiDeleteBtn.disabled = true; multiDeleteBtn.textContent = `刪除已選 (0)`; }
         }
-        
-        function handleDeleteDeck() {
-            if (!currentManagingDeck || currentManagingDeck === DEFAULT_DECK_NAME) return;
-            showConfirmModal(
-                '確認刪除單字包',
-                `您確定要永久刪除「<strong>${currentManagingDeck}</strong>」這個單字卡包嗎？<br>此操作無法復原！`,
-                () => {
-                    delete allWordCategoriesData[currentManagingDeck];
-                    saveAppState();
-                    alert(`單字卡包「${currentManagingDeck}」已刪除。`);
-                    backToMainMenu();
-                }
-            );
-        }
-
+        function handleDeleteDeck() { if (!currentManagingDeck || currentManagingDeck === DEFAULT_DECK_NAME) return; showConfirmModal('確認刪除單字包', `您確定要永久刪除「<strong>${currentManagingDeck}</strong>」這個單字卡包嗎？<br>此操作無法復原！`, () => { delete allWordCategoriesData[currentManagingDeck]; saveAppState(); alert(`單字卡包「${currentManagingDeck}」已刪除。`); backToMainMenu(); }); }
         function handleMultiDelete() {
-            const count = selectedWordsToDelete.size;
-            if (count === 0 || !currentManagingDeck) return;
-
-            showConfirmModal(
-                '確認刪除單字',
-                `確定要從 "${currentManagingDeck}" 中永久刪除這 <strong>${count}</strong> 個單字嗎？`,
-                () => {
-                    allWordCategoriesData[currentManagingDeck] = allWordCategoriesData[currentManagingDeck].filter(
-                        word => !selectedWordsToDelete.has(word.english)
-                    );
-                    saveAppState();
-                    renderWordList(currentManagingDeck);
-                }
-            );
+            const count = selectedWordsToDelete.size; if (count === 0 || !currentManagingDeck) return;
+            showConfirmModal('確認刪除單字', `確定要從 "${currentManagingDeck}" 中永久刪除這 <strong>${count}</strong> 個單字嗎？`, () => { allWordCategoriesData[currentManagingDeck] = allWordCategoriesData[currentManagingDeck].filter(word => !selectedWordsToDelete.has(word.english)); saveAppState(); renderWordList(currentManagingDeck); });
         }
-
         function handleAddWord(event) { event.preventDefault(); const newEng = newWordEnglishInput.value.trim(); const newChi = newWordChineseInput.value.trim(); if (!newEng || !newChi || !currentManagingDeck) return alert('英文和中文欄位都不能為空！'); if (allWordCategoriesData[currentManagingDeck].some(w => w.english.toLowerCase() === newEng.toLowerCase())) return alert(`單字 "${newEng}" 已存在！`); allWordCategoriesData[currentManagingDeck].push({ english: newEng, chinese: newChi }); saveAppState(); renderWordList(currentManagingDeck); addWordFeedback.textContent = '新增成功！'; addWordFeedback.classList.add('show'); clearTimeout(feedbackTimeout); feedbackTimeout = setTimeout(() => { addWordFeedback.classList.remove('show'); }, 2000); addWordForm.reset(); newWordEnglishInput.focus(); }
         function handleExportDeck() { if (!currentManagingDeck) return; const deckName = currentManagingDeck; const wordsToExport = allWordCategoriesData[deckName] || []; if (wordsToExport.length === 0) { alert(`「${deckName}」是空的，沒有可匯出的單字。`); return; } const jsonString = JSON.stringify(wordsToExport, null, 2); const blob = new Blob([jsonString], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `${deckName}.json`; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); }
         function handleFileImport() { if (fileImporter.files.length === 0) return alert('請先選擇一個或多個 .json 檔案！'); for (const file of fileImporter.files) { const reader = new FileReader(); reader.onload = (event) => { try { const newWords = JSON.parse(event.target.result); if (!Array.isArray(newWords) || (newWords.length > 0 && (!newWords[0].english || !newWords[0].chinese))) throw new Error(`檔案 "${file.name}" 格式不正確。`); const categoryName = file.name.replace(/\.json$/i, ''); if (categoryName === DEFAULT_DECK_NAME) { if (!confirm(`您正試圖用檔案 "${file.name}" 覆蓋預設單字包 "${DEFAULT_DECK_NAME}"。\n確定要繼續嗎？`)) return; } else if (allWordCategoriesData[categoryName] && !confirm(`分類 "${categoryName}" 已存在。是否要用檔案 "${file.name}" 的內容覆蓋它？`)) return; allWordCategoriesData[categoryName] = newWords; saveAppState(); renderMainMenu(); alert(`分類 "${categoryName}" 已成功從檔案 "${file.name}" 匯入/更新！`); } catch (e) { alert(`匯入檔案 "${file.name}" 失敗: ` + e.message); } }; reader.onerror = () => alert(`讀取檔案 "${file.name}" 時發生錯誤。`); reader.readAsText(file); } fileImporter.value = ''; }
-        
         function filterAndPrepareWords(wordList) { if (!wordList) return []; const flatList = Object.values(allWordCategoriesData).flat(); return wordList.filter(w => flatList.some(ow => ow.english === w.english && ow.chinese === w.chinese)).map(w => ({...w, revealed: w.revealed || false})); };
         function startCategoryLearning(categoryName) { currentCategoryName = categoryName; currentWordsSource = allWordCategoriesData[categoryName]; if (!currentWordsSource || currentWordsSource.length === 0) { alert(`"${categoryName}" 類別目前沒有單字！\n請點擊右方的 ⚙️ 圖示來新增單字。`); return; } currentMode = 'normal'; shuffledWords = shuffleArray(currentWordsSource.map(w => ({ ...w, revealed: false }))); currentIndex = 0; displayCard(); showView('flashcard-view'); }
         function startUnfamiliarReviewMode() { const validUnfamiliarWords = filterAndPrepareWords(unfamiliarWordsInNormalCycle); if (validUnfamiliarWords.length !== unfamiliarWordsInNormalCycle.length) { unfamiliarWordsInNormalCycle = validUnfamiliarWords; saveProgress(); } if (unfamiliarWordsInNormalCycle.length === 0) { alert('目前沒有不熟的單字可以複習！'); return; } currentCategoryName = '不熟單字'; currentMode = 'review'; shuffledWords = shuffleArray(unfamiliarWordsInNormalCycle.map(w => ({ ...w, revealed: false }))); currentIndex = 0; displayCard(); showView('flashcard-view'); }
-        
-        function handleSpeakWord(event) {
-            event.stopPropagation();
-            if (shuffledWords.length === 0) return;
-            const wordToSpeak = shuffledWords[currentIndex].english;
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(wordToSpeak);
-                utterance.lang = 'en-US';
-                window.speechSynthesis.speak(utterance);
-            } else {
-                alert('您的瀏覽器不支援語音合成功能。');
-            }
-        }
-
+        function handleSpeakWord(event) { event.stopPropagation(); if (shuffledWords.length === 0) return; const wordToSpeak = shuffledWords[currentIndex].english; if ('speechSynthesis' in window) { const utterance = new SpeechSynthesisUtterance(wordToSpeak); utterance.lang = 'en-US'; window.speechSynthesis.speak(utterance); } else { alert('您的瀏覽器不支援語音合成功能。'); } }
         function displayCard() {
-            if (shuffledWords.length === 0) {
-                wordDisplay.textContent = "此類別沒有單字。"; 
-                translationDisplay.textContent = ""; 
-                translationDisplay.style.display = 'none'; 
-                currentCountSpan.textContent = 0; 
-                totalCountSpan.textContent = 0; 
-                markUnfamiliarBtn.style.display = 'none'; 
-                modeDisplay.textContent = "完成！"; 
-                flashcard.classList.remove('revealed-background'); 
-                bookmarkIcon.style.display = 'none';
-                speakBtn.style.display = 'none';
-                return; 
-            }
-            speakBtn.style.display = 'block';
-            const currentWord = shuffledWords[currentIndex];
-            let frontText, backText;
+            if (shuffledWords.length === 0) { wordDisplay.textContent = "此類別沒有單字。"; translationDisplay.textContent = ""; translationDisplay.style.display = 'none'; currentCountSpan.textContent = 0; totalCountSpan.textContent = 0; markUnfamiliarBtn.style.display = 'none'; modeDisplay.textContent = "完成！"; flashcard.classList.remove('revealed-background'); bookmarkIcon.style.display = 'none'; speakBtn.style.display = 'none'; return; }
+            speakBtn.style.display = 'block'; const currentWord = shuffledWords[currentIndex]; let frontText, backText;
             if (currentStudyMode === 'zh-first') { frontText = currentWord.chinese; backText = currentWord.english; } else { frontText = currentWord.english; backText = currentWord.chinese; }
-            wordDisplay.textContent = frontText;
-            translationDisplay.textContent = backText;
+            wordDisplay.textContent = frontText; translationDisplay.textContent = backText;
             if (currentWord.revealed) { translationDisplay.style.display = 'block'; flashcard.classList.add('revealed-background'); } else { translationDisplay.style.display = 'none'; flashcard.classList.remove('revealed-background'); }
-            const isBookmarked = unfamiliarWordsInNormalCycle.some(w => w.english === currentWord.english);
-            bookmarkIcon.style.display = isBookmarked ? 'block' : 'none';
-            updateProgress();
-            markUnfamiliarBtn.style.display = 'block';
-            updateButtonText();
+            const isBookmarked = unfamiliarWordsInNormalCycle.some(w => w.english === currentWord.english); bookmarkIcon.style.display = isBookmarked ? 'block' : 'none';
+            updateProgress(); markUnfamiliarBtn.style.display = 'block'; updateButtonText();
             modeDisplay.textContent = currentMode === 'normal' ? `學習模式: ${currentCategoryName}` : '複習模式: 不熟單字';
         }
-        
-        function handleCardClick(event) {
-            if (shuffledWords.length === 0) return;
-            const cardWidth = flashcard.offsetWidth;
-            const clickX = event.clientX - flashcard.getBoundingClientRect().left;
-            const currentWordObj = shuffledWords[currentIndex];
-            if (clickX < cardWidth / 2) { showPreviousWord(); } else { if (!currentWordObj.revealed) { translationDisplay.style.display = 'block'; flashcard.classList.add('revealed-background'); currentWordObj.revealed = true; } else { showNextWord(); } }
-        }
-
+        function handleCardClick(event) { if (shuffledWords.length === 0) return; const cardWidth = flashcard.offsetWidth; const clickX = event.clientX - flashcard.getBoundingClientRect().left; const currentWordObj = shuffledWords[currentIndex]; if (clickX < cardWidth / 2) { showPreviousWord(); } else { if (!currentWordObj.revealed) { translationDisplay.style.display = 'block'; flashcard.classList.add('revealed-background'); currentWordObj.revealed = true; } else { showNextWord(); } } }
         function showPreviousWord() { if (shuffledWords.length > 0 && currentIndex > 0) { currentIndex--; displayCard(); } }
         function showNextWord() { if (shuffledWords.length > 0) { currentIndex++; if (currentIndex >= shuffledWords.length) handleCycleEnd(); else displayCard(); } }
         function handleCycleEnd() { if (currentMode === 'normal') { if (unfamiliarWordsInNormalCycle.length > 0 && confirm(`"${currentCategoryName}"單字已看過一次！是否要跳到複習不熟的單字？`)) { startUnfamiliarReviewMode(); } else { alert(`"${currentCategoryName}"單字已看過一次！即將重新開始。`); startCategoryLearning(currentCategoryName); } } else { if (confirm('不熟單字已複習完畢！是否要再次複習這些單字？')) { startUnfamiliarReviewMode(); } else { alert('即將返回主菜單。'); showView('main-menu-view'); } } }
@@ -549,7 +442,8 @@
         function backToMainMenu() { if(currentlyEditingElement) { exitEditMode(currentlyEditingElement, false); } currentManagingDeck = null; showView('main-menu-view'); }
         function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(err => alert(`無法進入全螢幕模式: ${err.message}`)); else document.exitFullscreen(); }
         
-        function init() {
+        // MODIFICATION: The init function is now async to handle the await for default decks.
+        async function init() {
             // PWA Service Worker Registration
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
@@ -563,11 +457,18 @@
                 });
             }
 
+            // First, load any existing data from the user's local storage.
             loadAppState(); 
+            
+            // Then, fetch and merge default decks from the server.
+            await loadDefaultDecksFromServer();
+
+            // Finally, load other user-specific data and render the view.
             loadUnfamiliarWords();
             loadStudyMode();
             showView('main-menu-view');
             
+            // The rest of the event listeners are unchanged.
             backToMenuBtnTop.addEventListener('click', backToMainMenu);
             fullscreenBtn.addEventListener('click', toggleFullscreen);
             importBtn.addEventListener('click', handleFileImport);
@@ -581,12 +482,10 @@
             addWordModal.querySelector('.modal-close-btn').addEventListener('click', closeAddWordModal);
             addWordModal.addEventListener('click', (event) => { if (event.target === addWordModal) { closeAddWordModal(); } });
             modeToggle.addEventListener('change', () => { currentStudyMode = modeToggle.checked ? 'zh-first' : 'en-first'; saveStudyMode(); });
-
             confirmModalConfirmBtn.addEventListener('click', () => { if (typeof confirmAction === 'function') { confirmAction(); } closeConfirmModal(); });
             confirmModalCancelBtn.addEventListener('click', closeConfirmModal);
             confirmModal.querySelector('.modal-close-btn').addEventListener('click', closeConfirmModal);
             confirmModal.addEventListener('click', (event) => { if (event.target === confirmModal) { closeConfirmModal(); } });
-            
             multiDeleteBtn.addEventListener('click', handleMultiDelete);
             selectAllCheckbox.addEventListener('change', (event) => {
                 const isChecked = event.target.checked;
@@ -598,26 +497,13 @@
                     }
                 });
             });
-
             wordListContainer.addEventListener('click', (e) => {
-                const item = e.target.closest('.word-list-item');
-                if (!item) return;
-
-                if (e.target.closest('.word-display-container')) {
-                    enterEditMode(item);
-                } else if (e.target.classList.contains('save-edit-btn')) {
-                    exitEditMode(item, true);
-                } else if (e.target.classList.contains('cancel-edit-btn')) {
-                    exitEditMode(item, false);
-                }
+                const item = e.target.closest('.word-list-item'); if (!item) return;
+                if (e.target.closest('.word-display-container')) { enterEditMode(item); } 
+                else if (e.target.classList.contains('save-edit-btn')) { exitEditMode(item, true); } 
+                else if (e.target.classList.contains('cancel-edit-btn')) { exitEditMode(item, false); }
             });
-
-            wordListContainer.addEventListener('change', (e) => {
-                 if (e.target.classList.contains('word-select-checkbox')) {
-                    handleWordSelectionChange(e);
-                }
-            });
-            
+            wordListContainer.addEventListener('change', (e) => { if (e.target.classList.contains('word-select-checkbox')) { handleWordSelectionChange(e); } });
             wordListContainer.addEventListener('keydown', (e) => {
                 if (e.key !== 'Enter' && e.key !== 'Escape') return;
                 if (currentlyEditingElement && currentlyEditingElement.contains(e.target)) {
@@ -626,7 +512,6 @@
                     if (e.key === 'Escape') exitEditMode(currentlyEditingElement, false);
                 }
             });
-
             setInterval(saveProgress, 10000); 
         }
 

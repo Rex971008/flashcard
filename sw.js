@@ -1,10 +1,12 @@
-const CACHE_NAME = 'flashcard-cache-v2'; // 版本號v2，若未來更新HTML/CSS，請遞增此版本號
+// 版本號已更新為 v4，確保所有使用者都能獲得最新版本
+const CACHE_NAME = 'flashcard-cache-v4'; 
 const URLS_TO_CACHE = [
-  './', // 代表 index.html 或根目錄
-    './flashcard.html', // <-- 新增這一行
+  './flashcard.html', // 明确缓存主文件
+  './', // 缓存根目录以处理'/'请求
   'manifest.json',
   'icon-192x192.png',
-  'icon-512x512.png'
+  'icon-512x512.png',
+  './cardholder/index.json' // 将索引文件加入缓存
 ];
 
 // 安裝並快取檔案
