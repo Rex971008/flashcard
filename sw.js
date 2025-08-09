@@ -1,6 +1,7 @@
 const CACHE_NAME = 'flashcard-cache-v2'; // 版本號v2，若未來更新HTML/CSS，請遞增此版本號
 const URLS_TO_CACHE = [
   './', // 代表 index.html 或根目錄
+    './flashcard.html', // <-- 新增這一行
   'manifest.json',
   'icon-192x192.png',
   'icon-512x512.png'
