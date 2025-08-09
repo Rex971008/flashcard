@@ -38,13 +38,14 @@
         html, body {
             height: 100%; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex; justify-content: center; align-items: center; 
-            background-color: var(--background-color); color: var(--text-color);
+            color: var(--text-color);
+            background-color: var(--background-color);
             background-image: var(--bg-image);
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            transition: background-color 0.3s ease;
-            -webkit-tap-highlight-color: transparent; /* MODIFICATION: Remove tap highlight on mobile */
+            transition: background-color 0.3s ease, background-image 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
         }
         .container {
             text-align: center; border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -148,26 +149,17 @@
             border: 1px solid var(--border-color-light); border-radius: 8px; padding: 10px;
             background-color: color-mix(in srgb, var(--card-background) 50%, transparent); padding-bottom: 80px; box-sizing: border-box;
         }
-        .word-list-item { display: flex; justify-content: flex-start; align-items: center; padding: 12px 10px; border-bottom: 1px solid var(--border-color-light); font-size: 1.1em; gap: 15px; }
+        .word-list-item { 
+            display: flex; justify-content: flex-start; align-items: center; 
+            padding: 12px 10px; border-bottom: 1px solid var(--border-color-light); 
+            font-size: 1.1em; gap: 15px; cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .word-list-item:hover { background-color: color-mix(in srgb, var(--accent-color) 10%, transparent); }
         .word-list-item:last-child { border-bottom: none; }
         .word-list-item .word-select-checkbox { transform: scale(1.5); flex-shrink: 0; cursor: pointer; }
         .word-content-wrapper { flex-grow: 1; text-align: left; }
-        .word-display-container { cursor: pointer; padding: 5px; border-radius: 4px; transition: background-color 0.2s; }
-        .word-display-container:hover { background-color: color-mix(in srgb, var(--accent-color) 10%, transparent); }
-        .word-list-item.editing .word-display-container { display: none; }
-        .word-edit-container { display: none; align-items: center; gap: 8px; }
-        .word-list-item.editing .word-edit-container { display: flex; }
-        .word-edit-container input {
-            flex-grow: 1; padding: 8px; font-size: 1em; border: 1px solid var(--accent-color);
-            border-radius: 5px; outline: none;
-        }
-        .word-edit-container input:focus { box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-color) 40%, transparent); }
-        .word-edit-container button {
-            padding: 8px 10px; font-size: 1.1em; flex-shrink: 0; line-height: 1;
-            min-width: 40px;
-        }
-        .save-edit-btn { background-color: var(--primary-color); color: var(--text-color-light); }
-        .cancel-edit-btn { background-color: var(--accent-red); color: var(--text-color-light); }
+        
         .deck-actions-container { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
         #export-deck-btn { background-color: var(--accent-color); color: var(--text-color-light); }
         #export-deck-btn:hover { background-color: var(--accent-color-darker); }
@@ -175,33 +167,28 @@
         #delete-deck-btn:hover:not(:disabled) { background-color: #b71c1c; }
         #delete-deck-btn:disabled { background-color: #bdbdbd; cursor: not-allowed; opacity: 0.7; }
         
-        /* MODIFICATION: Modal positioning for mobile */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center;
-            align-items: center; /* MODIFIED: Center vertically */
-            padding: 20px; /* Add some padding for small screens */
-            box-sizing: border-box;
+            align-items: center; padding: 20px; box-sizing: border-box;
             z-index: 1000;
             opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         
-        /* MODIFICATION: Modal content scroll for mobile */
         .modal-content {
             background-color: var(--card-background); padding: 25px; border-radius: 12px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.2); width: 100%; max-width: 400px;
             transform: translateY(-20px); transition: transform 0.3s ease, background-color 0.3s ease; position: relative;
-            max-height: 85vh; /* MODIFIED: Set max height */
-            overflow-y: auto; /* MODIFIED: Enable scroll if content overflows */
+            max-height: 85vh; overflow-y: auto;
         }
         .modal-overlay.active .modal-content { transform: translateY(0); }
         .modal-close-btn { position: absolute; top: 10px; right: 15px; font-size: 2em; font-weight: bold; color: #888; cursor: pointer; border: none; background: none; padding: 0; line-height: 1; }
         .modal-close-btn:hover { color: #333; }
         .modal-content h3 { margin-top: 0; color: var(--primary-color); }
-        .add-word-form-modal { display: flex; flex-direction: column; gap: 15px; }
-        .add-word-form-modal input { padding: 12px; font-size: 1.1em; border-radius: 8px; border: 1px solid var(--border-color); width: 100%; box-sizing: border-box; }
-        .add-word-form-modal button { background-color: var(--primary-color); color: var(--text-color-light); }
+        .modal-form { display: flex; flex-direction: column; gap: 15px; }
+        .modal-form input { padding: 12px; font-size: 1.1em; border-radius: 8px; border: 1px solid var(--border-color); width: 100%; box-sizing: border-box; }
+        .modal-form button { background-color: var(--primary-color); color: var(--text-color-light); }
         .add-word-feedback { color: var(--primary-color); font-weight: bold; height: 1.5em; margin-top: -10px; margin-bottom: 10px; transition: opacity 0.5s; opacity: 0; }
         .add-word-feedback.show { opacity: 1; }
         #confirm-modal-title { color: var(--accent-red-darker); }
@@ -220,15 +207,25 @@
         #open-add-word-modal-btn:active { transform: translateY(0px) scale(1); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
         
         #settings-modal h4 { margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color-light); padding-bottom: 5px; color: var(--primary-color-darker); }
-        .preset-themes-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+        .themes-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
         .theme-swatch {
             padding: 10px; border-radius: 8px; cursor: pointer; border: 2px solid transparent;
-            transition: all 0.2s ease; text-align: center;
+            transition: all 0.2s ease; text-align: center; position: relative;
         }
         .theme-swatch:hover { transform: translateY(-2px); }
         .theme-swatch.active { border-color: var(--primary-color); box-shadow: 0 0 10px color-mix(in srgb, var(--primary-color) 50%, transparent); }
-        .swatch-color { width: 100%; height: 30px; border-radius: 5px; margin-bottom: 5px; }
+        .swatch-color { 
+            width: 100%; height: 30px; border-radius: 5px; margin-bottom: 5px; 
+            border: 1px solid rgba(0,0,0,0.1);
+        }
         .swatch-label { font-weight: bold; font-size: 0.9em; }
+        .delete-theme-btn {
+            position: absolute; top: -5px; right: -5px; background-color: var(--accent-red); color: white;
+            border: 1px solid white; border-radius: 50%; width: 20px; height: 20px;
+            font-size: 12px; line-height: 18px; text-align: center; cursor: pointer;
+            display: none; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .theme-swatch:hover .delete-theme-btn { display: block; }
         .custom-theme-container { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
         .color-picker-group, .slider-group { display: flex; align-items: center; justify-content: space-between; }
         .color-picker-group label, .slider-group label { font-weight: 500; }
@@ -241,7 +238,7 @@
         .color-picker-group input[type="color"]::-webkit-color-swatch { border: none; border-radius: 4px; }
         .slider-group input[type="range"] { flex-grow: 1; margin: 0 10px; }
         .slider-group span { font-weight: bold; min-width: 40px; text-align: right; }
-        #remove-bg-image-btn { background-color: var(--accent-orange); color: var(--text-color-light); font-size: 0.9em; padding: 8px 12px; }
+        #remove-bg-image-btn, #save-custom-theme-btn { background-color: var(--accent-orange); color: var(--text-color-light); font-size: 0.9em; padding: 8px 12px; }
         .settings-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
         #settings-save-btn { background-color: var(--primary-color); color: var(--text-color-light); }
     </style>
@@ -307,11 +304,12 @@
         </div>
     </div>
 
+    <!-- Add Word Modal -->
     <div id="add-word-modal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn" title="關閉">&times;</button>
             <h3>新增單字</h3>
-            <form class="add-word-form-modal" id="add-word-form">
+            <form class="modal-form" id="add-word-form">
                 <input type="text" id="new-word-english" placeholder="新英文單字" required>
                 <input type="text" id="new-word-chinese" placeholder="新中文翻譯" required>
                 <div class="add-word-feedback"></div>
@@ -320,6 +318,20 @@
         </div>
     </div>
     
+    <!-- Edit Word Modal (NEW) -->
+    <div id="edit-word-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn" title="關閉">&times;</button>
+            <h3>編輯單字</h3>
+            <form class="modal-form" id="edit-word-form">
+                <input type="text" id="edit-word-english" placeholder="英文單字" required>
+                <input type="text" id="edit-word-chinese" placeholder="中文翻譯" required>
+                <button type="submit">儲存變更</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
     <div id="confirm-modal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn" title="關閉">&times;</button>
@@ -332,15 +344,17 @@
         </div>
     </div>
 
+    <!-- Settings Modal -->
     <div id="settings-modal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn" title="關閉">&times;</button>
             <h3>主題設定</h3>
             
             <h4>預設主題</h4>
-            <div class="preset-themes-container" id="preset-themes-container">
-                <!-- Preset themes will be generated by JS -->
-            </div>
+            <div class="themes-container" id="preset-themes-container"></div>
+            
+            <h4 id="user-themes-heading" style="display:none;">我的主題</h4>
+            <div class="themes-container" id="user-themes-container"></div>
 
             <h4>自訂主題</h4>
             <div class="custom-theme-container">
@@ -349,7 +363,7 @@
                     <input type="color" id="primary-color-picker">
                 </div>
                 <div class="color-picker-group">
-                    <label for="accent-color-picker">卡包按鈕顏色</label>
+                    <label for="accent-color-picker">點綴顏色</label>
                     <input type="color" id="accent-color-picker">
                 </div>
                 <div class="color-picker-group">
@@ -366,10 +380,11 @@
                     <input type="file" id="background-image-uploader" accept="image/*" style="max-width: 150px;">
                 </div>
                 <button id="remove-bg-image-btn">移除背景圖片</button>
+                <button id="save-custom-theme-btn">儲存目前主題</button>
             </div>
             
             <div class="settings-actions">
-                 <button id="settings-save-btn">儲存設定</button>
+                 <button id="settings-save-btn">套用並儲存</button>
             </div>
         </div>
     </div>
@@ -378,7 +393,6 @@
     <script>
         const DEFAULT_DECK_NAME = "自訂單字卡";
         let allWordCategoriesData = {}; 
-        let allOriginalWordsFlat = []; 
         let unfamiliarWordsInNormalCycle = []; 
         let currentManagingDeck = null;
         let currentWordsSource = [], shuffledWords = [], currentIndex = 0;
@@ -387,8 +401,8 @@
         let currentStudyMode = 'en-first';
         let confirmAction = null;
         let selectedWordsToDelete = new Set();
-        let currentlyEditingElement = null;
-
+        
+        // --- DOM Elements ---
         const views = { 'main-menu-view': document.getElementById('main-menu-view'), 'flashcard-view': document.getElementById('flashcard-view'), 'deck-management-view': document.getElementById('deck-management-view') };
         const mainMenuContainer = document.getElementById('main-menu-container');
         const backToMenuBtnTop = document.getElementById('back-to-menu-btn');
@@ -399,62 +413,72 @@
         const wordListContainer = document.getElementById('word-list-container');
         const deleteDeckBtn = document.getElementById('delete-deck-btn');
         const flashcard = document.getElementById('flashcard'), wordDisplay = document.getElementById('word-display'), translationDisplay = document.getElementById('translation-display'), currentCountSpan = document.getElementById('current-count'), totalCountSpan = document.getElementById('total-count'), markUnfamiliarBtn = document.getElementById('mark-unfamiliar-btn'), modeDisplay = document.getElementById('mode-display'), bookmarkIcon = document.getElementById('bookmark-icon');
-        const addWordModal = document.getElementById('add-word-modal');
         const openAddWordModalBtn = document.getElementById('open-add-word-modal-btn');
+        const exportDeckBtn = document.getElementById('export-deck-btn');
+        const modeToggle = document.getElementById('mode-toggle');
+        const selectAllCheckbox = document.getElementById('select-all-words-checkbox');
+        const multiDeleteBtn = document.getElementById('multi-delete-btn');
+        const speakBtn = document.getElementById('speak-btn');
+
+        // Modals
+        const addWordModal = document.getElementById('add-word-modal');
         const addWordForm = document.getElementById('add-word-form');
         const newWordEnglishInput = document.getElementById('new-word-english');
         const newWordChineseInput = document.getElementById('new-word-chinese');
         const addWordFeedback = addWordModal.querySelector('.add-word-feedback');
-        const exportDeckBtn = document.getElementById('export-deck-btn');
-        const modeToggle = document.getElementById('mode-toggle');
+        
+        const editWordModal = document.getElementById('edit-word-modal');
+        const editWordForm = document.getElementById('edit-word-form');
+        const editWordEnglishInput = document.getElementById('edit-word-english');
+        const editWordChineseInput = document.getElementById('edit-word-chinese');
+
         const confirmModal = document.getElementById('confirm-modal');
         const confirmModalTitle = document.getElementById('confirm-modal-title');
         const confirmModalText = document.getElementById('confirm-modal-text');
         const confirmModalConfirmBtn = document.getElementById('confirm-modal-confirm-btn');
         const confirmModalCancelBtn = document.getElementById('confirm-modal-cancel-btn');
-        const selectAllCheckbox = document.getElementById('select-all-words-checkbox');
-        const multiDeleteBtn = document.getElementById('multi-delete-btn');
-        const speakBtn = document.getElementById('speak-btn');
-        
+
+        // Settings Modal Elements
         const openSettingsBtn = document.getElementById('open-settings-btn');
         const settingsModal = document.getElementById('settings-modal');
         const settingsSaveBtn = document.getElementById('settings-save-btn');
         const presetThemesContainer = document.getElementById('preset-themes-container');
+        const userThemesContainer = document.getElementById('user-themes-container');
+        const userThemesHeading = document.getElementById('user-themes-heading');
         const primaryColorPicker = document.getElementById('primary-color-picker');
         const backgroundColorPicker = document.getElementById('background-color-picker');
         const backgroundImageUploader = document.getElementById('background-image-uploader');
         const removeBgImageBtn = document.getElementById('remove-bg-image-btn');
+        const saveCustomThemeBtn = document.getElementById('save-custom-theme-btn');
         const accentColorPicker = document.getElementById('accent-color-picker');
         const containerOpacitySlider = document.getElementById('container-opacity-slider');
         const opacityDisplay = document.getElementById('opacity-display');
+        
         let currentThemeSettings = {};
         let themeBeforeEdit = {};
 
         const PRESET_THEMES = {
             default: { name: '預設綠', primary: '#4CAF50', background: '#f4f7f6', text: '#333333', accent: '#03A9F4', opacity: 95 },
-            ocean: { name: '海洋藍', primary: '#03A9F4', background: '#E1F5FE', text: '#212121', accent: '#FFC107', opacity: 95 },
-            forest: { name: '森林系', primary: '#8BC34A', background: '#f1f8e9', text: '#333333', accent: '#795548', opacity: 95 },
-            sunset: { name: '夕陽橘', primary: '#FF9800', background: '#FFF3E0', text: '#424242', accent: '#F44336', opacity: 95 },
-            dark: { name: '夜間模式', primary: '#673AB7', background: '#303030', text: '#FFFFFF', accent: '#03A9F4', opacity: 90 }
+            azureWave: { name: '蔚藍浪潮', primary: '#2962FF', background: 'linear-gradient(to right, #72EDF2, #5151E5)', text: '#FFFFFF', accent: '#FF4081', opacity: 95 },
+            emeraldGrove: { name: '翡翠之森', primary: '#26A69A', background: 'linear-gradient(to top, #134E5E, #71B280)', text: '#FFFFFF', accent: '#FFC107', opacity: 95 },
+            sakuraTwilight: { name: '櫻花薄暮', primary: '#C2185B', background: 'linear-gradient(to top, #a18cd1, #fbc2eb)', text: '#FFFFFF', accent: '#FFD54F', opacity: 95 },
+            midnightNova: { name: '午夜新星', primary: '#00E5FF', background: 'linear-gradient(to bottom, #0d1117, #161b22)', text: '#FFFFFF', accent: '#F50057', opacity: 92 }
         };
 
         const shuffleArray = (array) => { let t=[...array],c=t.length,r;while(0!==c){r=Math.floor(Math.random()*c);c--;[t[c],t[r]]=[t[r],t[c]]}return t; };
-        function saveAppState() { try { localStorage.setItem('allWordDecks', JSON.stringify(allWordCategoriesData)); allOriginalWordsFlat = Object.values(allWordCategoriesData).flat(); } catch (e) { console.error("無法保存單字包列表。", e); } }
-        function loadAppState() { let loadedDecks = {}; try { const savedDecks = localStorage.getItem('allWordDecks'); if (savedDecks) { const parsed = JSON.parse(savedDecks); if (typeof parsed === 'object' && parsed !== null) { loadedDecks = parsed; } } } catch (e) { console.error("載入單字包列表失敗，將重置。", e); loadedDecks = {}; } if (!loadedDecks.hasOwnProperty(DEFAULT_DECK_NAME)) { loadedDecks[DEFAULT_DECK_NAME] = []; } allWordCategoriesData = loadedDecks; allOriginalWordsFlat = Object.values(allWordCategoriesData).flat(); }
+        
+        // --- App State Management ---
+        function saveAppState() { try { localStorage.setItem('allWordDecks', JSON.stringify(allWordCategoriesData)); } catch (e) { console.error("無法保存單字包列表。", e); } }
+        function loadAppState() { let loadedDecks = {}; try { const savedDecks = localStorage.getItem('allWordDecks'); if (savedDecks) { const parsed = JSON.parse(savedDecks); if (typeof parsed === 'object' && parsed !== null) { loadedDecks = parsed; } } } catch (e) { console.error("載入單字包列表失敗，將重置。", e); loadedDecks = {}; } if (!loadedDecks.hasOwnProperty(DEFAULT_DECK_NAME)) { loadedDecks[DEFAULT_DECK_NAME] = []; } allWordCategoriesData = loadedDecks; }
         
         async function loadDefaultDecksFromServer() {
             try {
                 const indexResponse = await fetch('./cardholder/index.json');
-                if (!indexResponse.ok) {
-                    console.log('cardholder/index.json not found, skipping default deck loading.');
-                    return;
-                }
+                if (!indexResponse.ok) { console.log('cardholder/index.json not found, skipping default deck loading.'); return; }
                 const deckFilenames = await indexResponse.json();
                 const fetchPromises = deckFilenames.map(filename => {
                     const deckName = filename.replace(/\.json$/i, '');
-                    if (!allWordCategoriesData.hasOwnProperty(deckName)) {
-                        return fetch(`./cardholder/${filename}`).then(res => res.json());
-                    }
+                    if (!allWordCategoriesData.hasOwnProperty(deckName)) { return fetch(`./cardholder/${filename}`).then(res => res.json()); }
                     return Promise.resolve(null);
                 });
                 const newDecksData = await Promise.all(fetchPromises);
@@ -466,15 +490,11 @@
                         decksAdded = true;
                     }
                 });
-                if (decksAdded) {
-                    console.log("Default decks loaded from server.");
-                    saveAppState();
-                }
-            } catch (error) {
-                console.error("Error loading default decks from server:", error);
-            }
+                if (decksAdded) { console.log("Default decks loaded from server."); saveAppState(); }
+            } catch (error) { console.error("Error loading default decks from server:", error); }
         }
         
+        // --- Theme Management ---
         function applyTheme(theme) {
             const root = document.documentElement;
             const safeTheme = { ...PRESET_THEMES.default, ...theme };
@@ -483,19 +503,27 @@
             root.style.setProperty('--primary-color-darker', chroma(safeTheme.primary).darken(0.6).hex());
             root.style.setProperty('--accent-color', safeTheme.accent);
             root.style.setProperty('--accent-color-darker', chroma(safeTheme.accent).darken(0.6).hex());
-            root.style.setProperty('--background-color', safeTheme.background);
-            root.style.setProperty('--text-color', safeTheme.text);
-            root.style.setProperty('--text-color-light', chroma(safeTheme.accent).luminance() > 0.5 ? '#000' : '#fff');
-            root.style.setProperty('--card-background', chroma(safeTheme.background).luminance() < 0.5 ? chroma(safeTheme.background).brighten(0.3).hex() : '#fff');
-            root.style.setProperty('--container-opacity-percent', `${safeTheme.opacity}%`);
-            // --- 請將這段程式碼加到指定位置 ---
-const isDarkBg = chroma(safeTheme.background).luminance() < 0.5;
-root.style.setProperty('--text-color-muted', isDarkBg ? '#b0b0b0' : '#6c7a89');
-// ---------------------------------
-            if (safeTheme.backgroundImage) {
-                root.style.setProperty('--bg-image', `url(${safeTheme.backgroundImage})`);
-                root.style.setProperty('--bg-blur', '2px');
+            
+            if (safeTheme.background && safeTheme.background.includes('gradient')) {
+                root.style.setProperty('--bg-image', safeTheme.background);
+                const fallbackColor = safeTheme.background.match(/#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})/g)[0] || '#f4f7f6';
+                root.style.setProperty('--background-color', fallbackColor);
             } else {
+                 root.style.setProperty('--bg-image', 'none');
+                 root.style.setProperty('--background-color', safeTheme.background);
+            }
+
+            const isDarkBg = chroma(getComputedStyle(root).getPropertyValue('--background-color')).luminance() < 0.5;
+            root.style.setProperty('--text-color', safeTheme.text || (isDarkBg ? '#FFFFFF' : '#333333'));
+            root.style.setProperty('--text-color-light', chroma.contrast(safeTheme.accent, isDarkBg ? '#fff' : '#000') < 2.5 ? (isDarkBg ? '#000' : '#fff') : '#fff');
+            root.style.setProperty('--card-background', isDarkBg ? chroma(getComputedStyle(root).getPropertyValue('--background-color')).brighten(0.5).hex() : '#fff');
+            root.style.setProperty('--container-opacity-percent', `${safeTheme.opacity}%`);
+            root.style.setProperty('--text-color-muted', isDarkBg ? '#b0b0b0' : '#6c7a89');
+            
+            if (safeTheme.backgroundImageDataUrl) {
+                root.style.setProperty('--bg-image', `url(${safeTheme.backgroundImageDataUrl})`);
+                root.style.setProperty('--bg-blur', '2px');
+            } else if (!safeTheme.background.includes('gradient')) {
                 root.style.setProperty('--bg-image', 'none');
                 root.style.setProperty('--bg-blur', '0px');
             }
@@ -504,25 +532,21 @@ root.style.setProperty('--text-color-muted', isDarkBg ? '#b0b0b0' : '#6c7a89');
             if(themeColorMeta) themeColorMeta.setAttribute('content', safeTheme.primary);
         }
 
-        function saveTheme(theme) {
+        function saveCurrentThemeSettings() {
             try {
-                localStorage.setItem('flashcardTheme', JSON.stringify(theme));
+                localStorage.setItem('flashcardTheme', JSON.stringify(currentThemeSettings));
             } catch (e) {
                 console.error("Error saving theme to localStorage", e);
                 alert("無法儲存主題，可能是儲存空間已滿。");
             }
         }
-
+        
         function loadAndApplyTheme() {
             let loadedTheme = {};
             try {
                 const savedTheme = localStorage.getItem('flashcardTheme');
-                if (savedTheme) {
-                    loadedTheme = JSON.parse(savedTheme);
-                }
-            } catch (e) {
-                console.error("Error loading theme, reverting to default.", e);
-            }
+                if (savedTheme) { loadedTheme = JSON.parse(savedTheme); }
+            } catch (e) { console.error("Error loading theme, reverting to default.", e); }
             currentThemeSettings = { ...PRESET_THEMES.default, ...loadedTheme };
             applyTheme(currentThemeSettings);
         }
@@ -530,6 +554,7 @@ root.style.setProperty('--text-color-muted', isDarkBg ? '#b0b0b0' : '#6c7a89');
         function openSettingsModal() {
             themeBeforeEdit = JSON.parse(JSON.stringify(currentThemeSettings));
             updateThemeControls(currentThemeSettings);
+            generateAllThemesUI();
             settingsModal.classList.add('active');
         }
 
@@ -542,105 +567,214 @@ root.style.setProperty('--text-color-muted', isDarkBg ? '#b0b0b0' : '#6c7a89');
         }
 
         function handleSaveTheme() {
-            saveTheme(currentThemeSettings);
-            alert("主題已儲存！");
+            saveCurrentThemeSettings();
+            alert("主題已套用並儲存！");
             closeSettingsModal();
         }
-
-        function generatePresetThemes() {
-            presetThemesContainer.innerHTML = '';
-            for (const key in PRESET_THEMES) {
-                const theme = PRESET_THEMES[key];
-                const swatch = document.createElement('div');
-                swatch.className = 'theme-swatch';
-                swatch.dataset.themeName = key;
-                swatch.innerHTML = `
-                    <div class="swatch-color" style="background-color: ${theme.primary}; border: 3px solid ${theme.accent}"></div>
-                    <div class="swatch-label">${theme.name}</div>
-                `;
-                swatch.addEventListener('click', () => {
-                    const newBackgroundImage = currentThemeSettings.backgroundImage;
-                    currentThemeSettings = { type: 'preset', name: key, ...theme, backgroundImage: newBackgroundImage };
-                    applyTheme(currentThemeSettings);
-                    updateThemeControls(currentThemeSettings);
-                });
-                presetThemesContainer.appendChild(swatch);
-            }
-        }
         
+        function generateThemeSwatch(theme, key, isCustom = false) {
+             const swatch = document.createElement('div');
+             swatch.className = 'theme-swatch';
+             swatch.dataset.themeKey = key;
+             
+             const colorDiv = document.createElement('div');
+             colorDiv.className = 'swatch-color';
+             if (theme.background && theme.background.includes('gradient')) {
+                 colorDiv.style.background = theme.background;
+             } else {
+                 colorDiv.style.backgroundColor = theme.background;
+             }
+             colorDiv.style.border = `3px solid ${theme.accent}`;
+
+             swatch.innerHTML = `<div class="swatch-label">${theme.name}</div>`;
+             swatch.prepend(colorDiv);
+
+             swatch.addEventListener('click', () => {
+                 currentThemeSettings = { ...theme, isCustom };
+                 if (!isCustom) {
+                     currentThemeSettings.presetKey = key;
+                 }
+                 applyTheme(currentThemeSettings);
+                 updateThemeControls(currentThemeSettings);
+             });
+             
+             if (isCustom) {
+                 swatch.dataset.customThemeName = theme.name;
+                 const deleteBtn = document.createElement('span');
+                 deleteBtn.className = 'delete-theme-btn';
+                 deleteBtn.innerHTML = '&times;';
+                 deleteBtn.title = `刪除主題 "${theme.name}"`;
+                 deleteBtn.onclick = (e) => {
+                     e.stopPropagation();
+                     if (confirm(`確定要刪除您儲存的主題 "${theme.name}" 嗎？`)) {
+                         deleteCustomTheme(theme.name);
+                     }
+                 };
+                 swatch.appendChild(deleteBtn);
+             }
+             
+             return swatch;
+        }
+
+        function generateAllThemesUI() {
+            presetThemesContainer.innerHTML = '';
+            userThemesContainer.innerHTML = '';
+            
+            for (const key in PRESET_THEMES) {
+                presetThemesContainer.appendChild(generateThemeSwatch(PRESET_THEMES[key], key, false));
+            }
+            
+            const userThemes = getCustomThemes();
+            if (userThemes.length > 0) {
+                userThemesHeading.style.display = 'block';
+                userThemes.forEach(theme => {
+                    userThemesContainer.appendChild(generateThemeSwatch(theme, theme.name, true));
+                });
+            } else {
+                userThemesHeading.style.display = 'none';
+            }
+            updateActiveSwatch();
+        }
+
+        function updateActiveSwatch() {
+            document.querySelectorAll('.theme-swatch').forEach(swatch => {
+                let isActive = false;
+                if (currentThemeSettings.isCustom) {
+                    isActive = swatch.dataset.customThemeName === currentThemeSettings.name;
+                } else {
+                    isActive = swatch.dataset.themeKey === currentThemeSettings.presetKey;
+                }
+                swatch.classList.toggle('active', isActive);
+            });
+        }
+
         function updateThemeControls(theme) {
             primaryColorPicker.value = chroma(theme.primary).hex();
             accentColorPicker.value = chroma(theme.accent).hex();
-            backgroundColorPicker.value = chroma(theme.background).hex();
+            if (theme.background && !theme.background.includes('gradient')) {
+                backgroundColorPicker.value = chroma(theme.background).hex();
+            }
             containerOpacitySlider.value = theme.opacity;
             opacityDisplay.textContent = `${theme.opacity}%`;
             backgroundImageUploader.value = '';
-
-            document.querySelectorAll('.theme-swatch').forEach(swatch => {
-                swatch.classList.toggle('active', theme.type === 'preset' && swatch.dataset.themeName === theme.name);
-            });
+            updateActiveSwatch();
         }
 
         function handleCustomThemeChange() {
              currentThemeSettings = {
-                type: 'custom',
-                name: 'custom',
                 primary: primaryColorPicker.value,
                 accent: accentColorPicker.value,
                 background: backgroundColorPicker.value,
                 opacity: parseInt(containerOpacitySlider.value, 10),
                 text: chroma.contrast(primaryColorPicker.value, backgroundColorPicker.value) < 4.5 ? (chroma(backgroundColorPicker.value).luminance() > 0.5 ? '#000000' : '#FFFFFF') : (chroma(backgroundColorPicker.value).luminance() > 0.5 ? '#333333' : '#FAFAFA'),
-                backgroundImage: currentThemeSettings.backgroundImage
+                backgroundImageDataUrl: currentThemeSettings.backgroundImageDataUrl,
+                isCustom: true,
+                name: '自訂'
             };
             applyTheme(currentThemeSettings);
             opacityDisplay.textContent = `${currentThemeSettings.opacity}%`;
             document.querySelectorAll('.theme-swatch').forEach(s => s.classList.remove('active'));
         }
 
+        function getCustomThemes() {
+            try {
+                return JSON.parse(localStorage.getItem('userSavedThemes') || '[]');
+            } catch {
+                return [];
+            }
+        }
+
+        function saveCustomThemes(themes) {
+            try {
+                localStorage.setItem('userSavedThemes', JSON.stringify(themes));
+            } catch (e) {
+                console.error("Error saving custom themes", e);
+            }
+        }
+        
+        function handleSaveCustomTheme() {
+            const themeName = prompt("請為您的新主題命名：", "我的主題");
+            if (!themeName) return;
+
+            const themes = getCustomThemes();
+            const existingThemeIndex = themes.findIndex(t => t.name === themeName);
+            
+            if (existingThemeIndex > -1) {
+                if (!confirm(`已存在名為 "${themeName}" 的主題。您要覆蓋它嗎？`)) {
+                    return;
+                }
+            }
+
+            const newTheme = { ...currentThemeSettings, name: themeName };
+            
+            if (existingThemeIndex > -1) {
+                themes[existingThemeIndex] = newTheme;
+            } else {
+                themes.push(newTheme);
+            }
+            
+            saveCustomThemes(themes);
+            alert(`主題 "${themeName}" 已儲存！`);
+            generateAllThemesUI();
+            updateThemeControls(newTheme);
+        }
+
+        function deleteCustomTheme(themeName) {
+            let themes = getCustomThemes();
+            themes = themes.filter(t => t.name !== themeName);
+            saveCustomThemes(themes);
+            generateAllThemesUI();
+        }
+        
+        // --- Progress & Mode Persistence ---
         function saveProgress() { try { localStorage.setItem('unfamiliarWordsList', JSON.stringify(unfamiliarWordsInNormalCycle)); } catch (e) { console.error("無法保存不熟單字列表。", e); } }
         function loadUnfamiliarWords() { try { const s = localStorage.getItem('unfamiliarWordsList'); unfamiliarWordsInNormalCycle = s ? JSON.parse(s) : []; } catch (e) { console.error("載入不熟單字列表失敗。", e); unfamiliarWordsInNormalCycle = []; } }
         function saveStudyMode() { try { localStorage.setItem('studyMode', currentStudyMode); } catch (e) { console.error("無法保存學習模式。", e); } }
         function loadStudyMode() { try { const savedMode = localStorage.getItem('studyMode'); if (savedMode === 'zh-first') { currentStudyMode = 'zh-first'; modeToggle.checked = true; } else { currentStudyMode = 'en-first'; modeToggle.checked = false; } } catch (e) { console.error("載入學習模式失敗。", e); currentStudyMode = 'en-first'; } }
+        
+        // --- View & UI Management ---
         function showView(viewName) { for (let id in views) { views[id].classList.remove('active'); } views[viewName].classList.add('active'); const showTopButtons = (viewName === 'flashcard-view' || viewName === 'deck-management-view'); backToMenuBtnTop.style.display = showTopButtons ? 'flex' : 'none'; fullscreenBtn.style.display = showTopButtons ? 'flex' : 'none'; if (viewName === 'main-menu-view') renderMainMenu(); }
-        function renderMainMenu() { mainMenuContainer.innerHTML = ''; const createCategoryButton = (categoryName, specialClass = '') => { const item = document.createElement('div'); item.className = `category-item ${specialClass}`; item.innerHTML = `<span>${categoryName}</span><span class="manage-deck-btn" title="管理 '${categoryName}'">⚙️</span>`; item.querySelector('.manage-deck-btn').addEventListener('click', e => { e.stopPropagation(); openDeckManager(categoryName); }); item.addEventListener('click', () => startCategoryLearning(categoryName)); mainMenuContainer.appendChild(item); }; const customDeckNames = Object.keys(allWordCategoriesData).filter(name => name !== DEFAULT_DECK_NAME); customDeckNames.forEach(name => createCategoryButton(name)); if (allWordCategoriesData.hasOwnProperty(DEFAULT_DECK_NAME)) { createCategoryButton(DEFAULT_DECK_NAME, 'default-category'); } const unfamiliarItem = document.createElement('div'); unfamiliarItem.className = 'category-item unfamiliar-category'; unfamiliarItem.innerHTML = `<span>不熟單字</span> <span class="unfamiliar-count">${unfamiliarWordsInNormalCycle.length}</span>`; unfamiliarItem.addEventListener('click', startUnfamiliarReviewMode); mainMenuContainer.appendChild(unfamiliarItem); }
+        function renderMainMenu() { mainMenuContainer.innerHTML = ''; const createCategoryButton = (categoryName, specialClass = '') => { const item = document.createElement('div'); item.className = `category-item ${specialClass}`; item.innerHTML = `<span>${categoryName}</span><span class="manage-deck-btn" title="管理 '${categoryName}'">⚙️</span>`; item.querySelector('.manage-deck-btn').addEventListener('click', e => { e.stopPropagation(); openDeckManager(categoryName); }); item.addEventListener('click', () => startCategoryLearning(categoryName)); mainMenuContainer.appendChild(item); }; const customDeckNames = Object.keys(allWordCategoriesData).filter(name => name !== DEFAULT_DECK_NAME).sort(); customDeckNames.forEach(name => createCategoryButton(name)); if (allWordCategoriesData.hasOwnProperty(DEFAULT_DECK_NAME)) { createCategoryButton(DEFAULT_DECK_NAME, 'default-category'); } const unfamiliarItem = document.createElement('div'); unfamiliarItem.className = 'category-item unfamiliar-category'; unfamiliarItem.innerHTML = `<span>不熟單字</span> <span class="unfamiliar-count">${unfamiliarWordsInNormalCycle.length}</span>`; unfamiliarItem.addEventListener('click', startUnfamiliarReviewMode); mainMenuContainer.appendChild(unfamiliarItem); }
+        
+        // --- Modal Handling ---
         function openAddWordModal() { addWordModal.classList.add('active'); setTimeout(() => newWordEnglishInput.focus(), 50); }
         function closeAddWordModal() { addWordForm.reset(); addWordFeedback.classList.remove('show'); clearTimeout(feedbackTimeout); addWordModal.classList.remove('active'); }
+        function openEditWordModal(originalWord) {
+            editWordModal.dataset.originalEnglish = originalWord.english;
+            editWordEnglishInput.value = originalWord.english;
+            editWordChineseInput.value = originalWord.chinese;
+            editWordModal.classList.add('active');
+            setTimeout(() => editWordEnglishInput.focus(), 50);
+        }
+        function closeEditWordModal() {
+            editWordForm.reset();
+            delete editWordModal.dataset.originalEnglish;
+            editWordModal.classList.remove('active');
+        }
         function showConfirmModal(title, text, onConfirm) { confirmModalTitle.textContent = title; confirmModalText.innerHTML = text; confirmAction = onConfirm; confirmModal.classList.add('active'); }
         function closeConfirmModal() { confirmModal.classList.remove('active'); confirmAction = null; }
-        function openDeckManager(categoryName) { currentManagingDeck = categoryName; deckManagerTitle.textContent = `管理: ${categoryName}`; if (categoryName === DEFAULT_DECK_NAME) { deleteDeckBtn.disabled = true; deleteDeckBtn.title = "預設單字包無法刪除"; } else { deleteDeckBtn.disabled = false; deleteDeckBtn.title = ""; } renderWordList(categoryName); showView('deck-management-view'); }
+
+        // --- Deck Management ---
+        function openDeckManager(categoryName) { currentManagingDeck = categoryName; deckManagerTitle.textContent = `管理: ${categoryName}`; deleteDeckBtn.disabled = (categoryName === DEFAULT_DECK_NAME); deleteDeckBtn.title = (categoryName === DEFAULT_DECK_NAME) ? "預設單字包無法刪除" : ""; renderWordList(categoryName); showView('deck-management-view'); }
         function renderWordList(categoryName) {
-            wordListContainer.innerHTML = ''; selectedWordsToDelete.clear(); currentlyEditingElement = null;
+            wordListContainer.innerHTML = ''; selectedWordsToDelete.clear();
             const words = allWordCategoriesData[categoryName] || [];
             if (words.length === 0) { wordListContainer.innerHTML = '<p style="color: #888; padding: 20px 0; text-align: center;">這個單字包是空的。點擊右下角 + 來新增！</p>'; } else {
                 words.forEach(word => {
-                    const item = document.createElement('div'); item.className = 'word-list-item'; item.dataset.originalEnglish = word.english;
-                    item.innerHTML = `<input type="checkbox" class="word-select-checkbox" data-english="${word.english}"><div class="word-content-wrapper"><div class="word-display-container" title="點擊以編輯"><span><strong>${word.english}</strong>: ${word.chinese}</span></div><div class="word-edit-container"><input class="edit-english" value="${word.english}" placeholder="英文單字"><input class="edit-chinese" value="${word.chinese}" placeholder="中文翻譯"><button class="save-edit-btn" title="儲存">&#x2713;</button><button class="cancel-edit-btn" title="取消">&times;</button></div></div>`;
+                    const item = document.createElement('div');
+                    item.className = 'word-list-item';
+                    item.dataset.originalEnglish = word.english;
+                    item.innerHTML = `
+                        <input type="checkbox" class="word-select-checkbox" data-english="${word.english}">
+                        <div class="word-content-wrapper" title="點擊以編輯">
+                            <span><strong>${word.english}</strong>: ${word.chinese}</span>
+                        </div>`;
                     wordListContainer.appendChild(item);
                 });
             }
             updateMultiDeleteUI(); selectAllCheckbox.checked = false;
         }
-        function enterEditMode(item) { if (currentlyEditingElement && currentlyEditingElement !== item) { exitEditMode(currentlyEditingElement, false); } currentlyEditingElement = item; item.classList.add('editing'); item.querySelector('.edit-english').focus(); }
-        function exitEditMode(item, shouldSave) {
-            if (!item) return;
-            if (shouldSave) {
-                const originalEng = item.dataset.originalEnglish;
-                const newEngInput = item.querySelector('.edit-english');
-                const newChiInput = item.querySelector('.edit-chinese');
-                const newEng = newEngInput.value.trim(); const newChi = newChiInput.value.trim();
-                if (!newEng || !newChi) { alert('英文和中文欄位都不能為空！'); return; }
-                if (newEng.toLowerCase() !== originalEng.toLowerCase() && allWordCategoriesData[currentManagingDeck].some(w => w.english.toLowerCase() === newEng.toLowerCase())) { alert(`單字 "${newEng}" 已存在於此單字包中！`); return; }
-                const wordIndex = allWordCategoriesData[currentManagingDeck].findIndex(w => w.english === originalEng);
-                if (wordIndex > -1) {
-                    allWordCategoriesData[currentManagingDeck][wordIndex] = { english: newEng, chinese: newChi }; saveAppState();
-                    item.querySelector('.word-display-container span').innerHTML = `<strong>${newEng}</strong>: ${newChi}`; item.dataset.originalEnglish = newEng; item.querySelector('.word-select-checkbox').dataset.english = newEng;
-                }
-            } else {
-                const originalEng = item.dataset.originalEnglish; const originalWord = allWordCategoriesData[currentManagingDeck].find(w => w.english === originalEng);
-                if (originalWord) { item.querySelector('.edit-english').value = originalWord.english; item.querySelector('.edit-chinese').value = originalWord.chinese; }
-            }
-            item.classList.remove('editing'); if (currentlyEditingElement === item) { currentlyEditingElement = null; }
-        }
+
         function handleWordSelectionChange(event) {
             const checkbox = event.target; const wordEng = checkbox.dataset.english;
             if (checkbox.checked) { selectedWordsToDelete.add(wordEng); } else { selectedWordsToDelete.delete(wordEng); }
@@ -650,7 +784,8 @@ root.style.setProperty('--text-color-muted', isDarkBg ? '#b0b0b0' : '#6c7a89');
         }
         function updateMultiDeleteUI() {
             const count = selectedWordsToDelete.size;
-            if (count > 0) { multiDeleteBtn.disabled = false; multiDeleteBtn.textContent = `刪除已選 (${count})`; } else { multiDeleteBtn.disabled = true; multiDeleteBtn.textContent = `刪除已選 (0)`; }
+            multiDeleteBtn.disabled = count === 0;
+            multiDeleteBtn.textContent = `刪除已選 (${count})`;
         }
         function handleDeleteDeck() { if (!currentManagingDeck || currentManagingDeck === DEFAULT_DECK_NAME) return; showConfirmModal('確認刪除單字包', `您確定要永久刪除「<strong>${currentManagingDeck}</strong>」這個單字卡包嗎？<br>此操作無法復原！`, () => { delete allWordCategoriesData[currentManagingDeck]; saveAppState(); alert(`單字卡包「${currentManagingDeck}」已刪除。`); backToMainMenu(); }); }
         function handleMultiDelete() {
@@ -658,12 +793,48 @@ root.style.setProperty('--text-color-muted', isDarkBg ? '#b0b0b0' : '#6c7a89');
             showConfirmModal('確認刪除單字', `確定要從 "${currentManagingDeck}" 中永久刪除這 <strong>${count}</strong> 個單字嗎？`, () => { allWordCategoriesData[currentManagingDeck] = allWordCategoriesData[currentManagingDeck].filter(word => !selectedWordsToDelete.has(word.english)); saveAppState(); renderWordList(currentManagingDeck); });
         }
         function handleAddWord(event) { event.preventDefault(); const newEng = newWordEnglishInput.value.trim(); const newChi = newWordChineseInput.value.trim(); if (!newEng || !newChi || !currentManagingDeck) return alert('英文和中文欄位都不能為空！'); if (allWordCategoriesData[currentManagingDeck].some(w => w.english.toLowerCase() === newEng.toLowerCase())) return alert(`單字 "${newEng}" 已存在！`); allWordCategoriesData[currentManagingDeck].push({ english: newEng, chinese: newChi }); saveAppState(); renderWordList(currentManagingDeck); addWordFeedback.textContent = '新增成功！'; addWordFeedback.classList.add('show'); clearTimeout(feedbackTimeout); feedbackTimeout = setTimeout(() => { addWordFeedback.classList.remove('show'); }, 2000); addWordForm.reset(); newWordEnglishInput.focus(); }
+        function handleEditWord(event) {
+            event.preventDefault();
+            const originalEng = editWordModal.dataset.originalEnglish;
+            const newEng = editWordEnglishInput.value.trim();
+            const newChi = editWordChineseInput.value.trim();
+            if (!newEng || !newChi) { return alert('英文和中文欄位都不能為空！'); }
+
+            const wordExists = allWordCategoriesData[currentManagingDeck].some(w => w.english.toLowerCase() === newEng.toLowerCase() && w.english.toLowerCase() !== originalEng.toLowerCase());
+            if (wordExists) { return alert(`單字 "${newEng}" 已存在於此單字包中！`); }
+            
+            const wordIndex = allWordCategoriesData[currentManagingDeck].findIndex(w => w.english === originalEng);
+            if (wordIndex > -1) {
+                allWordCategoriesData[currentManagingDeck][wordIndex] = { english: newEng, chinese: newChi };
+                saveAppState();
+                renderWordList(currentManagingDeck);
+                closeEditWordModal();
+            } else {
+                alert('發生錯誤：找不到原始單字。');
+            }
+        }
         function handleExportDeck() { if (!currentManagingDeck) return; const deckName = currentManagingDeck; const wordsToExport = allWordCategoriesData[deckName] || []; if (wordsToExport.length === 0) { alert(`「${deckName}」是空的，沒有可匯出的單字。`); return; } const jsonString = JSON.stringify(wordsToExport, null, 2); const blob = new Blob([jsonString], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `${deckName}.json`; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); }
         function handleFileImport() { if (fileImporter.files.length === 0) return alert('請先選擇一個或多個 .json 檔案！'); for (const file of fileImporter.files) { const reader = new FileReader(); reader.onload = (event) => { try { const newWords = JSON.parse(event.target.result); if (!Array.isArray(newWords) || (newWords.length > 0 && (!newWords[0].english || !newWords[0].chinese))) throw new Error(`檔案 "${file.name}" 格式不正確。`); const categoryName = file.name.replace(/\.json$/i, ''); if (categoryName === DEFAULT_DECK_NAME) { if (!confirm(`您正試圖用檔案 "${file.name}" 覆蓋預設單字包 "${DEFAULT_DECK_NAME}"。\n確定要繼續嗎？`)) return; } else if (allWordCategoriesData[categoryName] && !confirm(`分類 "${categoryName}" 已存在。是否要用檔案 "${file.name}" 的內容覆蓋它？`)) return; allWordCategoriesData[categoryName] = newWords; saveAppState(); renderMainMenu(); alert(`分類 "${categoryName}" 已成功從檔案 "${file.name}" 匯入/更新！`); } catch (e) { alert(`匯入檔案 "${file.name}" 失敗: ` + e.message); } }; reader.onerror = () => alert(`讀取檔案 "${file.name}" 時發生錯誤。`); reader.readAsText(file); } fileImporter.value = ''; }
+        
+        // --- Flashcard Learning Logic ---
         function filterAndPrepareWords(wordList) { if (!wordList) return []; const flatList = Object.values(allWordCategoriesData).flat(); return wordList.filter(w => flatList.some(ow => ow.english === w.english && ow.chinese === w.chinese)).map(w => ({...w, revealed: w.revealed || false})); };
-        function startCategoryLearning(categoryName) { currentCategoryName = categoryName; currentWordsSource = allWordCategoriesData[categoryName]; if (!currentWordsSource || currentWordsSource.length === 0) { alert(`"${categoryName}" 類別目前沒有單字！\n請點擊右方的 ⚙️ 圖示來新增單字。`); return; } currentMode = 'normal'; shuffledWords = shuffleArray(currentWordsSource.map(w => ({ ...w, revealed: false }))); currentIndex = 0; displayCard(); showView('flashcard-view'); }
+        function startCategoryLearning(categoryName) { currentCategoryName = categoryName; currentWordsSource = allWordCategoriesData[categoryName]; if (!currentWordsSource || currentWordsSource.length === 0) { alert(`"${categoryName}" 類別目前沒有單字！\n請點擊右方的 ⚙️ 圖示來新增或管理單字。`); return; } currentMode = 'normal'; shuffledWords = shuffleArray(currentWordsSource.map(w => ({ ...w, revealed: false }))); currentIndex = 0; displayCard(); showView('flashcard-view'); }
         function startUnfamiliarReviewMode() { const validUnfamiliarWords = filterAndPrepareWords(unfamiliarWordsInNormalCycle); if (validUnfamiliarWords.length !== unfamiliarWordsInNormalCycle.length) { unfamiliarWordsInNormalCycle = validUnfamiliarWords; saveProgress(); } if (unfamiliarWordsInNormalCycle.length === 0) { alert('目前沒有不熟的單字可以複習！'); return; } currentCategoryName = '不熟單字'; currentMode = 'review'; shuffledWords = shuffleArray(unfamiliarWordsInNormalCycle.map(w => ({ ...w, revealed: false }))); currentIndex = 0; displayCard(); showView('flashcard-view'); }
-        function handleSpeakWord(event) { event.stopPropagation(); if (shuffledWords.length === 0) return; const wordToSpeak = shuffledWords[currentIndex].english; if ('speechSynthesis' in window) { const utterance = new SpeechSynthesisUtterance(wordToSpeak); utterance.lang = 'en-US'; window.speechSynthesis.speak(utterance); } else { alert('您的瀏覽器不支援語音合成功能。'); } }
+        
+        function handleSpeakWord(event) {
+            event.stopPropagation();
+            if (shuffledWords.length === 0) return;
+            const wordToSpeak = shuffledWords[currentIndex].english;
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // UPGRADE: Stop any ongoing speech.
+                const utterance = new SpeechSynthesisUtterance(wordToSpeak);
+                utterance.lang = 'en-US';
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('您的瀏覽器不支援語音合成功能。');
+            }
+        }
+        
         function displayCard() {
             if (shuffledWords.length === 0) { wordDisplay.textContent = "此類別沒有單字。"; translationDisplay.textContent = ""; translationDisplay.style.display = 'none'; currentCountSpan.textContent = 0; totalCountSpan.textContent = 0; markUnfamiliarBtn.style.display = 'none'; modeDisplay.textContent = "完成！"; flashcard.classList.remove('revealed-background'); bookmarkIcon.style.display = 'none'; speakBtn.style.display = 'none'; return; }
             speakBtn.style.display = 'block'; const currentWord = shuffledWords[currentIndex]; let frontText, backText;
@@ -681,29 +852,23 @@ root.style.setProperty('--text-color-muted', isDarkBg ? '#b0b0b0' : '#6c7a89');
         function handleUnfamiliarAction() { if (shuffledWords.length === 0) return; const currentWord = shuffledWords[currentIndex]; const isBookmarked = unfamiliarWordsInNormalCycle.some(word => word.english === currentWord.english); if (currentMode === 'normal') { if (!isBookmarked) { unfamiliarWordsInNormalCycle.push({ ...currentWord, revealed: false }); } else { unfamiliarWordsInNormalCycle = unfamiliarWordsInNormalCycle.filter(word => word.english !== currentWord.english); } } else { unfamiliarWordsInNormalCycle = unfamiliarWordsInNormalCycle.filter(word => word.english !== currentWord.english); shuffledWords.splice(currentIndex, 1); if (shuffledWords.length === 0) { currentIndex = 0; handleCycleEnd(); return; } else if (currentIndex >= shuffledWords.length) { currentIndex = shuffledWords.length - 1; } } saveProgress(); renderMainMenu(); displayCard(); }
         function updateButtonText() { if (shuffledWords.length === 0) return; const isBookmarked = unfamiliarWordsInNormalCycle.some(w => w.english === shuffledWords[currentIndex].english); if (currentMode === 'normal') { markUnfamiliarBtn.classList.remove('delete-mode'); markUnfamiliarBtn.textContent = isBookmarked ? '取消標記不熟' : '標記為不熟'; markUnfamiliarBtn.classList.toggle('unmark-mode', isBookmarked); } else { markUnfamiliarBtn.textContent = '刪除不熟'; markUnfamiliarBtn.classList.add('delete-mode'); markUnfamiliarBtn.classList.remove('unmark-mode'); } }
         function updateProgress() { currentCountSpan.textContent = shuffledWords.length > 0 ? currentIndex + 1 : 0; totalCountSpan.textContent = shuffledWords.length; }
-        function backToMainMenu() { if(currentlyEditingElement) { exitEditMode(currentlyEditingElement, false); } currentManagingDeck = null; showView('main-menu-view'); }
+        function backToMainMenu() { currentManagingDeck = null; showView('main-menu-view'); }
         function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(err => alert(`無法進入全螢幕模式: ${err.message}`)); else document.exitFullscreen(); }
         
         async function init() {
             const chromaScript = document.createElement('script');
             chromaScript.src = "https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.4.2/chroma.min.js";
             chromaScript.onload = async () => {
-                if ('serviceWorker' in navigator) {
-                    window.addEventListener('load', () => {
-                        navigator.serviceWorker.register('./sw.js')
-                            .then(registration => console.log('ServiceWorker registration successful with scope: ', registration.scope))
-                            .catch(err => console.log('ServiceWorker registration failed: ', err));
-                    });
-                }
+                if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(reg => console.log('SW registered.')).catch(err => console.log('SW registration failed: ', err)); }); }
 
                 loadAndApplyTheme(); 
-                generatePresetThemes();
                 loadAppState(); 
                 await loadDefaultDecksFromServer();
                 loadUnfamiliarWords();
                 loadStudyMode();
                 showView('main-menu-view');
                 
+                // --- Event Listeners ---
                 backToMenuBtnTop.addEventListener('click', backToMainMenu);
                 fullscreenBtn.addEventListener('click', toggleFullscreen);
                 importBtn.addEventListener('click', handleFileImport);
@@ -712,46 +877,52 @@ root.style.setProperty('--text-color-muted', isDarkBg ? '#b0b0b0' : '#6c7a89');
                 flashcard.addEventListener('click', handleCardClick);
                 speakBtn.addEventListener('click', handleSpeakWord);
                 markUnfamiliarBtn.addEventListener('click', handleUnfamiliarAction);
+                
+                // Modals
                 openAddWordModalBtn.addEventListener('click', openAddWordModal);
                 addWordForm.addEventListener('submit', handleAddWord);
                 addWordModal.querySelector('.modal-close-btn').addEventListener('click', closeAddWordModal);
-                addWordModal.addEventListener('click', (event) => { if (event.target === addWordModal) closeAddWordModal(); });
-                modeToggle.addEventListener('change', () => { currentStudyMode = modeToggle.checked ? 'zh-first' : 'en-first'; saveStudyMode(); });
+                addWordModal.addEventListener('click', (e) => { if (e.target === addWordModal) closeAddWordModal(); });
+                
+                editWordForm.addEventListener('submit', handleEditWord);
+                editWordModal.querySelector('.modal-close-btn').addEventListener('click', closeEditWordModal);
+                editWordModal.addEventListener('click', (e) => { if (e.target === editWordModal) closeEditWordModal(); });
+
                 confirmModalConfirmBtn.addEventListener('click', () => { if (typeof confirmAction === 'function') confirmAction(); closeConfirmModal(); });
                 confirmModalCancelBtn.addEventListener('click', closeConfirmModal);
                 confirmModal.querySelector('.modal-close-btn').addEventListener('click', closeConfirmModal);
-                confirmModal.addEventListener('click', (event) => { if (event.target === confirmModal) closeConfirmModal(); });
+                confirmModal.addEventListener('click', (e) => { if (e.target === confirmModal) closeConfirmModal(); });
+                
+                // Deck Manager
                 multiDeleteBtn.addEventListener('click', handleMultiDelete);
-                selectAllCheckbox.addEventListener('change', (event) => {
-                    const isChecked = event.target.checked;
+                selectAllCheckbox.addEventListener('change', (e) => {
                     wordListContainer.querySelectorAll('.word-select-checkbox').forEach(checkbox => {
-                        if (checkbox.checked !== isChecked) {
-                            checkbox.checked = isChecked;
+                        if (checkbox.checked !== e.target.checked) {
+                            checkbox.checked = e.target.checked;
                             checkbox.dispatchEvent(new Event('change', { bubbles: true }));
                         }
                     });
                 });
                 wordListContainer.addEventListener('click', (e) => {
-                    const item = e.target.closest('.word-list-item'); if (!item) return;
-                    if (e.target.closest('.word-display-container')) { enterEditMode(item); } 
-                    else if (e.target.classList.contains('save-edit-btn')) { exitEditMode(item, true); } 
-                    else if (e.target.classList.contains('cancel-edit-btn')) { exitEditMode(item, false); }
-                });
-                wordListContainer.addEventListener('change', (e) => { if (e.target.classList.contains('word-select-checkbox')) handleWordSelectionChange(e); });
-                wordListContainer.addEventListener('keydown', (e) => {
-                    if (e.key !== 'Enter' && e.key !== 'Escape') return;
-                    if (currentlyEditingElement && currentlyEditingElement.contains(e.target)) {
-                        e.preventDefault();
-                        if (e.key === 'Enter') exitEditMode(currentlyEditingElement, true);
-                        if (e.key === 'Escape') exitEditMode(currentlyEditingElement, false);
+                    const item = e.target.closest('.word-list-item');
+                    if (!item) return;
+                    // Clicking the checkbox itself is handled by its own change listener
+                    if (e.target.classList.contains('word-select-checkbox')) return;
+
+                    const originalEng = item.dataset.originalEnglish;
+                    const word = allWordCategoriesData[currentManagingDeck].find(w => w.english === originalEng);
+                    if (word) {
+                        openEditWordModal(word);
                     }
                 });
-                
+                wordListContainer.addEventListener('change', (e) => { if (e.target.classList.contains('word-select-checkbox')) handleWordSelectionChange(e); });
+
+                // Settings Modal
                 openSettingsBtn.addEventListener('click', openSettingsModal);
                 settingsModal.querySelector('.modal-close-btn').addEventListener('click', () => closeSettingsModal(true));
                 settingsModal.addEventListener('click', (e) => { if (e.target === settingsModal) closeSettingsModal(true); });
                 settingsSaveBtn.addEventListener('click', handleSaveTheme);
-
+                saveCustomThemeBtn.addEventListener('click', handleSaveCustomTheme);
                 primaryColorPicker.addEventListener('input', handleCustomThemeChange);
                 accentColorPicker.addEventListener('input', handleCustomThemeChange);
                 backgroundColorPicker.addEventListener('input', handleCustomThemeChange);
@@ -761,18 +932,19 @@ root.style.setProperty('--text-color-muted', isDarkBg ? '#b0b0b0' : '#6c7a89');
                     if (backgroundImageUploader.files && backgroundImageUploader.files[0]) {
                         const reader = new FileReader();
                         reader.onload = (e) => {
-                            currentThemeSettings.backgroundImage = e.target.result;
+                            currentThemeSettings.backgroundImageDataUrl = e.target.result;
                             handleCustomThemeChange();
                         };
                         reader.readAsDataURL(backgroundImageUploader.files[0]);
                     }
                 });
                 removeBgImageBtn.addEventListener('click', () => {
-                    currentThemeSettings.backgroundImage = null;
+                    currentThemeSettings.backgroundImageDataUrl = null;
                     backgroundImageUploader.value = '';
                     handleCustomThemeChange();
                 });
-
+                
+                modeToggle.addEventListener('change', () => { currentStudyMode = modeToggle.checked ? 'zh-first' : 'en-first'; saveStudyMode(); });
                 setInterval(saveProgress, 10000); 
             };
             document.head.appendChild(chromaScript);
