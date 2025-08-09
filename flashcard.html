@@ -23,7 +23,7 @@
             --card-background: #fff;
             --text-color: #333;
             --text-color-light: #fff;
-            --text-color-muted: #333;
+            --text-color-muted: #6c7a89;
             --border-color: #ccc;
             --border-color-light: #ddd;
             --accent-red: #f44336;
@@ -488,7 +488,10 @@
             root.style.setProperty('--text-color-light', chroma(safeTheme.accent).luminance() > 0.5 ? '#000' : '#fff');
             root.style.setProperty('--card-background', chroma(safeTheme.background).luminance() < 0.5 ? chroma(safeTheme.background).brighten(0.3).hex() : '#fff');
             root.style.setProperty('--container-opacity-percent', `${safeTheme.opacity}%`);
-            
+            // --- 請將這段程式碼加到指定位置 ---
+const isDarkBg = chroma(safeTheme.background).luminance() < 0.5;
+root.style.setProperty('--text-color-muted', isDarkBg ? '#b0b0b0' : '#6c7a89');
+// ---------------------------------
             if (safeTheme.backgroundImage) {
                 root.style.setProperty('--bg-image', `url(${safeTheme.backgroundImage})`);
                 root.style.setProperty('--bg-blur', '2px');
@@ -506,7 +509,7 @@
                 localStorage.setItem('flashcardTheme', JSON.stringify(theme));
             } catch (e) {
                 console.error("Error saving theme to localStorage", e);
-                alert("無法儲存圖片，可能是檔案過大。（建議將該圖片截圖後再上傳即可解決檔案大小問題）");
+                alert("無法儲存主題，可能是儲存空間已滿。");
             }
         }
 
