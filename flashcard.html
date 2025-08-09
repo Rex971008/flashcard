@@ -7,22 +7,55 @@
     
     <!-- PWA Modifications START -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#4CAF50">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#4CAF50">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#333333">
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <!-- PWA Modifications END -->
 
     <style>
-        /* CSS is completely unchanged */
+        :root {
+            /* Default Theme (Green) */
+            --primary-color: #4CAF50;
+            --primary-color-darker: #388E3C;
+            --accent-color: #03a9f4; /* For deck buttons and other accents */
+            --accent-color-darker: #0288d1; /* Darker version of accent */
+            --background-color: #f4f7f6;
+            --card-background: #fff;
+            --text-color: #333;
+            --text-color-light: #fff;
+            --text-color-muted: #6c7a89;
+            --border-color: #ccc;
+            --border-color-light: #ddd;
+            --accent-red: #f44336;
+            --accent-red-darker: #d32f2f;
+            --accent-orange: #ff9800;
+            --accent-yellow: #ffc107;
+            --bg-image: none;
+            --bg-blur: 0px;
+            --container-opacity-percent: 95%; /* Container opacity */
+        }
+
         html, body {
             height: 100%; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex; justify-content: center; align-items: center; background-color: #f4f7f6; color: #333;
+            display: flex; justify-content: center; align-items: center; 
+            background-color: var(--background-color); color: var(--text-color);
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            transition: background-color 0.3s ease;
+            -webkit-tap-highlight-color: transparent; /* MODIFICATION: Remove tap highlight on mobile */
         }
         .container {
-            text-align: center; background-color: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center; border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             max-width: 500px; width: 100%; height: 100vh; max-height: 800px; box-sizing: border-box; padding: 20px;
             display: flex; flex-direction: column; overflow: hidden; position: relative;
+            backdrop-filter: blur(var(--bg-blur));
+            -webkit-backdrop-filter: blur(var(--bg-blur));
+            background-color: color-mix(in srgb, var(--card-background) var(--container-opacity-percent), transparent);
+            transition: background-color 0.3s ease;
         }
-        h1 { color: #4CAF50; margin-top: 0; margin-bottom: 20px; font-size: 2.5em; flex-shrink: 0; }
+        h1 { color: var(--primary-color); margin-top: 0; margin-bottom: 20px; font-size: 2.5em; flex-shrink: 0; }
         .view {
             display: none; width: 100%; flex-grow: 1; overflow-y: auto; box-sizing: border-box;
             padding-bottom: 20px; flex-direction: column; align-items: center; position: relative;
@@ -30,41 +63,43 @@
         .view.active { display: flex; }
 
         .main-menu-container {
-            border: 2px solid #ccc; border-radius: 10px; padding: 20px; background-color: #f9f9f9;
+            border: 2px solid var(--border-color); border-radius: 10px; padding: 20px; background-color: color-mix(in srgb, var(--background-color) 50%, transparent);
             width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 15px; align-items: stretch;
         }
         .mode-selector {
             width: 100%; display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 20px; margin-top: 20px; background-color: #e8f5e9;
-            border: 2px solid #a5d6a7; border-radius: 10px; box-sizing: border-box;
+            padding: 15px 20px; margin-top: 20px; background-color: color-mix(in srgb, var(--primary-color) 15%, transparent);
+            border: 2px solid color-mix(in srgb, var(--primary-color) 40%, transparent); border-radius: 10px; box-sizing: border-box;
         }
-        .mode-selector label { font-size: 1.1em; font-weight: bold; color: #2e7d32; }
+        .mode-selector label { font-size: 1.1em; font-weight: bold; color: var(--primary-color-darker); }
         .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border-color); transition: .4s; }
         .slider:before { position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: white; transition: .4s; }
-        input:checked + .slider { background-color: #4CAF50; }
-        input:focus + .slider { box-shadow: 0 0 1px #4CAF50; }
+        input:checked + .slider { background-color: var(--primary-color); }
+        input:focus + .slider { box-shadow: 0 0 1px var(--primary-color); }
         input:checked + .slider:before { transform: translateX(26px); }
         .slider.round { border-radius: 34px; }
         .slider.round:before { border-radius: 50%; }
 
-        .import-section {
-            margin-top: 20px; padding: 15px; border: 2px dashed #03a9f4; border-radius: 10px;
-            background-color: #e3f2fd; display: flex; flex-direction: column; gap: 10px; align-items: stretch;
+        .import-section, .settings-section {
+            margin-top: 20px; padding: 15px; border: 2px dashed var(--accent-color); border-radius: 10px;
+            background-color: color-mix(in srgb, var(--accent-color) 10%, transparent); display: flex; flex-direction: column; gap: 10px; align-items: stretch;
         }
-        .import-section label { font-weight: bold; color: #0277bd; }
-        .import-section input[type="file"] { border: 1px solid #ccc; padding: 8px; border-radius: 5px; background-color: white; }
-        .import-section button { background-color: #2196F3; color: white; }
+        .import-section label, .settings-section label { font-weight: bold; color: var(--accent-color-darker); }
+        .import-section input[type="file"], .settings-section input[type="file"] { border: 1px solid var(--border-color); padding: 8px; border-radius: 5px; background-color: white; }
+        .import-section button, .settings-section button { background-color: var(--accent-color); color: var(--text-color-light); }
         .category-item {
             padding: 15px 20px; font-size: 1.2em; border: none; border-radius: 8px; cursor: pointer;
             transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); font-weight: bold; color: white;
-            background-color: #03a9f4; text-align: left; display: flex; flex-direction: row;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); font-weight: bold; color: var(--text-color-light);
+            background-color: var(--accent-color);
+            text-align: left; display: flex; flex-direction: row;
             justify-content: space-between; align-items: center;
         }
-        .category-item:hover { transform: translateY(-2px); }
-        .category-item.unfamiliar-category { background-color: #f44336; }
+        .category-item:hover { transform: translateY(-2px); background-color: var(--accent-color-darker); }
+        .category-item.unfamiliar-category { background-color: var(--accent-red); }
+        .category-item.unfamiliar-category:hover { background-color: var(--accent-red-darker); }
         .category-item.default-category { background-color: #78909c; }
         .category-item.default-category:hover { background-color: #546e7a; }
         .unfamiliar-count, .manage-deck-btn {
@@ -75,105 +110,140 @@
         .manage-deck-btn:hover { background-color: rgba(0, 0, 0, 0.2); }
 
         .flashcard-content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 10px; box-sizing: border-box; }
-        .flashcard { background-color: #e0f2f7; border: 2px solid #a7d9eb; border-radius: 10px; width: min(80vw, 350px); height: min(80vw, 350px); display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out; box-sizing: border-box; overflow: hidden; text-align: center; flex-shrink: 0; position: relative; }
-        .flashcard.revealed-background { background-color: #ffe0b2; }
-        .word { font-size: 2.2em; font-weight: bold; color: #2c3e50; margin-bottom: 15px; word-wrap: break-word; padding: 0 10px; }
-        .translation { font-size: 1.5em; color: #6c7a89; font-weight: 500; word-wrap: break-word; display: none; padding: 0 10px; }
+        .flashcard { background-color: color-mix(in srgb, var(--primary-color) 10%, transparent); border: 2px solid color-mix(in srgb, var(--primary-color) 40%, transparent); border-radius: 10px; width: min(80vw, 350px); height: min(80vw, 350px); display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out; box-sizing: border-box; overflow: hidden; text-align: center; flex-shrink: 0; position: relative; }
+        .flashcard.revealed-background { background-color: color-mix(in srgb, var(--accent-yellow) 20%, transparent); }
+        .word { font-size: 2.2em; font-weight: bold; color: var(--text-color); margin-bottom: 15px; word-wrap: break-word; padding: 0 10px; }
+        .translation { font-size: 1.5em; color: var(--text-color-muted); font-weight: 500; word-wrap: break-word; display: none; padding: 0 10px; }
         .progress { font-size: 1em; color: #555; margin-top: 10px; }
-        .progress span { font-weight: bold; color: #4CAF50; }
+        .progress span { font-weight: bold; color: var(--primary-color); }
         .controls { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 300px; flex-shrink: 0; }
         button { padding: 12px 25px; font-size: 1.1em; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); font-weight: bold; }
         button:disabled { background-color: #bdbdbd; cursor: not-allowed; opacity: 0.7; }
         button:disabled:hover { background-color: #bdbdbd; }
-        #mark-unfamiliar-btn { background-color: #ff9800; color: white; }
-        #mark-unfamiliar-btn.unmark-mode { background-color: #ffc107; }
-        #mark-unfamiliar-btn.delete-mode { background-color: #f44336; }
-        .top-button { position: absolute; top: 20px; z-index: 20; background-color: rgba(0, 0, 0, 0.3); color: white; padding: 8px; font-size: 1.8em; border-radius: 5px; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); line-height: 1; cursor: pointer; border: none; flex-shrink: 0; }
+        #mark-unfamiliar-btn { background-color: var(--accent-orange); color: var(--text-color-light); }
+        #mark-unfamiliar-btn.unmark-mode { background-color: var(--accent-yellow); }
+        #mark-unfamiliar-btn.delete-mode { background-color: var(--accent-red); }
+        .top-button { position: absolute; top: 20px; z-index: 20; background-color: rgba(0, 0, 0, 0.3); color: var(--text-color-light); padding: 8px; font-size: 1.8em; border-radius: 5px; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); line-height: 1; cursor: pointer; border: none; flex-shrink: 0; }
         #back-to-menu-btn { left: 20px; }
         #fullscreen-btn { right: 20px; }
         #bookmark-icon { position: absolute; top: 10px; right: 10px; font-size: 1.5em; color: #e0b445; display: none; z-index: 5; }
         #speak-btn {
-            position: absolute; bottom: 10px; right: 10px; font-size: 1.8em; color: #3d5afe;
+            position: absolute; bottom: 10px; right: 10px; font-size: 1.8em; color: var(--accent-color);
             cursor: pointer; z-index: 5; border: none; background: none; padding: 5px;
             transition: color 0.2s, transform 0.2s; display: none;
         }
-        #speak-btn:hover { color: #002ab0; transform: scale(1.1); }
+        #speak-btn:hover { color: var(--accent-color-darker); transform: scale(1.1); }
         #deck-management-view { gap: 15px; justify-content: flex-start; align-items: stretch; }
-        #deck-manager-title { color: #0277bd; margin: 0 0 10px 0; flex-shrink: 0; text-align: center; }
+        #deck-manager-title { color: var(--accent-color-darker); margin: 0 0 10px 0; flex-shrink: 0; text-align: center; }
         .deck-manager-actions {
             display: flex; justify-content: space-between; align-items: center; padding: 10px;
-            border-bottom: 2px solid #ddd; background-color: #f5f5f5; flex-shrink: 0;
+            border-bottom: 2px solid var(--border-color-light); background-color: #f5f5f5; flex-shrink: 0;
         }
         .deck-manager-actions label { display: flex; align-items: center; gap: 8px; font-weight: bold; cursor: pointer; }
         .deck-manager-actions input[type="checkbox"] { transform: scale(1.4); cursor: pointer; }
-        #multi-delete-btn { background-color: #f44336; color: white; padding: 8px 15px; font-size: 1em; }
-        #multi-delete-btn:hover:not(:disabled) { background-color: #d32f2f; }
+        #multi-delete-btn { background-color: var(--accent-red); color: var(--text-color-light); padding: 8px 15px; font-size: 1em; }
+        #multi-delete-btn:hover:not(:disabled) { background-color: var(--accent-red-darker); }
         .word-list-container {
             width: 100%; flex-grow: 1; overflow-y: auto;
-            border: 1px solid #ddd; border-radius: 8px; padding: 10px;
-            background-color: #fafafa; padding-bottom: 80px; box-sizing: border-box;
+            border: 1px solid var(--border-color-light); border-radius: 8px; padding: 10px;
+            background-color: color-mix(in srgb, var(--card-background) 50%, transparent); padding-bottom: 80px; box-sizing: border-box;
         }
-        .word-list-item { display: flex; justify-content: flex-start; align-items: center; padding: 12px 10px; border-bottom: 1px solid #eee; font-size: 1.1em; gap: 15px; }
+        .word-list-item { display: flex; justify-content: flex-start; align-items: center; padding: 12px 10px; border-bottom: 1px solid var(--border-color-light); font-size: 1.1em; gap: 15px; }
         .word-list-item:last-child { border-bottom: none; }
         .word-list-item .word-select-checkbox { transform: scale(1.5); flex-shrink: 0; cursor: pointer; }
         .word-content-wrapper { flex-grow: 1; text-align: left; }
         .word-display-container { cursor: pointer; padding: 5px; border-radius: 4px; transition: background-color 0.2s; }
-        .word-display-container:hover { background-color: #e0f7fa; }
+        .word-display-container:hover { background-color: color-mix(in srgb, var(--accent-color) 10%, transparent); }
         .word-list-item.editing .word-display-container { display: none; }
         .word-edit-container { display: none; align-items: center; gap: 8px; }
         .word-list-item.editing .word-edit-container { display: flex; }
         .word-edit-container input {
-            flex-grow: 1; padding: 8px; font-size: 1em; border: 1px solid #03a9f4;
+            flex-grow: 1; padding: 8px; font-size: 1em; border: 1px solid var(--accent-color);
             border-radius: 5px; outline: none;
         }
-        .word-edit-container input:focus { box-shadow: 0 0 0 2px rgba(3, 169, 244, 0.4); }
+        .word-edit-container input:focus { box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-color) 40%, transparent); }
         .word-edit-container button {
             padding: 8px 10px; font-size: 1.1em; flex-shrink: 0; line-height: 1;
             min-width: 40px;
         }
-        .save-edit-btn { background-color: #4CAF50; color: white; }
-        .cancel-edit-btn { background-color: #f44336; color: white; }
+        .save-edit-btn { background-color: var(--primary-color); color: var(--text-color-light); }
+        .cancel-edit-btn { background-color: var(--accent-red); color: var(--text-color-light); }
         .deck-actions-container { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
-        #export-deck-btn { background-color: #2196F3; color: white; }
-        #export-deck-btn:hover { background-color: #1976D2; }
-        #delete-deck-btn { background-color: #c62828; color: white; }
+        #export-deck-btn { background-color: var(--accent-color); color: var(--text-color-light); }
+        #export-deck-btn:hover { background-color: var(--accent-color-darker); }
+        #delete-deck-btn { background-color: var(--accent-red-darker); color: var(--text-color-light); }
         #delete-deck-btn:hover:not(:disabled) { background-color: #b71c1c; }
         #delete-deck-btn:disabled { background-color: #bdbdbd; cursor: not-allowed; opacity: 0.7; }
+        
+        /* MODIFICATION: Modal positioning for mobile */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center;
-            align-items: flex-start; padding-top: 10vh; z-index: 1000;
+            align-items: center; /* MODIFIED: Center vertically */
+            padding: 20px; /* Add some padding for small screens */
+            box-sizing: border-box;
+            z-index: 1000;
             opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
+        
+        /* MODIFICATION: Modal content scroll for mobile */
         .modal-content {
-            background-color: white; padding: 25px; border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2); width: 90%; max-width: 400px;
-            transform: translateY(-20px); transition: transform 0.3s ease; position: relative;
+            background-color: var(--card-background); padding: 25px; border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2); width: 100%; max-width: 400px;
+            transform: translateY(-20px); transition: transform 0.3s ease, background-color 0.3s ease; position: relative;
+            max-height: 85vh; /* MODIFIED: Set max height */
+            overflow-y: auto; /* MODIFIED: Enable scroll if content overflows */
         }
         .modal-overlay.active .modal-content { transform: translateY(0); }
         .modal-close-btn { position: absolute; top: 10px; right: 15px; font-size: 2em; font-weight: bold; color: #888; cursor: pointer; border: none; background: none; padding: 0; line-height: 1; }
         .modal-close-btn:hover { color: #333; }
-        .modal-content h3 { margin-top: 0; color: #4CAF50; }
+        .modal-content h3 { margin-top: 0; color: var(--primary-color); }
         .add-word-form-modal { display: flex; flex-direction: column; gap: 15px; }
-        .add-word-form-modal input { padding: 12px; font-size: 1.1em; border-radius: 8px; border: 1px solid #ccc; width: 100%; box-sizing: border-box; }
-        .add-word-form-modal button { background-color: #4CAF50; color: white; }
-        .add-word-feedback { color: #4CAF50; font-weight: bold; height: 1.5em; margin-top: -10px; margin-bottom: 10px; transition: opacity 0.5s; opacity: 0; }
+        .add-word-form-modal input { padding: 12px; font-size: 1.1em; border-radius: 8px; border: 1px solid var(--border-color); width: 100%; box-sizing: border-box; }
+        .add-word-form-modal button { background-color: var(--primary-color); color: var(--text-color-light); }
+        .add-word-feedback { color: var(--primary-color); font-weight: bold; height: 1.5em; margin-top: -10px; margin-bottom: 10px; transition: opacity 0.5s; opacity: 0; }
         .add-word-feedback.show { opacity: 1; }
-        #confirm-modal-title { color: #c62828; }
+        #confirm-modal-title { color: var(--accent-red-darker); }
         .confirm-modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
-        #confirm-modal-cancel-btn { background-color: #9e9e9e; color: white; }
-        #confirm-modal-confirm-btn { background-color: #c62828; color: white; }
+        #confirm-modal-cancel-btn { background-color: #9e9e9e; color: var(--text-color-light); }
+        #confirm-modal-confirm-btn { background-color: var(--accent-red-darker); color: var(--text-color-light); }
         #open-add-word-modal-btn {
             position: absolute; bottom: 20px; right: 20px; width: 60px; height: 60px;
-            background-color: rgba(76, 175, 80, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2); color: white; border-radius: 50%;
+            background-color: color-mix(in srgb, var(--primary-color) 70%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2); color: var(--text-color-light); border-radius: 50%;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25); cursor: pointer; z-index: 10;
             transition: all 0.2s ease-in-out; display: flex; justify-content: center; align-items: center;
             font-size: 2.8em; font-weight: 200;
         }
-        #open-add-word-modal-btn:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); background-color: rgba(76, 175, 80, 0.9); }
+        #open-add-word-modal-btn:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); background-color: color-mix(in srgb, var(--primary-color) 90%, transparent); }
         #open-add-word-modal-btn:active { transform: translateY(0px) scale(1); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
+        
+        #settings-modal h4 { margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color-light); padding-bottom: 5px; color: var(--primary-color-darker); }
+        .preset-themes-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+        .theme-swatch {
+            padding: 10px; border-radius: 8px; cursor: pointer; border: 2px solid transparent;
+            transition: all 0.2s ease; text-align: center;
+        }
+        .theme-swatch:hover { transform: translateY(-2px); }
+        .theme-swatch.active { border-color: var(--primary-color); box-shadow: 0 0 10px color-mix(in srgb, var(--primary-color) 50%, transparent); }
+        .swatch-color { width: 100%; height: 30px; border-radius: 5px; margin-bottom: 5px; }
+        .swatch-label { font-weight: bold; font-size: 0.9em; }
+        .custom-theme-container { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
+        .color-picker-group, .slider-group { display: flex; align-items: center; justify-content: space-between; }
+        .color-picker-group label, .slider-group label { font-weight: 500; }
+        .color-picker-group input[type="color"] {
+            -webkit-appearance: none; -moz-appearance: none; appearance: none;
+            width: 50px; height: 30px; border: 1px solid var(--border-color); border-radius: 5px;
+            cursor: pointer; background-color: transparent; padding: 0;
+        }
+        .color-picker-group input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+        .color-picker-group input[type="color"]::-webkit-color-swatch { border: none; border-radius: 4px; }
+        .slider-group input[type="range"] { flex-grow: 1; margin: 0 10px; }
+        .slider-group span { font-weight: bold; min-width: 40px; text-align: right; }
+        #remove-bg-image-btn { background-color: var(--accent-orange); color: var(--text-color-light); font-size: 0.9em; padding: 8px 12px; }
+        .settings-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+        #settings-save-btn { background-color: var(--primary-color); color: var(--text-color-light); }
     </style>
 </head>
 <body>
@@ -183,7 +253,6 @@
         <button id="back-to-menu-btn" class="top-button" title="返回主菜單">&#x2B05;</button>
         <button id="fullscreen-btn" class="top-button" title="切換全螢幕">&#x21F3;</button>
 
-        <!-- The rest of the HTML body is unchanged -->
         <div id="main-menu-view" class="view">
             <div id="main-menu-container" class="main-menu-container"></div>
             <div class="mode-selector">
@@ -197,6 +266,9 @@
                 <label for="file-importer">或從檔案匯入單字包 (可多選 .json):</label>
                 <input type="file" id="file-importer" accept=".json" multiple>
                 <button id="import-btn">匯入並新增</button> 
+            </div>
+            <div class="settings-section">
+                <button id="open-settings-btn">主題與設定 🎨</button>
             </div>
         </div>
 
@@ -260,8 +332,50 @@
         </div>
     </div>
 
+    <div id="settings-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn" title="關閉">&times;</button>
+            <h3>主題設定</h3>
+            
+            <h4>預設主題</h4>
+            <div class="preset-themes-container" id="preset-themes-container">
+                <!-- Preset themes will be generated by JS -->
+            </div>
+
+            <h4>自訂主題</h4>
+            <div class="custom-theme-container">
+                <div class="color-picker-group">
+                    <label for="primary-color-picker">主要顏色</label>
+                    <input type="color" id="primary-color-picker">
+                </div>
+                <div class="color-picker-group">
+                    <label for="accent-color-picker">卡包按鈕顏色</label>
+                    <input type="color" id="accent-color-picker">
+                </div>
+                <div class="color-picker-group">
+                    <label for="background-color-picker">背景顏色</label>
+                    <input type="color" id="background-color-picker">
+                </div>
+                <div class="slider-group">
+                    <label for="container-opacity-slider">背景不透明度</label>
+                    <input type="range" id="container-opacity-slider" min="10" max="100" step="1">
+                    <span id="opacity-display">100%</span>
+                </div>
+                <div class="color-picker-group">
+                    <label for="background-image-uploader">上傳背景圖片</label>
+                    <input type="file" id="background-image-uploader" accept="image/*" style="max-width: 150px;">
+                </div>
+                <button id="remove-bg-image-btn">移除背景圖片</button>
+            </div>
+            
+            <div class="settings-actions">
+                 <button id="settings-save-btn">儲存設定</button>
+            </div>
+        </div>
+    </div>
+
+
     <script>
-        // All variable declarations are the same
         const DEFAULT_DECK_NAME = "自訂單字卡";
         let allWordCategoriesData = {}; 
         let allOriginalWordsFlat = []; 
@@ -274,7 +388,6 @@
         let confirmAction = null;
         let selectedWordsToDelete = new Set();
         let currentlyEditingElement = null;
-
 
         const views = { 'main-menu-view': document.getElementById('main-menu-view'), 'flashcard-view': document.getElementById('flashcard-view'), 'deck-management-view': document.getElementById('deck-management-view') };
         const mainMenuContainer = document.getElementById('main-menu-container');
@@ -302,59 +415,185 @@
         const selectAllCheckbox = document.getElementById('select-all-words-checkbox');
         const multiDeleteBtn = document.getElementById('multi-delete-btn');
         const speakBtn = document.getElementById('speak-btn');
+        
+        const openSettingsBtn = document.getElementById('open-settings-btn');
+        const settingsModal = document.getElementById('settings-modal');
+        const settingsSaveBtn = document.getElementById('settings-save-btn');
+        const presetThemesContainer = document.getElementById('preset-themes-container');
+        const primaryColorPicker = document.getElementById('primary-color-picker');
+        const backgroundColorPicker = document.getElementById('background-color-picker');
+        const backgroundImageUploader = document.getElementById('background-image-uploader');
+        const removeBgImageBtn = document.getElementById('remove-bg-image-btn');
+        const accentColorPicker = document.getElementById('accent-color-picker');
+        const containerOpacitySlider = document.getElementById('container-opacity-slider');
+        const opacityDisplay = document.getElementById('opacity-display');
+        let currentThemeSettings = {};
+        let themeBeforeEdit = {};
 
+        const PRESET_THEMES = {
+            default: { name: '預設綠', primary: '#4CAF50', background: '#f4f7f6', text: '#333333', accent: '#03A9F4', opacity: 95 },
+            ocean: { name: '海洋藍', primary: '#03A9F4', background: '#E1F5FE', text: '#212121', accent: '#FFC107', opacity: 95 },
+            forest: { name: '森林系', primary: '#8BC34A', background: '#f1f8e9', text: '#333333', accent: '#795548', opacity: 95 },
+            sunset: { name: '夕陽橘', primary: '#FF9800', background: '#FFF3E0', text: '#424242', accent: '#F44336', opacity: 95 },
+            dark: { name: '夜間模式', primary: '#673AB7', background: '#303030', text: '#FFFFFF', accent: '#03A9F4', opacity: 90 }
+        };
 
         const shuffleArray = (array) => { let t=[...array],c=t.length,r;while(0!==c){r=Math.floor(Math.random()*c);c--;[t[c],t[r]]=[t[r],t[c]]}return t; };
         function saveAppState() { try { localStorage.setItem('allWordDecks', JSON.stringify(allWordCategoriesData)); allOriginalWordsFlat = Object.values(allWordCategoriesData).flat(); } catch (e) { console.error("無法保存單字包列表。", e); } }
         function loadAppState() { let loadedDecks = {}; try { const savedDecks = localStorage.getItem('allWordDecks'); if (savedDecks) { const parsed = JSON.parse(savedDecks); if (typeof parsed === 'object' && parsed !== null) { loadedDecks = parsed; } } } catch (e) { console.error("載入單字包列表失敗，將重置。", e); loadedDecks = {}; } if (!loadedDecks.hasOwnProperty(DEFAULT_DECK_NAME)) { loadedDecks[DEFAULT_DECK_NAME] = []; } allWordCategoriesData = loadedDecks; allOriginalWordsFlat = Object.values(allWordCategoriesData).flat(); }
         
-        // MODIFICATION: New function to automatically load default decks from the server
         async function loadDefaultDecksFromServer() {
             try {
-                // 1. Fetch the index file that lists all default decks.
                 const indexResponse = await fetch('./cardholder/index.json');
                 if (!indexResponse.ok) {
                     console.log('cardholder/index.json not found, skipping default deck loading.');
-                    return; // If index.json doesn't exist, just stop.
+                    return;
                 }
                 const deckFilenames = await indexResponse.json();
-
-                // 2. Create a list of fetch promises for each deck.
                 const fetchPromises = deckFilenames.map(filename => {
                     const deckName = filename.replace(/\.json$/i, '');
-                    // Only fetch if the deck does NOT already exist in the user's local data.
                     if (!allWordCategoriesData.hasOwnProperty(deckName)) {
                         return fetch(`./cardholder/${filename}`).then(res => res.json());
                     }
-                    return Promise.resolve(null); // Return a resolved promise with null if deck exists
+                    return Promise.resolve(null);
                 });
-                
-                // 3. Wait for all fetches to complete.
                 const newDecksData = await Promise.all(fetchPromises);
-
-                // 4. Process and add the new decks.
                 let decksAdded = false;
                 newDecksData.forEach((deckContent, index) => {
-                    if (deckContent) { // Check if the deck was actually fetched (was not null)
+                    if (deckContent) {
                         const deckName = deckFilenames[index].replace(/\.json$/i, '');
                         allWordCategoriesData[deckName] = deckContent;
                         decksAdded = true;
                     }
                 });
-
-                // 5. If any new decks were added, save the state.
                 if (decksAdded) {
                     console.log("Default decks loaded from server.");
                     saveAppState();
                 }
-
             } catch (error) {
                 console.error("Error loading default decks from server:", error);
             }
         }
+        
+        function applyTheme(theme) {
+            const root = document.documentElement;
+            const safeTheme = { ...PRESET_THEMES.default, ...theme };
 
+            root.style.setProperty('--primary-color', safeTheme.primary);
+            root.style.setProperty('--primary-color-darker', chroma(safeTheme.primary).darken(0.6).hex());
+            root.style.setProperty('--accent-color', safeTheme.accent);
+            root.style.setProperty('--accent-color-darker', chroma(safeTheme.accent).darken(0.6).hex());
+            root.style.setProperty('--background-color', safeTheme.background);
+            root.style.setProperty('--text-color', safeTheme.text);
+            root.style.setProperty('--text-color-light', chroma(safeTheme.accent).luminance() > 0.5 ? '#000' : '#fff');
+            root.style.setProperty('--card-background', chroma(safeTheme.background).luminance() < 0.5 ? chroma(safeTheme.background).brighten(0.3).hex() : '#fff');
+            root.style.setProperty('--container-opacity-percent', `${safeTheme.opacity}%`);
+            
+            if (safeTheme.backgroundImage) {
+                root.style.setProperty('--bg-image', `url(${safeTheme.backgroundImage})`);
+                root.style.setProperty('--bg-blur', '2px');
+            } else {
+                root.style.setProperty('--bg-image', 'none');
+                root.style.setProperty('--bg-blur', '0px');
+            }
 
-        // All other functions are unchanged...
+            const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+            if(themeColorMeta) themeColorMeta.setAttribute('content', safeTheme.primary);
+        }
+
+        function saveTheme(theme) {
+            try {
+                localStorage.setItem('flashcardTheme', JSON.stringify(theme));
+            } catch (e) {
+                console.error("Error saving theme to localStorage", e);
+                alert("無法儲存主題，可能是儲存空間已滿。");
+            }
+        }
+
+        function loadAndApplyTheme() {
+            let loadedTheme = {};
+            try {
+                const savedTheme = localStorage.getItem('flashcardTheme');
+                if (savedTheme) {
+                    loadedTheme = JSON.parse(savedTheme);
+                }
+            } catch (e) {
+                console.error("Error loading theme, reverting to default.", e);
+            }
+            currentThemeSettings = { ...PRESET_THEMES.default, ...loadedTheme };
+            applyTheme(currentThemeSettings);
+        }
+        
+        function openSettingsModal() {
+            themeBeforeEdit = JSON.parse(JSON.stringify(currentThemeSettings));
+            updateThemeControls(currentThemeSettings);
+            settingsModal.classList.add('active');
+        }
+
+        function closeSettingsModal(revert = false) {
+            if(revert) {
+                applyTheme(themeBeforeEdit);
+                currentThemeSettings = themeBeforeEdit;
+            }
+            settingsModal.classList.remove('active');
+        }
+
+        function handleSaveTheme() {
+            saveTheme(currentThemeSettings);
+            alert("主題已儲存！");
+            closeSettingsModal();
+        }
+
+        function generatePresetThemes() {
+            presetThemesContainer.innerHTML = '';
+            for (const key in PRESET_THEMES) {
+                const theme = PRESET_THEMES[key];
+                const swatch = document.createElement('div');
+                swatch.className = 'theme-swatch';
+                swatch.dataset.themeName = key;
+                swatch.innerHTML = `
+                    <div class="swatch-color" style="background-color: ${theme.primary}; border: 3px solid ${theme.accent}"></div>
+                    <div class="swatch-label">${theme.name}</div>
+                `;
+                swatch.addEventListener('click', () => {
+                    const newBackgroundImage = currentThemeSettings.backgroundImage;
+                    currentThemeSettings = { type: 'preset', name: key, ...theme, backgroundImage: newBackgroundImage };
+                    applyTheme(currentThemeSettings);
+                    updateThemeControls(currentThemeSettings);
+                });
+                presetThemesContainer.appendChild(swatch);
+            }
+        }
+        
+        function updateThemeControls(theme) {
+            primaryColorPicker.value = chroma(theme.primary).hex();
+            accentColorPicker.value = chroma(theme.accent).hex();
+            backgroundColorPicker.value = chroma(theme.background).hex();
+            containerOpacitySlider.value = theme.opacity;
+            opacityDisplay.textContent = `${theme.opacity}%`;
+            backgroundImageUploader.value = '';
+
+            document.querySelectorAll('.theme-swatch').forEach(swatch => {
+                swatch.classList.toggle('active', theme.type === 'preset' && swatch.dataset.themeName === theme.name);
+            });
+        }
+
+        function handleCustomThemeChange() {
+             currentThemeSettings = {
+                type: 'custom',
+                name: 'custom',
+                primary: primaryColorPicker.value,
+                accent: accentColorPicker.value,
+                background: backgroundColorPicker.value,
+                opacity: parseInt(containerOpacitySlider.value, 10),
+                text: chroma.contrast(primaryColorPicker.value, backgroundColorPicker.value) < 4.5 ? (chroma(backgroundColorPicker.value).luminance() > 0.5 ? '#000000' : '#FFFFFF') : (chroma(backgroundColorPicker.value).luminance() > 0.5 ? '#333333' : '#FAFAFA'),
+                backgroundImage: currentThemeSettings.backgroundImage
+            };
+            applyTheme(currentThemeSettings);
+            opacityDisplay.textContent = `${currentThemeSettings.opacity}%`;
+            document.querySelectorAll('.theme-swatch').forEach(s => s.classList.remove('active'));
+        }
+
         function saveProgress() { try { localStorage.setItem('unfamiliarWordsList', JSON.stringify(unfamiliarWordsInNormalCycle)); } catch (e) { console.error("無法保存不熟單字列表。", e); } }
         function loadUnfamiliarWords() { try { const s = localStorage.getItem('unfamiliarWordsList'); unfamiliarWordsInNormalCycle = s ? JSON.parse(s) : []; } catch (e) { console.error("載入不熟單字列表失敗。", e); unfamiliarWordsInNormalCycle = []; } }
         function saveStudyMode() { try { localStorage.setItem('studyMode', currentStudyMode); } catch (e) { console.error("無法保存學習模式。", e); } }
@@ -442,77 +681,98 @@
         function backToMainMenu() { if(currentlyEditingElement) { exitEditMode(currentlyEditingElement, false); } currentManagingDeck = null; showView('main-menu-view'); }
         function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(err => alert(`無法進入全螢幕模式: ${err.message}`)); else document.exitFullscreen(); }
         
-        // MODIFICATION: The init function is now async to handle the await for default decks.
         async function init() {
-            // PWA Service Worker Registration
-            if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                    navigator.serviceWorker.register('./sw.js')
-                        .then(registration => {
-                            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                        })
-                        .catch(err => {
-                            console.log('ServiceWorker registration failed: ', err);
-                        });
+            const chromaScript = document.createElement('script');
+            chromaScript.src = "https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.4.2/chroma.min.js";
+            chromaScript.onload = async () => {
+                if ('serviceWorker' in navigator) {
+                    window.addEventListener('load', () => {
+                        navigator.serviceWorker.register('./sw.js')
+                            .then(registration => console.log('ServiceWorker registration successful with scope: ', registration.scope))
+                            .catch(err => console.log('ServiceWorker registration failed: ', err));
+                    });
+                }
+
+                loadAndApplyTheme(); 
+                generatePresetThemes();
+                loadAppState(); 
+                await loadDefaultDecksFromServer();
+                loadUnfamiliarWords();
+                loadStudyMode();
+                showView('main-menu-view');
+                
+                backToMenuBtnTop.addEventListener('click', backToMainMenu);
+                fullscreenBtn.addEventListener('click', toggleFullscreen);
+                importBtn.addEventListener('click', handleFileImport);
+                deleteDeckBtn.addEventListener('click', handleDeleteDeck);
+                exportDeckBtn.addEventListener('click', handleExportDeck);
+                flashcard.addEventListener('click', handleCardClick);
+                speakBtn.addEventListener('click', handleSpeakWord);
+                markUnfamiliarBtn.addEventListener('click', handleUnfamiliarAction);
+                openAddWordModalBtn.addEventListener('click', openAddWordModal);
+                addWordForm.addEventListener('submit', handleAddWord);
+                addWordModal.querySelector('.modal-close-btn').addEventListener('click', closeAddWordModal);
+                addWordModal.addEventListener('click', (event) => { if (event.target === addWordModal) closeAddWordModal(); });
+                modeToggle.addEventListener('change', () => { currentStudyMode = modeToggle.checked ? 'zh-first' : 'en-first'; saveStudyMode(); });
+                confirmModalConfirmBtn.addEventListener('click', () => { if (typeof confirmAction === 'function') confirmAction(); closeConfirmModal(); });
+                confirmModalCancelBtn.addEventListener('click', closeConfirmModal);
+                confirmModal.querySelector('.modal-close-btn').addEventListener('click', closeConfirmModal);
+                confirmModal.addEventListener('click', (event) => { if (event.target === confirmModal) closeConfirmModal(); });
+                multiDeleteBtn.addEventListener('click', handleMultiDelete);
+                selectAllCheckbox.addEventListener('change', (event) => {
+                    const isChecked = event.target.checked;
+                    wordListContainer.querySelectorAll('.word-select-checkbox').forEach(checkbox => {
+                        if (checkbox.checked !== isChecked) {
+                            checkbox.checked = isChecked;
+                            checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+                    });
                 });
-            }
-
-            // First, load any existing data from the user's local storage.
-            loadAppState(); 
-            
-            // Then, fetch and merge default decks from the server.
-            await loadDefaultDecksFromServer();
-
-            // Finally, load other user-specific data and render the view.
-            loadUnfamiliarWords();
-            loadStudyMode();
-            showView('main-menu-view');
-            
-            // The rest of the event listeners are unchanged.
-            backToMenuBtnTop.addEventListener('click', backToMainMenu);
-            fullscreenBtn.addEventListener('click', toggleFullscreen);
-            importBtn.addEventListener('click', handleFileImport);
-            deleteDeckBtn.addEventListener('click', handleDeleteDeck);
-            exportDeckBtn.addEventListener('click', handleExportDeck);
-            flashcard.addEventListener('click', handleCardClick);
-            speakBtn.addEventListener('click', handleSpeakWord);
-            markUnfamiliarBtn.addEventListener('click', handleUnfamiliarAction);
-            openAddWordModalBtn.addEventListener('click', openAddWordModal);
-            addWordForm.addEventListener('submit', handleAddWord);
-            addWordModal.querySelector('.modal-close-btn').addEventListener('click', closeAddWordModal);
-            addWordModal.addEventListener('click', (event) => { if (event.target === addWordModal) { closeAddWordModal(); } });
-            modeToggle.addEventListener('change', () => { currentStudyMode = modeToggle.checked ? 'zh-first' : 'en-first'; saveStudyMode(); });
-            confirmModalConfirmBtn.addEventListener('click', () => { if (typeof confirmAction === 'function') { confirmAction(); } closeConfirmModal(); });
-            confirmModalCancelBtn.addEventListener('click', closeConfirmModal);
-            confirmModal.querySelector('.modal-close-btn').addEventListener('click', closeConfirmModal);
-            confirmModal.addEventListener('click', (event) => { if (event.target === confirmModal) { closeConfirmModal(); } });
-            multiDeleteBtn.addEventListener('click', handleMultiDelete);
-            selectAllCheckbox.addEventListener('change', (event) => {
-                const isChecked = event.target.checked;
-                wordListContainer.querySelectorAll('.word-select-checkbox').forEach(checkbox => {
-                    if (checkbox.checked !== isChecked) {
-                        checkbox.checked = isChecked;
-                        const changeEvent = new Event('change', { bubbles: true });
-                        checkbox.dispatchEvent(changeEvent);
+                wordListContainer.addEventListener('click', (e) => {
+                    const item = e.target.closest('.word-list-item'); if (!item) return;
+                    if (e.target.closest('.word-display-container')) { enterEditMode(item); } 
+                    else if (e.target.classList.contains('save-edit-btn')) { exitEditMode(item, true); } 
+                    else if (e.target.classList.contains('cancel-edit-btn')) { exitEditMode(item, false); }
+                });
+                wordListContainer.addEventListener('change', (e) => { if (e.target.classList.contains('word-select-checkbox')) handleWordSelectionChange(e); });
+                wordListContainer.addEventListener('keydown', (e) => {
+                    if (e.key !== 'Enter' && e.key !== 'Escape') return;
+                    if (currentlyEditingElement && currentlyEditingElement.contains(e.target)) {
+                        e.preventDefault();
+                        if (e.key === 'Enter') exitEditMode(currentlyEditingElement, true);
+                        if (e.key === 'Escape') exitEditMode(currentlyEditingElement, false);
                     }
                 });
-            });
-            wordListContainer.addEventListener('click', (e) => {
-                const item = e.target.closest('.word-list-item'); if (!item) return;
-                if (e.target.closest('.word-display-container')) { enterEditMode(item); } 
-                else if (e.target.classList.contains('save-edit-btn')) { exitEditMode(item, true); } 
-                else if (e.target.classList.contains('cancel-edit-btn')) { exitEditMode(item, false); }
-            });
-            wordListContainer.addEventListener('change', (e) => { if (e.target.classList.contains('word-select-checkbox')) { handleWordSelectionChange(e); } });
-            wordListContainer.addEventListener('keydown', (e) => {
-                if (e.key !== 'Enter' && e.key !== 'Escape') return;
-                if (currentlyEditingElement && currentlyEditingElement.contains(e.target)) {
-                    e.preventDefault();
-                    if (e.key === 'Enter') exitEditMode(currentlyEditingElement, true);
-                    if (e.key === 'Escape') exitEditMode(currentlyEditingElement, false);
-                }
-            });
-            setInterval(saveProgress, 10000); 
+                
+                openSettingsBtn.addEventListener('click', openSettingsModal);
+                settingsModal.querySelector('.modal-close-btn').addEventListener('click', () => closeSettingsModal(true));
+                settingsModal.addEventListener('click', (e) => { if (e.target === settingsModal) closeSettingsModal(true); });
+                settingsSaveBtn.addEventListener('click', handleSaveTheme);
+
+                primaryColorPicker.addEventListener('input', handleCustomThemeChange);
+                accentColorPicker.addEventListener('input', handleCustomThemeChange);
+                backgroundColorPicker.addEventListener('input', handleCustomThemeChange);
+                containerOpacitySlider.addEventListener('input', handleCustomThemeChange);
+                
+                backgroundImageUploader.addEventListener('change', () => {
+                    if (backgroundImageUploader.files && backgroundImageUploader.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            currentThemeSettings.backgroundImage = e.target.result;
+                            handleCustomThemeChange();
+                        };
+                        reader.readAsDataURL(backgroundImageUploader.files[0]);
+                    }
+                });
+                removeBgImageBtn.addEventListener('click', () => {
+                    currentThemeSettings.backgroundImage = null;
+                    backgroundImageUploader.value = '';
+                    handleCustomThemeChange();
+                });
+
+                setInterval(saveProgress, 10000); 
+            };
+            document.head.appendChild(chromaScript);
         }
 
         document.addEventListener('DOMContentLoaded', init);
