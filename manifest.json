@@ -2,11 +2,10 @@
   "name": "我的單字卡",
   "short_name": "單字卡",
   "description": "一個現代化的漸進式單字卡學習應用。",
-  "start_url": "./",
-  "display": "fullscreen",
+  "start_url": "./flashcard.html",
+  "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4CAF50",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192x192.png",
