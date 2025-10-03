@@ -328,7 +328,6 @@
         let currentMode = 'normal', currentCategoryName = '';
         let feedbackTimeout; let currentStudyMode = 'en-first'; let confirmAction = null; let selectedWordsToDelete = new Set();
         let pendingLearningMode = {}; let isReadingMode = false;
-        // New/Modified State Variables
         let selectedWordsForSession = new Set();
         let mcQuizQuestions = [], currentMcQuizIndex = 0, mcQuizUserAnswers = [], incorrectMcQuizWords = new Set();
         let spellingQuizQuestions = [], currentSpellingQuizIndex = 0, spellingQuizUserAnswers = [], incorrectSpellingQuizWords = new Set();
@@ -339,21 +338,20 @@
         const mainMenuContainer = document.getElementById('main-menu-container');
         const fullscreenBtn = document.getElementById('fullscreen-btn'); const importBtn = document.getElementById('import-btn'); const fileImporter = document.getElementById('file-importer'); const deckManagerTitle = document.getElementById('deck-manager-title'); const wordListContainer = document.getElementById('word-list-container'); const deleteDeckBtn = document.getElementById('delete-deck-btn'); const flashcard = document.getElementById('flashcard'), wordDisplay = document.getElementById('word-display'), translationDisplay = document.getElementById('translation-display'), currentCountSpan = document.getElementById('current-count'), totalCountSpan = document.getElementById('total-count'), markUnfamiliarBtn = document.getElementById('mark-unfamiliar-btn'), modeDisplay = document.getElementById('mode-display'), bookmarkIcon = document.getElementById('bookmark-icon'); const openAddWordModalBtn = document.getElementById('open-add-word-modal-btn'); const exportDeckBtn = document.getElementById('export-deck-btn'); const selectAllCheckbox = document.getElementById('select-all-words-checkbox'); const multiDeleteBtn = document.getElementById('multi-delete-btn'); const speakBtn = document.getElementById('speak-btn'); const selectedDeckNameDisplay = document.getElementById('selected-deck-name-display'); const startBasicModeBtn = document.getElementById('start-basic-mode-btn'); const startShuffleModeBtn = document.getElementById('start-shuffle-mode-btn'); const startReadingModeBtn = document.getElementById('start-reading-mode-btn'); const startMcQuizBtn = document.getElementById('start-mc-quiz-btn'); const startSpellingQuizBtn = document.getElementById('start-spelling-quiz-btn'); const selectedDeckAndModeDisplay = document.getElementById('selected-deck-and-mode-display'); const startEnFirstBtn = document.getElementById('start-en-first-btn'); const startZhFirstBtn = document.getElementById('start-zh-first-btn');
         const openWordSelectionBtn = document.getElementById('open-word-selection-btn');
-        // MC Quiz Elements
         const mcQuizProgressBar = document.getElementById('mc-quiz-progress-bar'); const mcQuizQuestionArea = document.getElementById('mc-quiz-question-area'); const mcQuizQuestionDisplay = document.getElementById('mc-quiz-question-display'); const mcQuizOptionsContainer = document.getElementById('mc-quiz-options-container'); const mcQuizOptionButtons = mcQuizOptionsContainer.querySelectorAll('.quiz-option'); const mcQuizResultsContainer = document.getElementById('mc-quiz-results-container'); const mcQuizScoreDisplay = document.getElementById('mc-quiz-score-display'); const mcQuizPrevBtn = document.getElementById('mc-quiz-prev-btn'); const mcQuizNextBtn = document.getElementById('mc-quiz-next-btn'); const finishMcQuizBtn = document.getElementById('finish-mc-quiz-btn'); const mcQuizAddUnfamiliarContainer = document.getElementById('mc-quiz-add-unfamiliar-container');
-        // Spelling Quiz Elements
         const spellingQuizProgressBar = document.getElementById('spelling-quiz-progress-bar'); const spellingQuizQuestionArea = document.getElementById('spelling-quiz-question-area'); const spellingQuizQuestionDisplay = document.getElementById('spelling-quiz-question-display'); const spellingInputForm = document.getElementById('spelling-input-form'); const spellingInput = document.getElementById('spelling-input'); const spellingFeedback = document.getElementById('spelling-feedback'); const spellingSubmitBtn = document.getElementById('spelling-submit-btn'); const spellingQuizResultsContainer = document.getElementById('spelling-quiz-results-container'); const spellingQuizScoreDisplay = document.getElementById('spelling-quiz-score-display'); const spellingQuizPrevBtn = document.getElementById('spelling-quiz-prev-btn'); const spellingQuizNextBtn = document.getElementById('spelling-quiz-next-btn'); const finishSpellingQuizBtn = document.getElementById('finish-spelling-quiz-btn'); const spellingQuizAddUnfamiliarContainer = document.getElementById('spelling-quiz-add-unfamiliar-container');
         const backToModeSelectionBtns = document.querySelectorAll('.back-to-mode-selection-btn');
-        // Word Selection Modal Elements
         const wordSelectionModal = document.getElementById('word-selection-modal'); const wordSelectionListContainer = document.getElementById('word-selection-list-container'); const wordSelectAllBtn = document.getElementById('word-select-all-btn'); const wordSelectNoneBtn = document.getElementById('word-select-none-btn'); const confirmWordSelectionBtn = document.getElementById('confirm-word-selection-btn');
         
-        // Modals and Settings Elements... (condensed)
-        const addWordModal = document.getElementById('add-word-modal'); const addWordForm = document.getElementById('add-word-form'); const newWordEnglishInput = document.getElementById('new-word-english'); const newWordChineseInput = document.getElementById('new-word-chinese'); const addWordFeedback = addWordModal.querySelector('.add-word-feedback'); const editWordModal = document.getElementById('edit-word-modal'); const editWordForm = document.getElementById('edit-word-form'); const editWordEnglishInput = document.getElementById('edit-word-english'); const editWordChineseInput = document.getElementById('edit-word-chinese'); const confirmModal = document.getElementById('confirm-modal'); const confirmModalTitle = document.getElementById('confirm-modal-title'); const confirmModalText = document.getElementById('confirm-modal-text'); const confirmModalConfirmBtn = document.getElementById('confirm-modal-confirm-btn'); const confirmModalCancelBtn = document.getElementById('confirm-modal-cancel-btn'); const openSettingsBtn = document.getElementById('open-settings-btn'); const settingsModal = document.getElementById('settings-modal'); let currentThemeSettings = {}; let themeBeforeEdit = {};
+        // Modals and Settings Elements
+        const addWordModal = document.getElementById('add-word-modal'); const addWordForm = document.getElementById('add-word-form'); const newWordEnglishInput = document.getElementById('new-word-english'); const newWordChineseInput = document.getElementById('new-word-chinese'); const addWordFeedback = addWordModal.querySelector('.add-word-feedback'); const editWordModal = document.getElementById('edit-word-modal'); const editWordForm = document.getElementById('edit-word-form'); const editWordEnglishInput = document.getElementById('edit-word-english'); const editWordChineseInput = document.getElementById('edit-word-chinese'); const confirmModal = document.getElementById('confirm-modal'); const confirmModalTitle = document.getElementById('confirm-modal-title'); const confirmModalText = document.getElementById('confirm-modal-text'); const confirmModalConfirmBtn = document.getElementById('confirm-modal-confirm-btn'); const confirmModalCancelBtn = document.getElementById('confirm-modal-cancel-btn');
+        const openSettingsBtn = document.getElementById('open-settings-btn'); const settingsModal = document.getElementById('settings-modal');
+        let currentThemeSettings = {}; let themeBeforeEdit = {};
         const PRESET_THEMES = { default: { name: '預設綠', primary: '#4CAF50', background: '#f4f7f6', text: '#333333', accent: '#03A9F4', opacity: 95 }, azureWave: { name: '蔚藍浪潮', primary: '#2962FF', background: 'linear-gradient(to right, #72EDF2, #5151E5)', text: '#FFFFFF', accent: '#001F3F', opacity: 10 }, emeraldGrove: { name: '翡翠之森', primary: '#26A69A', background: 'linear-gradient(to top, #134E5E, #71B280)', text: '#FFFFFF', accent: '#FFC107', opacity: 10 }, sakuraTwilight: { name: '櫻花薄暮', primary: '#C2185B', background: 'linear-gradient(to top, #a18cd1, #fbc2eb)', text: '#FFFFFF', accent: '#FFB6C1', opacity: 10 }, midnightNova: { name: '午夜新星', primary: '#00E5FF', background: 'linear-gradient(to bottom, #0d1117, #161b22)', text: '#FFFFFF', accent: '#F50057', opacity: 10 } };
         
         const shuffleArray = (array) => { let t=[...array],c=t.length,r;while(0!==c){r=Math.floor(Math.random()*c);c--;[t[c],t[r]]=[t[r],t[c]]}return t; };
         
-        // --- App State & Theme Management --- (condensed, no changes)
+        // --- App State & Theme Management ---
         function saveAppState() { try { localStorage.setItem('allWordDecks', JSON.stringify(allWordCategoriesData)); } catch (e) { console.error("無法保存單字包列表。", e); } }
         function loadAppState() { let loadedDecks = {}; try { const savedDecks = localStorage.getItem('allWordDecks'); if (savedDecks) { const parsed = JSON.parse(savedDecks); if (typeof parsed === 'object' && parsed !== null) { loadedDecks = parsed; } } } catch (e) { console.error("載入單字包列表失敗，將重置。", e); loadedDecks = {}; } if (!loadedDecks.hasOwnProperty(DEFAULT_DECK_NAME)) { loadedDecks[DEFAULT_DECK_NAME] = []; } allWordCategoriesData = loadedDecks; }
         async function loadDefaultDecksFromServer() { try { const indexResponse = await fetch('./cardholder/index.json'); if (!indexResponse.ok) { return; } const deckFilenames = await indexResponse.json(); const fetchPromises = deckFilenames.map(filename => { const deckName = filename.replace(/\.json$/i, ''); if (!allWordCategoriesData.hasOwnProperty(deckName)) { return fetch(`./cardholder/${filename}`).then(res => res.json()); } return Promise.resolve(null); }); const newDecksData = await Promise.all(fetchPromises); let decksAdded = false; newDecksData.forEach((deckContent, index) => { if (deckContent) { const deckName = deckFilenames[index].replace(/\.json$/i, ''); allWordCategoriesData[deckName] = deckContent; decksAdded = true; } }); if (decksAdded) { saveAppState(); } } catch (error) { console.error("Error loading default decks from server:", error); } }
@@ -366,8 +364,17 @@
         function showView(viewName) { for (let id in views) { views[id].classList.remove('active'); } views[viewName].classList.add('active'); const showTopButtons = !['main-menu-view'].includes(viewName); backToMenuBtnTop.style.display = showTopButtons ? 'flex' : 'none'; fullscreenBtn.style.display = showTopButtons ? 'flex' : 'none'; if (viewName === 'main-menu-view') renderMainMenu(); }
         function renderMainMenu() { mainMenuContainer.innerHTML = ''; const createCategoryButton = (categoryName, specialClass = '') => { const item = document.createElement('div'); item.className = `category-item ${specialClass}`; item.innerHTML = `<span>${categoryName}</span><span class="manage-deck-btn" title="管理 '${categoryName}'">⚙️</span>`; item.querySelector('.manage-deck-btn').addEventListener('click', e => { e.stopPropagation(); openDeckManager(categoryName); }); item.addEventListener('click', () => startCategoryLearning(categoryName)); mainMenuContainer.appendChild(item); }; const customDeckNames = Object.keys(allWordCategoriesData).filter(name => name !== DEFAULT_DECK_NAME).sort(); customDeckNames.forEach(name => createCategoryButton(name)); if (allWordCategoriesData.hasOwnProperty(DEFAULT_DECK_NAME)) { createCategoryButton(DEFAULT_DECK_NAME, 'default-category'); } const unfamiliarItem = document.createElement('div'); unfamiliarItem.className = 'category-item unfamiliar-category'; unfamiliarItem.innerHTML = `<span>不熟單字</span> <span class="unfamiliar-count">${unfamiliarWordsInNormalCycle.length}</span>`; unfamiliarItem.addEventListener('click', startUnfamiliarReviewMode); mainMenuContainer.appendChild(unfamiliarItem); }
         
-        // --- Modal & Deck Management --- (condensed, no changes)
-        function openAddWordModal(){addWordModal.classList.add("active"),setTimeout(()=>newWordEnglishInput.focus(),50)}function closeAddWordModal(){addWordForm.reset(),addWordFeedback.classList.remove("show"),clearTimeout(feedbackTimeout),addWordModal.classList.remove("active")}function openEditWordModal(t){editWordModal.dataset.originalEnglish=t.english,editWordEnglishInput.value=t.english,editWordChineseInput.value=t.chinese,editWordModal.classList.add("active"),setTimeout(()=>editWordEnglishInput.focus(),50)}function closeEditWordModal(){editWordForm.reset(),delete editWordModal.dataset.originalEnglish,editWordModal.classList.remove("active")}function showConfirmModal(t,e,o){confirmModalTitle.textContent=t,confirmModalText.innerHTML=e,confirmAction=o,confirmModal.classList.add("active")}function closeConfirmModal(){confirmModal.classList.remove("active"),confirmAction=null}function openDeckManager(t){currentManagingDeck=t,deckManagerTitle.textContent=`管理: ${t}`,deleteDeckBtn.disabled=t===DEFAULT_DECK_NAME,deleteDeckBtn.title=t===DEFAULT_DECK_NAME?"預設單字包無法刪除":"",renderWordList(t),showView("deck-management-view")}function renderWordList(t){wordListContainer.innerHTML="",selectedWordsToDelete.clear();const e=allWordCategoriesData[t]||[];0===e.length?wordListContainer.innerHTML='<p style="color: #888; padding: 20px 0; text-align: center;">這個單字包是空的。點擊右下角 + 來新增！</p>':e.forEach(t=>{const e=document.createElement("div");e.className="word-list-item",e.dataset.originalEnglish=t.english,e.innerHTML=`\n <input type="checkbox" class="word-select-checkbox" data-english="${t.english}">\n <div class="word-content-wrapper" title="點擊以編輯">\n <span><strong>${t.english}</strong>: ${t.chinese}</span>\n </div>`,wordListContainer.appendChild(e)}),updateMultiDeleteUI(),selectAllCheckbox.checked=!1}function handleWordSelectionChange(t){const e=t.target,o=e.dataset.english;e.checked?selectedWordsToDelete.add(o):selectedWordsToDelete.delete(o);const n=wordListContainer.querySelectorAll(".word-select-checkbox");selectAllCheckbox.checked=n.length>0&&selectedWordsToDelete.size===n.length,updateMultiDeleteUI()}function updateMultiDeleteUI(){const t=selectedWordsToDelete.size;multiDeleteBtn.disabled=0===t,multiDeleteBtn.textContent=`刪除已選 (${t})`}function handleDeleteDeck(){currentManagingDeck&&currentManagingDeck!==DEFAULT_DECK_NAME&&showConfirmModal("確認刪除單字包",`您確定要永久刪除「<strong>${currentManagingDeck}</strong>」這個單字卡包嗎？<br>此操作無法復原！`,()=>{delete allWordCategoriesData[currentManagingDeck],saveAppState(),alert(`單字卡包「${currentManagingDeck}」已刪除。`),backToMainMenu()})}function handleMultiDelete(){const t=selectedWordsToDelete.size;0!==t&&currentManagingDeck&&showConfirmModal("確認刪除單字",`確定要從 "${currentManagingDeck}" 中永久刪除這 <strong>${t}</strong> 個單字嗎？`,()=>{allWordCategoriesData[currentManagingDeck]=allWordCategoriesData[currentManagingDeck].filter(t=>!selectedWordsToDelete.has(t.english)),saveAppState(),renderWordList(currentManagingDeck)})}function handleAddWord(t){t.preventDefault();const e=newWordEnglishInput.value.trim(),o=newWordChineseInput.value.trim();if(!e||!o||!currentManagingDeck)return alert("英文和中文欄位都不能為空！");if(allWordCategoriesData[currentManagingDeck].some(t=>t.english.toLowerCase()===e.toLowerCase()))return alert(`單字 "${e}" 已存在！`);allWordCategoriesData[currentManagingDeck].push({english:e,chinese:o}),saveAppState(),renderWordList(currentManagingDeck),addWordFeedback.textContent="新增成功！",addWordFeedback.classList.add("show"),clearTimeout(feedbackTimeout),feedbackTimeout=setTimeout(()=>{addWordFeedback.classList.remove("show")},2e3),addWordForm.reset(),newWordEnglishInput.focus()}function handleEditWord(t){t.preventDefault();const e=editWordModal.dataset.originalEnglish,o=editWordEnglishInput.value.trim(),n=editWordChineseInput.value.trim();if(!o||!n)return alert("英文和中文欄位都不能為空！");if(allWordCategoriesData[currentManagingDeck].some(t=>t.english.toLowerCase()===o.toLowerCase()&&t.english.toLowerCase()!==e.toLowerCase()))return alert(`單字 "${o}" 已存在於此單字包中！`);const i=allWordCategoriesData[currentManagingDeck].findIndex(t=>t.english===e);i>-1?(allWordCategoriesData[currentManagingDeck][i]={english:o,chinese:n},saveAppState(),renderWordList(currentManagingDeck),closeEditWordModal()):alert("發生錯誤：找不到原始單字。")}function handleFileImport(){if(0===fileImporter.files.length)return alert("請先選擇一個或多個 .json 檔案！");for(const t of fileImporter.files){const e=new FileReader;e.onload=e=>{try{const o=JSON.parse(e.target.result);if(!Array.isArray(o)|o.length>0&&(!o[0].english||!o[0].chinese))throw new Error(`檔案 "${t.name}" 格式不正確。`);const n=t.name.replace(/\.json$/i,"");if(n===DEFAULT_DECK_NAME){if(!confirm(`您正試圖用檔案 "${t.name}" 覆蓋預設單字包 "${DEFAULT_DECK_NAME}"。\n確定要繼續嗎？`))return}else if(allWordCategoriesData[n]&&!confirm(`分類 "${n}" 已存在。是否要用檔案 "${t.name}" 的內容覆蓋它？`))return;allWordCategoriesData[n]=o,saveAppState(),renderMainMenu(),alert(`分類 "${n}" 已成功從檔案 "${t.name}" 匯入/更新！`)}catch(e){alert(`匯入檔案 "${t.name}" 失敗: `+e.message)}},e.onerror=()=>alert(`讀取檔案 "${t.name}" 時發生錯誤。`),e.readAsText(t)}fileImporter.value=""}
+        // --- Modal & Deck Management ---
+        function openAddWordModal(){addWordModal.classList.add("active"),setTimeout(()=>newWordEnglishInput.focus(),50)}function closeAddWordModal(){addWordForm.reset(),addWordFeedback.classList.remove("show"),clearTimeout(feedbackTimeout),addWordModal.classList.remove("active")}function openEditWordModal(t){editWordModal.dataset.originalEnglish=t.english,editWordEnglishInput.value=t.english,editWordChineseInput.value=t.chinese,editWordModal.classList.add("active"),setTimeout(()=>editWordEnglishInput.focus(),50)}function closeEditWordModal(){editWordForm.reset(),delete editWordModal.dataset.originalEnglish,editWordModal.classList.remove("active")}function showConfirmModal(t,e,o){confirmModalTitle.textContent=t,confirmModalText.innerHTML=e,confirmAction=o,confirmModal.classList.add("active")}function closeConfirmModal(){confirmModal.classList.remove("active"),confirmAction=null}function openDeckManager(t){currentManagingDeck=t,deckManagerTitle.textContent=`管理: ${t}`,deleteDeckBtn.disabled=t===DEFAULT_DECK_NAME,deleteDeckBtn.title=t===DEFAULT_DECK_NAME?"預設單字包無法刪除":"",renderWordList(t),showView("deck-management-view")}function renderWordList(t){wordListContainer.innerHTML="",selectedWordsToDelete.clear();const e=allWordCategoriesData[t]||[];0===e.length?wordListContainer.innerHTML='<p style="color: #888; padding: 20px 0; text-align: center;">這個單字包是空的。點擊右下角 + 來新增！</p>':e.forEach(t=>{const e=document.createElement("div");e.className="word-list-item",e.dataset.originalEnglish=t.english,e.innerHTML=`\n <input type="checkbox" class="word-select-checkbox" data-english="${t.english}">\n <div class="word-content-wrapper" title="點擊以編輯">\n <span><strong>${t.english}</strong>: ${t.chinese}</span>\n </div>`,wordListContainer.appendChild(e)}),updateMultiDeleteUI(),selectAllCheckbox.checked=!1}function handleWordSelectionChange(t){const e=t.target,o=e.dataset.english;e.checked?selectedWordsToDelete.add(o):selectedWordsToDelete.delete(o);const n=wordListContainer.querySelectorAll(".word-select-checkbox");selectAllCheckbox.checked=n.length>0&&selectedWordsToDelete.size===n.length,updateMultiDeleteUI()}function updateMultiDeleteUI(){const t=selectedWordsToDelete.size;multiDeleteBtn.disabled=0===t,multiDeleteBtn.textContent=`刪除已選 (${t})`}function handleDeleteDeck(){currentManagingDeck&&currentManagingDeck!==DEFAULT_DECK_NAME&&showConfirmModal("確認刪除單字包",`您確定要永久刪除「<strong>${currentManagingDeck}</strong>」這個單字卡包嗎？<br>此操作無法復原！`,()=>{delete allWordCategoriesData[currentManagingDeck],saveAppState(),alert(`單字卡包「${currentManagingDeck}」已刪除。`),navigateBack()})}function handleMultiDelete(){const t=selectedWordsToDelete.size;0!==t&&currentManagingDeck&&showConfirmModal("確認刪除單字",`確定要從 "${currentManagingDeck}" 中永久刪除這 <strong>${t}</strong> 個單字嗎？`,()=>{allWordCategoriesData[currentManagingDeck]=allWordCategoriesData[currentManagingDeck].filter(t=>!selectedWordsToDelete.has(t.english)),saveAppState(),renderWordList(currentManagingDeck)})}function handleAddWord(t){t.preventDefault();const e=newWordEnglishInput.value.trim(),o=newWordChineseInput.value.trim();if(!e||!o||!currentManagingDeck)return alert("英文和中文欄位都不能為空！");if(allWordCategoriesData[currentManagingDeck].some(t=>t.english.toLowerCase()===e.toLowerCase()))return alert(`單字 "${e}" 已存在！`);allWordCategoriesData[currentManagingDeck].push({english:e,chinese:o}),saveAppState(),renderWordList(currentManagingDeck),addWordFeedback.textContent="新增成功！",addWordFeedback.classList.add("show"),clearTimeout(feedbackTimeout),feedbackTimeout=setTimeout(()=>{addWordFeedback.classList.remove("show")},2e3),addWordForm.reset(),newWordEnglishInput.focus()}function handleEditWord(t){t.preventDefault();const e=editWordModal.dataset.originalEnglish,o=editWordEnglishInput.value.trim(),n=editWordChineseInput.value.trim();if(!o||!n)return alert("英文和中文欄位都不能為空！");if(allWordCategoriesData[currentManagingDeck].some(t=>t.english.toLowerCase()===o.toLowerCase()&&t.english.toLowerCase()!==e.toLowerCase()))return alert(`單字 "${o}" 已存在於此單字包中！`);const i=allWordCategoriesData[currentManagingDeck].findIndex(t=>t.english===e);i>-1?(allWordCategoriesData[currentManagingDeck][i]={english:o,chinese:n},saveAppState(),renderWordList(currentManagingDeck),closeEditWordModal()):alert("發生錯誤：找不到原始單字。")}function handleFileImport(){if(0===fileImporter.files.length)return alert("請先選擇一個或多個 .json 檔案！");for(const t of fileImporter.files){const e=new FileReader;e.onload=e=>{try{const o=JSON.parse(e.target.result);if(!Array.isArray(o)|o.length>0&&(!o[0].english||!o[0].chinese))throw new Error(`檔案 "${t.name}" 格式不正確。`);const n=t.name.replace(/\.json$/i,"");if(n===DEFAULT_DECK_NAME){if(!confirm(`您正試圖用檔案 "${t.name}" 覆蓋預設單字包 "${DEFAULT_DECK_NAME}"。\n確定要繼續嗎？`))return}else if(allWordCategoriesData[n]&&!confirm(`分類 "${n}" 已存在。是否要用檔案 "${t.name}" 的內容覆蓋它？`))return;allWordCategoriesData[n]=o,saveAppState(),renderMainMenu(),alert(`分類 "${n}" 已成功從檔案 "${t.name}" 匯入/更新！`)}catch(e){alert(`匯入檔案 "${t.name}" 失敗: `+e.message)}},e.onerror=()=>alert(`讀取檔案 "${t.name}" 時發生錯誤。`),e.readAsText(t)}fileImporter.value=""}
+        function handleExportDeck(){if(!currentManagingDeck)return;const t=currentManagingDeck,e=allWordCategoriesData[t]||[];if(0===e.length)return void alert(`「${t}」是空的，沒有可匯出的單字。`);const o=JSON.stringify(e,null,2),n=new Blob([o],{type:"application/json"}),i=URL.createObjectURL(n),d=document.createElement("a");d.href=i,d.download=`${t}.json`,document.body.appendChild(d),d.click(),document.body.removeChild(d),URL.revokeObjectURL(i)}
+
+        // --- THEME SETTINGS FUNCTIONS ---
+        function openSettingsModal(){themeBeforeEdit=JSON.parse(JSON.stringify(currentThemeSettings));updateThemeControlsUI(currentThemeSettings);generateAllThemesUI();settingsModal.classList.add('active')}function closeSettingsModal(isCancel = false){if(isCancel){applyTheme(themeBeforeEdit);currentThemeSettings = themeBeforeEdit;}settingsModal.classList.remove('active');}function handleSaveThemeAndClose(){try {localStorage.setItem('flashcardTheme', JSON.stringify(currentThemeSettings));} catch(e){alert("無法儲存主題設定。");}closeSettingsModal();}function generateThemeSwatch(theme, key, isCustom = false){const swatch=document.createElement("div");swatch.className="theme-swatch";swatch.dataset.themeKey=key;const colorDiv = document.createElement('div'); colorDiv.className = 'swatch-color'; if(theme.background&&theme.background.includes("gradient")){colorDiv.style.background=theme.background;}else{colorDiv.style.backgroundColor=theme.background;} swatch.appendChild(colorDiv); const labelDiv = document.createElement('div'); labelDiv.className = 'swatch-label'; labelDiv.textContent = theme.name; swatch.appendChild(labelDiv); swatch.addEventListener("click",()=>{currentThemeSettings={...theme,isCustom:isCustom};if(!isCustom)currentThemeSettings.presetKey=key;applyTheme(currentThemeSettings);updateThemeControlsUI(currentThemeSettings);});if(isCustom){swatch.dataset.customThemeName=theme.name;const deleteBtn=document.createElement("span");deleteBtn.className="delete-theme-btn";deleteBtn.innerHTML="&times;";deleteBtn.title=`刪除主題 "${theme.name}"`;deleteBtn.onclick=(e)=>{e.stopPropagation();if(confirm(`確定要刪除您儲存的主題 "${theme.name}" 嗎？`)){deleteCustomTheme(theme.name);}};swatch.appendChild(deleteBtn);}return swatch;}function generateAllThemesUI(){const presetContainer=document.getElementById("preset-themes-container");const userContainer=document.getElementById("user-themes-container");const userHeading=document.getElementById("user-themes-heading");presetContainer.innerHTML="";userContainer.innerHTML="";for(const key in PRESET_THEMES){presetContainer.appendChild(generateThemeSwatch(PRESET_THEMES[key],key,false));}const customThemes=getCustomThemes();if(customThemes.length>0){userHeading.style.display="block";customThemes.forEach(theme=>{userContainer.appendChild(generateThemeSwatch(theme,theme.name,true));});}else{userHeading.style.display="none";}updateActiveSwatchUI();}function updateActiveSwatchUI(){document.querySelectorAll(".theme-swatch").forEach(swatch=>{let isActive=false;if(currentThemeSettings.isCustom){isActive=swatch.dataset.customThemeName===currentThemeSettings.name;}else{isActive=swatch.dataset.themeKey===currentThemeSettings.presetKey;}swatch.classList.toggle("active",isActive);});}
+        function updateThemeControlsUI(theme){const{primary,accent,background,opacity}=theme;document.getElementById("primary-color-picker").value=chroma(primary).hex();document.getElementById("accent-color-picker").value=chroma(accent).hex();if(background&&!background.includes("gradient")){document.getElementById("background-color-picker").value=chroma(background).hex();}document.getElementById("container-opacity-slider").value=opacity;document.getElementById("opacity-display").textContent=`${opacity}%`;document.getElementById("background-image-uploader").value="";updateActiveSwatchUI();}
+        function handleCustomThemeChange(){currentThemeSettings={primary:document.getElementById("primary-color-picker").value,accent:document.getElementById("accent-color-picker").value,background:document.getElementById("background-color-picker").value,opacity:parseInt(document.getElementById("container-opacity-slider").value,10),backgroundImageDataUrl:currentThemeSettings.backgroundImageDataUrl,isCustom:true,name:"自訂"};applyTheme(currentThemeSettings);document.getElementById("opacity-display").textContent=`${currentThemeSettings.opacity}%`;document.querySelectorAll(".theme-swatch").forEach(s=>s.classList.remove("active"));}function getCustomThemes(){try{return JSON.parse(localStorage.getItem("userSavedThemes")||"[]");}catch{return[];}}
+        function saveCustomThemes(themes){try{localStorage.setItem("userSavedThemes",JSON.stringify(themes));}catch(e){console.error("Error saving custom themes",e);}}
+        function handleSaveCustomTheme(){const themeName=prompt("請為您的新主題命名：","我的主題");if(!themeName)return;const themes=getCustomThemes();const existingIndex=themes.findIndex(t=>t.name===themeName);if(existingIndex>-1&&!confirm(`已存在名為 "${themeName}" 的主題。您要覆蓋它嗎？`))return;const newTheme={...currentThemeSettings,name:themeName};if(existingIndex>-1){themes[existingIndex]=newTheme;}else{themes.push(newTheme);}saveCustomThemes(themes);alert(`主題 "${themeName}" 已儲存！`);generateAllThemesUI();updateThemeControlsUI(newTheme);}
+        function deleteCustomTheme(themeName){let themes=getCustomThemes();themes=themes.filter(t=>t.name!==themeName);saveCustomThemes(themes);generateAllThemesUI();}
         
         // --- Word Selection Modal Logic ---
         function openWordSelectionModal() {
@@ -380,17 +387,10 @@
                     const item = document.createElement('label');
                     item.className = 'word-selection-item';
                     const isChecked = selectedWordsForSession.size === 0 || selectedWordsForSession.has(word.english);
-                    item.innerHTML = `
-                        <input type="checkbox" data-english="${word.english}" ${isChecked ? 'checked' : ''}>
-                        <span><strong>${word.english}</strong>: ${word.chinese}</span>
-                    `;
+                    item.innerHTML = `<input type="checkbox" data-english="${word.english}" ${isChecked ? 'checked' : ''}><span><strong>${word.english}</strong>: ${word.chinese}</span>`;
                     item.querySelector('input').addEventListener('change', (e) => {
                         const wordEnglish = e.target.dataset.english;
-                        if (e.target.checked) {
-                            selectedWordsForSession.add(wordEnglish);
-                        } else {
-                            selectedWordsForSession.delete(wordEnglish);
-                        }
+                        if (e.target.checked) selectedWordsForSession.add(wordEnglish); else selectedWordsForSession.delete(wordEnglish);
                     });
                     wordSelectionListContainer.appendChild(item);
                 });
@@ -401,224 +401,35 @@
         
         // --- Learning Flow & Logic ---
         function filterAndPrepareWords(wordList) { if (!wordList) return []; const flatList = Object.values(allWordCategoriesData).flat(); return wordList.filter(w => flatList.some(ow => ow.english === w.english && ow.chinese === w.chinese)).map(w => ({...w, revealed: w.revealed || false})); };
-        function getSelectedWordsForSession() {
-            const baseWords = allWordCategoriesData[currentCategoryName];
-            if (selectedWordsForSession.size > 0) {
-                return baseWords.filter(w => selectedWordsForSession.has(w.english));
-            }
-            return [...baseWords]; // Return all if no specific selection
-        }
-        
+        function getSelectedWordsForSession() { const baseWords = allWordCategoriesData[currentCategoryName]; if (selectedWordsForSession.size > 0) { return baseWords.filter(w => selectedWordsForSession.has(w.english)); } return [...baseWords]; }
         function startCategoryLearning(categoryName) {
             currentCategoryName = categoryName;
             currentWordsSource = allWordCategoriesData[categoryName];
             if (!currentWordsSource || currentWordsSource.length === 0) { alert(`"${categoryName}" 類別目前沒有單字！\n請點擊右方的 ⚙️ 圖示來新增或管理單字。`); return; }
-            selectedWordsForSession.clear(); // Reset selection for new category
-            selectedDeckNameDisplay.textContent = `單字包: ${currentCategoryName}`;
-            showView('mode-selection-view');
+            selectedWordsForSession.clear(); selectedDeckNameDisplay.textContent = `單字包: ${currentCategoryName}`; showView('mode-selection-view');
         }
         function goToLanguageSelection(modeType, modeName) { pendingLearningMode = { type: modeType, name: modeName }; selectedDeckAndModeDisplay.textContent = `${currentCategoryName} · ${modeName}`; showView('language-direction-view'); }
         function startSessionFromLanguageChoice(lang) {
             currentStudyMode = lang;
-            if (pendingLearningMode.type === 'reading' || pendingLearningMode.type === 'spelling') {
-                if (lang === 'en-first' && pendingLearningMode.type === 'spelling') { alert('拼寫測驗僅支援「先顯示中文」模式。'); return; }
-                currentStudyMode = 'zh-first'; // Force zh-first for these modes
-            }
-            if (pendingLearningMode.type === 'basic') startLearningSession(false);
-            else if (pendingLearningMode.type === 'shuffle') startLearningSession(true);
-            else if (pendingLearningMode.type === 'reading') startReadingSession();
-            else if (pendingLearningMode.type === 'mc-quiz') startMcQuizSession();
-            else if (pendingLearningMode.type === 'spelling') startSpellingQuizSession();
+            if (pendingLearningMode.type === 'reading' || pendingLearningMode.type === 'spelling') { if (lang === 'en-first' && pendingLearningMode.type === 'spelling') { alert('拼寫測驗僅支援「先顯示中文」模式。'); return; } currentStudyMode = 'zh-first'; }
+            if (pendingLearningMode.type === 'basic') startLearningSession(false); else if (pendingLearningMode.type === 'shuffle') startLearningSession(true); else if (pendingLearningMode.type === 'reading') startReadingSession(); else if (pendingLearningMode.type === 'mc-quiz') startMcQuizSession(); else if (pendingLearningMode.type === 'spelling') startSpellingQuizSession();
         }
         function startLearningSession(isShuffled) { isReadingMode = false; const wordsToLearn = getSelectedWordsForSession(); if (wordsToLearn.length === 0) { alert('沒有選擇任何單字來學習！'); return; } currentMode = 'normal'; const preparedWords = wordsToLearn.map(w => ({ ...w, revealed: false })); shuffledWords = isShuffled ? shuffleArray(preparedWords) : preparedWords; currentIndex = 0; displayCard(); showView('flashcard-view'); }
         function startReadingSession() { isReadingMode = true; const wordsToLearn = getSelectedWordsForSession(); if (wordsToLearn.length === 0) { alert('沒有選擇任何單字來閱讀！'); return; } currentMode = 'normal'; shuffledWords = wordsToLearn.map(w => ({ ...w, revealed: true })); currentIndex = 0; displayCard(); showView('flashcard-view'); }
 
         // --- MC Quiz Logic ---
-        function startMcQuizSession() {
-            mcQuizResultsContainer.style.display = 'none'; mcQuizQuestionArea.style.display = 'flex'; mcQuizProgressBar.style.width = '0%';
-            const words = getSelectedWordsForSession();
-            const allWordsInDeck = allWordCategoriesData[currentCategoryName];
-            if (words.length < 1) { alert('請至少選擇1個單字進行測驗。'); showView('mode-selection-view'); return; }
-            if (allWordsInDeck.length < 4) { alert('選擇測驗需要單字包中至少有4個單字才能生成選項。'); showView('mode-selection-view'); return; }
-
-            mcQuizQuestions = shuffleArray(words).map(word => {
-                const correctAnswer = currentStudyMode === 'en-first' ? word.chinese : word.english;
-                let distractors = allWordsInDeck.filter(w => w.english !== word.english).map(w => currentStudyMode === 'en-first' ? w.chinese : w.english);
-                distractors = shuffleArray(distractors).slice(0, 3);
-                const options = shuffleArray([...distractors, correctAnswer]);
-                return { originalWord: word, question: currentStudyMode === 'en-first' ? word.english : word.chinese, options: options, correctAnswer: correctAnswer };
-            });
-            currentMcQuizIndex = 0;
-            mcQuizUserAnswers = new Array(mcQuizQuestions.length).fill(null);
-            incorrectMcQuizWords.clear();
-            displayMcQuizQuestion();
-            showView('mc-quiz-view');
-        }
-        function displayMcQuizQuestion() {
-            if (currentMcQuizIndex < 0 || currentMcQuizIndex >= mcQuizQuestions.length) return;
-            const q = mcQuizQuestions[currentMcQuizIndex];
-            mcQuizQuestionDisplay.textContent = q.question;
-            const userAnswer = mcQuizUserAnswers[currentMcQuizIndex];
-
-            mcQuizOptionButtons.forEach((btn, index) => {
-                btn.textContent = q.options[index];
-                btn.className = 'quiz-option';
-                btn.disabled = !!userAnswer; // Disable if already answered
-                if (userAnswer) {
-                    if (btn.textContent === q.correctAnswer) btn.classList.add('correct');
-                    else if (btn.textContent === userAnswer) btn.classList.add('incorrect');
-                }
-            });
-            mcQuizProgressBar.style.width = `${((currentMcQuizIndex + 1) / mcQuizQuestions.length) * 100}%`;
-            mcQuizPrevBtn.disabled = currentMcQuizIndex === 0;
-            mcQuizNextBtn.style.display = currentMcQuizIndex === mcQuizQuestions.length - 1 ? 'none' : 'inline-block';
-            finishMcQuizBtn.style.display = currentMcQuizIndex === mcQuizQuestions.length - 1 ? 'inline-block' : 'none';
-        }
-        function handleMcQuizAnswer(event) {
-            if (mcQuizUserAnswers[currentMcQuizIndex] !== null) return;
-            const selectedButton = event.target;
-            const userAnswer = selectedButton.textContent;
-            mcQuizUserAnswers[currentMcQuizIndex] = userAnswer;
-
-            const q = mcQuizQuestions[currentMcQuizIndex];
-            const isCorrect = userAnswer === q.correctAnswer;
-            
-            if (!isCorrect) {
-                incorrectMcQuizWords.add(q.originalWord);
-            }
-            
-            displayMcQuizQuestion(); // Re-render to show feedback
-            
-            if (isCorrect) { // Auto-advance if correct
-                setTimeout(showNextMcQuizQuestion, 1200);
-            }
-        }
-        function showNextMcQuizQuestion() {
-            if (currentMcQuizIndex < mcQuizQuestions.length - 1) {
-                currentMcQuizIndex++;
-                displayMcQuizQuestion();
-            }
-        }
-        function showMcQuizResults() {
-            let score = 0;
-            for(let i=0; i<mcQuizQuestions.length; i++) {
-                if(mcQuizUserAnswers[i] === mcQuizQuestions[i].correctAnswer) score++;
-            }
-            mcQuizScoreDisplay.textContent = `${score} / ${mcQuizQuestions.length}`;
-            mcQuizAddUnfamiliarContainer.innerHTML = '';
-            if (incorrectMcQuizWords.size > 0) {
-                const btn = document.createElement('button');
-                btn.id = 'add-incorrect-to-unfamiliar-btn';
-                btn.textContent = `將答錯的 ${incorrectMcQuizWords.size} 個單字加入不熟列表`;
-                btn.onclick = () => {
-                    incorrectMcQuizWords.forEach(word => {
-                        if (!unfamiliarWordsInNormalCycle.some(uw => uw.english === word.english)) {
-                            unfamiliarWordsInNormalCycle.push({ ...word, revealed: false });
-                        }
-                    });
-                    saveProgress();
-                    alert(`${incorrectMcQuizWords.size} 個單字已加入不熟列表！`);
-                    btn.disabled = true;
-                    btn.textContent = '已加入';
-                };
-                mcQuizAddUnfamiliarContainer.appendChild(btn);
-            }
-            mcQuizResultsContainer.style.display = 'flex';
-            mcQuizQuestionArea.style.display = 'none';
-        }
+        function startMcQuizSession() { mcQuizResultsContainer.style.display = 'none'; mcQuizQuestionArea.style.display = 'flex'; mcQuizProgressBar.style.width = '0%'; const words = getSelectedWordsForSession(); const allWordsInDeck = allWordCategoriesData[currentCategoryName]; if (words.length < 1) { alert('請至少選擇1個單字進行測驗。'); showView('mode-selection-view'); return; } if (allWordsInDeck.length < 4) { alert('選擇測驗需要單字包中至少有4個單字才能生成選項。'); showView('mode-selection-view'); return; } mcQuizQuestions = shuffleArray(words).map(word => { const correctAnswer = currentStudyMode === 'en-first' ? word.chinese : word.english; let distractors = allWordsInDeck.filter(w => w.english !== word.english).map(w => currentStudyMode === 'en-first' ? w.chinese : w.english); distractors = shuffleArray(distractors).slice(0, 3); const options = shuffleArray([...distractors, correctAnswer]); return { originalWord: word, question: currentStudyMode === 'en-first' ? word.english : word.chinese, options: options, correctAnswer: correctAnswer }; }); currentMcQuizIndex = 0; mcQuizUserAnswers = new Array(mcQuizQuestions.length).fill(null); incorrectMcQuizWords.clear(); displayMcQuizQuestion(); showView('mc-quiz-view');}
+        function displayMcQuizQuestion() { if (currentMcQuizIndex < 0 || currentMcQuizIndex >= mcQuizQuestions.length) return; const q = mcQuizQuestions[currentMcQuizIndex]; mcQuizQuestionDisplay.textContent = q.question; const userAnswer = mcQuizUserAnswers[currentMcQuizIndex]; mcQuizOptionButtons.forEach((btn, index) => { btn.textContent = q.options[index]; btn.className = 'quiz-option'; btn.disabled = !!userAnswer; if (userAnswer) { if (btn.textContent === q.correctAnswer) btn.classList.add('correct'); else if (btn.textContent === userAnswer) btn.classList.add('incorrect'); } }); mcQuizProgressBar.style.width = `${((currentMcQuizIndex + 1) / mcQuizQuestions.length) * 100}%`; mcQuizPrevBtn.disabled = currentMcQuizIndex === 0; mcQuizNextBtn.style.display = currentMcQuizIndex === mcQuizQuestions.length - 1 ? 'none' : 'inline-block'; finishMcQuizBtn.style.display = currentMcQuizIndex === mcQuizQuestions.length - 1 ? 'inline-block' : 'none';}
+        function handleMcQuizAnswer(event) { if (mcQuizUserAnswers[currentMcQuizIndex] !== null) return; const selectedButton = event.target; const userAnswer = selectedButton.textContent; mcQuizUserAnswers[currentMcQuizIndex] = userAnswer; const q = mcQuizQuestions[currentMcQuizIndex]; const isCorrect = userAnswer === q.correctAnswer; if (!isCorrect) { incorrectMcQuizWords.add(q.originalWord); } displayMcQuizQuestion(); if (isCorrect) { setTimeout(showNextMcQuizQuestion, 1200); }}
+        function showNextMcQuizQuestion() { if (currentMcQuizIndex < mcQuizQuestions.length - 1) { currentMcQuizIndex++; displayMcQuizQuestion(); }}
+        function showMcQuizResults() { let score = 0; for(let i=0; i<mcQuizQuestions.length; i++) { if(mcQuizUserAnswers[i] === mcQuizQuestions[i].correctAnswer) score++; } mcQuizScoreDisplay.textContent = `${score} / ${mcQuizQuestions.length}`; mcQuizAddUnfamiliarContainer.innerHTML = ''; if (incorrectMcQuizWords.size > 0) { const btn = document.createElement('button'); btn.id = 'add-incorrect-to-unfamiliar-btn'; btn.textContent = `將答錯的 ${incorrectMcQuizWords.size} 個單字加入不熟列表`; btn.onclick = () => { incorrectMcQuizWords.forEach(word => { if (!unfamiliarWordsInNormalCycle.some(uw => uw.english === word.english)) { unfamiliarWordsInNormalCycle.push({ ...word, revealed: false }); } }); saveProgress(); alert(`${incorrectMcQuizWords.size} 個單字已加入不熟列表！`); btn.disabled = true; btn.textContent = '已加入'; }; mcQuizAddUnfamiliarContainer.appendChild(btn); } mcQuizResultsContainer.style.display = 'flex'; mcQuizQuestionArea.style.display = 'none';}
         
         // --- Spelling Quiz Logic ---
-        function startSpellingQuizSession() {
-            spellingQuizResultsContainer.style.display = 'none';
-            spellingQuizQuestionArea.style.display = 'flex';
-            spellingQuizProgressBar.style.width = '0%';
-            const words = getSelectedWordsForSession();
-            if (words.length < 1) { alert('請至少選擇1個單字進行測驗。'); showView('mode-selection-view'); return; }
-            spellingQuizQuestions = shuffleArray(words.map(w => ({...w})));
-            currentSpellingQuizIndex = 0;
-            spellingQuizUserAnswers = new Array(spellingQuizQuestions.length).fill(null);
-            incorrectSpellingQuizWords.clear();
-            displaySpellingQuizQuestion();
-            showView('spelling-quiz-view');
-        }
-        function displaySpellingQuizQuestion() {
-            if (currentSpellingQuizIndex < 0 || currentSpellingQuizIndex >= spellingQuizQuestions.length) return;
-            const q = spellingQuizQuestions[currentSpellingQuizIndex];
-            spellingQuizQuestionDisplay.textContent = q.chinese;
-            const userAnswer = spellingQuizUserAnswers[currentSpellingQuizIndex];
-
-            if (userAnswer !== null) {
-                spellingInput.value = userAnswer.answer;
-                spellingInput.disabled = true;
-                spellingSubmitBtn.disabled = true;
-                if (userAnswer.isCorrect) {
-                    spellingFeedback.textContent = '正確！';
-                    spellingFeedback.className = 'feedback-correct';
-                } else {
-                    spellingFeedback.innerHTML = `您輸入: ${userAnswer.answer}<br>正確答案是: <strong>${q.english}</strong>`;
-                    spellingFeedback.className = 'feedback-incorrect';
-                }
-            } else {
-                spellingInput.value = '';
-                spellingInput.disabled = false;
-                spellingSubmitBtn.disabled = false;
-                spellingFeedback.innerHTML = '';
-                setTimeout(() => spellingInput.focus(), 100);
-            }
-            spellingQuizProgressBar.style.width = `${((currentSpellingQuizIndex + 1) / spellingQuizQuestions.length) * 100}%`;
-            spellingQuizPrevBtn.disabled = currentSpellingQuizIndex === 0;
-            spellingQuizNextBtn.style.display = currentSpellingQuizIndex === spellingQuizQuestions.length - 1 ? 'none' : 'inline-block';
-            finishSpellingQuizBtn.style.display = currentSpellingQuizIndex === spellingQuizQuestions.length - 1 ? 'inline-block' : 'none';
-        }
-        function handleSpellingQuizSubmit(event) {
-            event.preventDefault();
-            if (spellingQuizUserAnswers[currentSpellingQuizIndex] !== null) return;
-            
-            const userAnswer = spellingInput.value.trim();
-            const correctAnswer = spellingQuizQuestions[currentSpellingQuizIndex].english;
-            const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
-            
-            spellingQuizUserAnswers[currentSpellingQuizIndex] = { answer: userAnswer, isCorrect: isCorrect };
-
-            if (!isCorrect) {
-                incorrectSpellingQuizWords.add(spellingQuizQuestions[currentSpellingQuizIndex]);
-            }
-            displaySpellingQuizQuestion(); // Re-render to show feedback
-
-            if(isCorrect) { // Auto-advance if correct
-                setTimeout(showNextSpellingQuizQuestion, 1500);
-            }
-        }
-        function showNextSpellingQuizQuestion() {
-             if (currentSpellingQuizIndex < spellingQuizQuestions.length - 1) {
-                currentSpellingQuizIndex++;
-                displaySpellingQuizQuestion();
-            }
-        }
-        function showSpellingQuizResults() {
-            let score = spellingQuizUserAnswers.filter(a => a && a.isCorrect).length;
-            spellingQuizScoreDisplay.textContent = `${score} / ${spellingQuizQuestions.length}`;
-            spellingQuizAddUnfamiliarContainer.innerHTML = '';
-            if (incorrectSpellingQuizWords.size > 0) {
-                const btn = document.createElement('button');
-                btn.id = 'add-incorrect-to-unfamiliar-btn';
-                btn.textContent = `將答錯的 ${incorrectSpellingQuizWords.size} 個單字加入不熟列表`;
-                btn.onclick = () => {
-                    incorrectSpellingQuizWords.forEach(word => {
-                        if (!unfamiliarWordsInNormalCycle.some(uw => uw.english === word.english)) {
-                            unfamiliarWordsInNormalCycle.push({ ...word, revealed: false });
-                        }
-                    });
-                    saveProgress();
-                    alert(`${incorrectSpellingQuizWords.size} 個單字已加入不熟列表！`);
-                    btn.disabled = true;
-                    btn.textContent = '已加入';
-                };
-                spellingQuizAddUnfamiliarContainer.appendChild(btn);
-            }
-            spellingQuizResultsContainer.style.display = 'flex';
-            spellingQuizQuestionArea.style.display = 'none';
-        }
+        function startSpellingQuizSession() { spellingQuizResultsContainer.style.display = 'none'; spellingQuizQuestionArea.style.display = 'flex'; spellingQuizProgressBar.style.width = '0%'; const words = getSelectedWordsForSession(); if (words.length < 1) { alert('請至少選擇1個單字進行測驗。'); showView('mode-selection-view'); return; } spellingQuizQuestions = shuffleArray(words.map(w => ({...w}))); currentSpellingQuizIndex = 0; spellingQuizUserAnswers = new Array(spellingQuizQuestions.length).fill(null); incorrectSpellingQuizWords.clear(); displaySpellingQuizQuestion(); showView('spelling-quiz-view');}
+        function displaySpellingQuizQuestion() { if (currentSpellingQuizIndex < 0 || currentSpellingQuizIndex >= spellingQuizQuestions.length) return; const q = spellingQuizQuestions[currentSpellingQuizIndex]; spellingQuizQuestionDisplay.textContent = q.chinese; const userAnswer = spellingQuizUserAnswers[currentSpellingQuizIndex]; if (userAnswer !== null) { spellingInput.value = userAnswer.answer; spellingInput.disabled = true; spellingSubmitBtn.disabled = true; if (userAnswer.isCorrect) { spellingFeedback.textContent = '正確！'; spellingFeedback.className = 'feedback-correct'; } else { spellingFeedback.innerHTML = `您輸入: ${userAnswer.answer}<br>正確答案是: <strong>${q.english}</strong>`; spellingFeedback.className = 'feedback-incorrect'; } } else { spellingInput.value = ''; spellingInput.disabled = false; spellingSubmitBtn.disabled = false; spellingFeedback.innerHTML = ''; setTimeout(() => spellingInput.focus(), 100); } spellingQuizProgressBar.style.width = `${((currentSpellingQuizIndex + 1) / spellingQuizQuestions.length) * 100}%`; spellingQuizPrevBtn.disabled = currentSpellingQuizIndex === 0; spellingQuizNextBtn.style.display = currentSpellingQuizIndex === spellingQuizQuestions.length - 1 ? 'none' : 'inline-block'; finishSpellingQuizBtn.style.display = currentSpellingQuizIndex === spellingQuizQuestions.length - 1 ? 'inline-block' : 'none';}
+        function handleSpellingQuizSubmit(event) { event.preventDefault(); if (spellingQuizUserAnswers[currentSpellingQuizIndex] !== null) return; const userAnswer = spellingInput.value.trim(); const correctAnswer = spellingQuizQuestions[currentSpellingQuizIndex].english; const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase(); spellingQuizUserAnswers[currentSpellingQuizIndex] = { answer: userAnswer, isCorrect: isCorrect }; if (!isCorrect) { incorrectSpellingQuizWords.add(spellingQuizQuestions[currentSpellingQuizIndex]); } displaySpellingQuizQuestion(); if(isCorrect) { setTimeout(showNextSpellingQuizQuestion, 1500); }}
+        function showNextSpellingQuizQuestion() { if (currentSpellingQuizIndex < spellingQuizQuestions.length - 1) { currentSpellingQuizIndex++; displaySpellingQuizQuestion(); }}
+        function showSpellingQuizResults() { let score = spellingQuizUserAnswers.filter(a => a && a.isCorrect).length; spellingQuizScoreDisplay.textContent = `${score} / ${spellingQuizQuestions.length}`; spellingQuizAddUnfamiliarContainer.innerHTML = ''; if (incorrectSpellingQuizWords.size > 0) { const btn = document.createElement('button'); btn.id = 'add-incorrect-to-unfamiliar-btn'; btn.textContent = `將答錯的 ${incorrectSpellingQuizWords.size} 個單字加入不熟列表`; btn.onclick = () => { incorrectSpellingQuizWords.forEach(word => { if (!unfamiliarWordsInNormalCycle.some(uw => uw.english === word.english)) { unfamiliarWordsInNormalCycle.push({ ...word, revealed: false }); } }); saveProgress(); alert(`${incorrectSpellingQuizWords.size} 個單字已加入不熟列表！`); btn.disabled = true; btn.textContent = '已加入'; }; spellingQuizAddUnfamiliarContainer.appendChild(btn); } spellingQuizResultsContainer.style.display = 'flex'; spellingQuizQuestionArea.style.display = 'none';}
 
         // --- Unfamiliar Mode & Speech ---
         function startUnfamiliarReviewMode() { const validUnfamiliarWords = filterAndPrepareWords(unfamiliarWordsInNormalCycle); if (validUnfamiliarWords.length !== unfamiliarWordsInNormalCycle.length) { unfamiliarWordsInNormalCycle = validUnfamiliarWords; saveProgress(); } if (unfamiliarWordsInNormalCycle.length === 0) { alert('目前沒有不熟的單字可以複習！'); return; } currentCategoryName = '不熟單字'; currentMode = 'review'; shuffledWords = shuffleArray(unfamiliarWordsInNormalCycle.map(w => ({ ...w, revealed: false }))); currentIndex = 0; displayCard(); showView('flashcard-view'); }
@@ -628,14 +439,12 @@
         function displayCard() {
             if (shuffledWords.length === 0) { wordDisplay.textContent = "此類別沒有單字。"; translationDisplay.textContent = ""; translationDisplay.style.display = 'none'; currentCountSpan.textContent = 0; totalCountSpan.textContent = 0; markUnfamiliarBtn.style.display = 'none'; modeDisplay.textContent = "完成！"; flashcard.classList.remove('revealed-background', 'reading-mode-card'); bookmarkIcon.style.display = 'none'; speakBtn.style.display = 'none'; return; }
             speakBtn.style.display = 'block'; const currentWord = shuffledWords[currentIndex]; let frontText, backText;
-            flashcard.classList.toggle('reading-mode-card', isReadingMode);
-            markUnfamiliarBtn.style.display = isReadingMode ? 'none' : 'block';
+            flashcard.classList.toggle('reading-mode-card', isReadingMode); markUnfamiliarBtn.style.display = isReadingMode ? 'none' : 'block';
             if (isReadingMode) { frontText = currentWord.english; backText = currentWord.chinese; } 
             else if (currentStudyMode === 'zh-first') { frontText = currentWord.chinese; backText = currentWord.english; } 
             else { frontText = currentWord.english; backText = currentWord.chinese; }
             wordDisplay.textContent = frontText; translationDisplay.textContent = backText;
-            if (currentWord.revealed) { translationDisplay.style.display = 'block'; flashcard.classList.add('revealed-background'); } 
-            else { translationDisplay.style.display = 'none'; flashcard.classList.remove('revealed-background'); }
+            if (currentWord.revealed) { translationDisplay.style.display = 'block'; flashcard.classList.add('revealed-background'); } else { translationDisplay.style.display = 'none'; flashcard.classList.remove('revealed-background'); }
             const isBookmarked = unfamiliarWordsInNormalCycle.some(w => w.english === currentWord.english); 
             bookmarkIcon.style.display = isBookmarked ? 'block' : 'none';
             updateProgress(); updateButtonText();
@@ -650,41 +459,9 @@
         function updateProgress() { currentCountSpan.textContent = shuffledWords.length > 0 ? currentIndex + 1 : 0; totalCountSpan.textContent = shuffledWords.length; }
         
         // --- Navigation ---
-        function resetSessionState() {
-            currentManagingDeck = null;
-            isReadingMode = false;
-            mcQuizQuestions = [];
-            spellingQuizQuestions = [];
-            pendingLearningMode = {};
-            selectedWordsForSession.clear();
-        }
-
-        function navigateBack() {
-            const activeView = document.querySelector('.view.active');
-            if (!activeView) {
-                showView('main-menu-view');
-                return;
-            }
-            const currentViewId = activeView.id;
-            switch(currentViewId) {
-                case 'flashcard-view':
-                case 'mc-quiz-view':
-                case 'spelling-quiz-view':
-                case 'language-direction-view':
-                    showView('mode-selection-view');
-                    break;
-                case 'mode-selection-view':
-                case 'deck-management-view':
-                    backToMainMenu(); // Go to main menu and clear session state
-                    break;
-                default:
-                    backToMainMenu();
-            }
-        }
-        function backToMainMenu() {
-            resetSessionState();
-            showView('main-menu-view');
-        }
+        function resetSessionState() { isReadingMode = false; mcQuizQuestions = []; spellingQuizQuestions = []; pendingLearningMode = {}; selectedWordsForSession.clear(); }
+        function navigateBack() { const activeView = document.querySelector('.view.active'); if (!activeView) { showView('main-menu-view'); return; } const currentViewId = activeView.id; switch(currentViewId) { case 'flashcard-view': case 'mc-quiz-view': case 'spelling-quiz-view': case 'language-direction-view': showView('mode-selection-view'); break; case 'mode-selection-view': case 'deck-management-view': backToMainMenu(); break; default: backToMainMenu(); } }
+        function backToMainMenu() { resetSessionState(); currentManagingDeck = null; showView('main-menu-view'); }
         function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(err => alert(`無法進入全螢幕模式: ${err.message}`)); else document.exitFullscreen(); }
         
         // --- Initialization ---
@@ -694,10 +471,10 @@
             chromaScript.onload = async () => {
                 if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(reg => console.log('SW registered.')).catch(err => console.log('SW registration failed: ', err)); }); }
                 loadAndApplyTheme(); loadAppState(); await loadDefaultDecksFromServer(); loadUnfamiliarWords(); showView('main-menu-view');
-                // General Listeners
-                backToMenuBtnTop.addEventListener('click', navigateBack); // Changed to navigateBack
+                
+                // --- Event Listeners ---
+                backToMenuBtnTop.addEventListener('click', navigateBack); 
                 fullscreenBtn.addEventListener('click', toggleFullscreen);
-                // Main Menu & Learning Flow Listeners
                 importBtn.addEventListener('click', handleFileImport);
                 startBasicModeBtn.addEventListener('click', () => goToLanguageSelection('basic', '基礎模式'));
                 startShuffleModeBtn.addEventListener('click', () => goToLanguageSelection('shuffle', '洗牌模式'));
@@ -707,59 +484,97 @@
                 startEnFirstBtn.addEventListener('click', () => startSessionFromLanguageChoice('en-first'));
                 startZhFirstBtn.addEventListener('click', () => startSessionFromLanguageChoice('zh-first'));
                 backToModeSelectionBtns.forEach(btn => btn.addEventListener('click', () => showView('mode-selection-view')));
+                
                 // Flashcard Listeners
                 flashcard.addEventListener('click', handleCardClick);
                 speakBtn.addEventListener('click', handleSpeakWord);
                 markUnfamiliarBtn.addEventListener('click', handleUnfamiliarAction);
+                
                 // Quiz Listeners
                 mcQuizOptionsContainer.addEventListener('click', (e) => { if (e.target.classList.contains('quiz-option')) handleMcQuizAnswer(e); });
                 mcQuizPrevBtn.addEventListener('click', () => { if (currentMcQuizIndex > 0) { currentMcQuizIndex--; displayMcQuizQuestion(); } });
                 mcQuizNextBtn.addEventListener('click', () => {
-                    // Handle skipping the question: show answer then advance
                     if (mcQuizUserAnswers[currentMcQuizIndex] === null) {
-                        mcQuizUserAnswers[currentMcQuizIndex] = 'skipped'; // Mark as skipped/incorrect
+                        mcQuizUserAnswers[currentMcQuizIndex] = 'skipped'; 
                         incorrectMcQuizWords.add(mcQuizQuestions[currentMcQuizIndex].originalWord);
-                        displayMcQuizQuestion(); // Show feedback for the skipped question
-                        setTimeout(showNextMcQuizQuestion, 1500); // Advance after delay
-                    } else {
-                        showNextMcQuizQuestion(); // Advance immediately if already answered
-                    }
+                        displayMcQuizQuestion();
+                        setTimeout(showNextMcQuizQuestion, 1500); 
+                    } else { showNextMcQuizQuestion(); }
                 });
                 finishMcQuizBtn.addEventListener('click', showMcQuizResults);
-
                 spellingInputForm.addEventListener('submit', handleSpellingQuizSubmit);
                 spellingQuizPrevBtn.addEventListener('click', () => { if (currentSpellingQuizIndex > 0) { currentSpellingQuizIndex--; displaySpellingQuizQuestion(); } });
                 spellingQuizNextBtn.addEventListener('click', () => {
-                     // Handle skipping the question: show answer then advance
                     if (spellingQuizUserAnswers[currentSpellingQuizIndex] === null) {
                         spellingQuizUserAnswers[currentSpellingQuizIndex] = { answer: '(未作答)', isCorrect: false };
                         incorrectSpellingQuizWords.add(spellingQuizQuestions[currentSpellingQuizIndex]);
-                        displaySpellingQuizQuestion(); // Show feedback
-                        setTimeout(showNextSpellingQuizQuestion, 2000); // Advance after delay
-                    } else {
-                        showNextSpellingQuizQuestion(); // Advance immediately if already answered
-                    }
+                        displaySpellingQuizQuestion();
+                        setTimeout(showNextSpellingQuizQuestion, 2000); 
+                    } else { showNextSpellingQuizQuestion(); }
                 });
                 finishSpellingQuizBtn.addEventListener('click', showSpellingQuizResults);
 
                 // Word Selection Modal Listeners
                 openWordSelectionBtn.addEventListener('click', openWordSelectionModal);
-                wordSelectionModal.querySelector('.modal-close-btn').addEventListener('click', closeWordSelectionModal);
                 confirmWordSelectionBtn.addEventListener('click', closeWordSelectionModal);
-                wordSelectAllBtn.addEventListener('click', () => {
-                    wordSelectionListContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                        cb.checked = true;
-                        selectedWordsForSession.add(cb.dataset.english);
+                wordSelectAllBtn.addEventListener('click', () => { wordSelectionListContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = true; selectedWordsForSession.add(cb.dataset.english); }); });
+                wordSelectNoneBtn.addEventListener('click', () => { wordSelectionListContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; }); selectedWordsForSession.clear(); });
+                
+                // Deck Management Listeners
+                deleteDeckBtn.addEventListener('click', handleDeleteDeck); 
+                exportDeckBtn.addEventListener('click', handleExportDeck); 
+                multiDeleteBtn.addEventListener('click', handleMultiDelete); 
+                selectAllCheckbox.addEventListener('change', (e) => { wordListContainer.querySelectorAll('.word-select-checkbox').forEach(checkbox => { if (checkbox.checked !== e.target.checked) { checkbox.checked = e.target.checked; checkbox.dispatchEvent(new Event('change', { bubbles: true })); } }); }); 
+                wordListContainer.addEventListener('click', (e) => { const item = e.target.closest('.word-list-item'); if (!item || e.target.classList.contains('word-select-checkbox')) return; const originalEng = item.dataset.originalEnglish; const word = allWordCategoriesData[currentManagingDeck].find(w => w.english === originalEng); if (word) { openEditWordModal(word); } }); 
+                wordListContainer.addEventListener('change', (e) => { if (e.target.classList.contains('word-select-checkbox')) handleWordSelectionChange(e); });
+                
+                // Modals & Settings Listeners
+                openAddWordModalBtn.addEventListener('click', openAddWordModal); 
+                addWordForm.addEventListener('submit', handleAddWord); 
+                editWordForm.addEventListener('submit', handleEditWord);
+                confirmModalConfirmBtn.addEventListener('click', () => { if (typeof confirmAction === 'function') confirmAction(); closeConfirmModal(); }); 
+                confirmModalCancelBtn.addEventListener('click', closeConfirmModal);
+                
+                // **FIX**: Added back the listener for the settings button
+                openSettingsBtn.addEventListener('click', openSettingsModal);
+
+                [addWordModal, editWordModal, confirmModal, settingsModal, wordSelectionModal].forEach(modal => {
+                    modal.querySelector('.modal-close-btn').addEventListener('click', () => {
+                        if (modal.id === 'settings-modal') closeSettingsModal(true);
+                        else {
+                           if (modal.id === 'add-word-modal') closeAddWordModal();
+                           else if (modal.id === 'edit-word-modal') closeEditWordModal();
+                           else if (modal.id === 'confirm-modal') closeConfirmModal();
+                           else if (modal.id === 'word-selection-modal') closeWordSelectionModal();
+                           else modal.classList.remove('active');
+                        }
+                    });
+                    modal.addEventListener('click', (e) => {
+                         if (e.target === modal) {
+                            if (modal.id === 'settings-modal') closeSettingsModal(true);
+                            else {
+                               if (modal.id === 'add-word-modal') closeAddWordModal();
+                               else if (modal.id === 'edit-word-modal') closeEditWordModal();
+                               else if (modal.id === 'confirm-modal') closeConfirmModal();
+                               else if (modal.id === 'word-selection-modal') closeWordSelectionModal();
+                               else modal.classList.remove('active');
+                            }
+                         }
                     });
                 });
-                wordSelectNoneBtn.addEventListener('click', () => {
-                     wordSelectionListContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                        cb.checked = false;
-                    });
-                    selectedWordsForSession.clear();
+                document.getElementById('settings-save-btn').addEventListener('click', handleSaveThemeAndClose);
+                document.getElementById('save-custom-theme-btn').addEventListener('click', handleSaveCustomTheme);
+                ['primary-color-picker', 'accent-color-picker', 'background-color-picker', 'container-opacity-slider'].forEach(id => {
+                    document.getElementById(id).addEventListener('input', handleCustomThemeChange);
                 });
-                // Deck Management & Modals Listeners (condensed)
-                deleteDeckBtn.addEventListener('click', handleDeleteDeck); exportDeckBtn.addEventListener('click', handleExportDeck); openAddWordModalBtn.addEventListener('click', openAddWordModal); addWordForm.addEventListener('submit', handleAddWord); addWordModal.querySelector('.modal-close-btn').addEventListener('click', closeAddWordModal); editWordForm.addEventListener('submit', handleEditWord); editWordModal.querySelector('.modal-close-btn').addEventListener('click', closeEditWordModal); confirmModalConfirmBtn.addEventListener('click', () => { if (typeof confirmAction === 'function') confirmAction(); closeConfirmModal(); }); confirmModalCancelBtn.addEventListener('click', closeConfirmModal); multiDeleteBtn.addEventListener('click', handleMultiDelete); selectAllCheckbox.addEventListener('change', (e) => { wordListContainer.querySelectorAll('.word-select-checkbox').forEach(checkbox => { if (checkbox.checked !== e.target.checked) { checkbox.checked = e.target.checked; checkbox.dispatchEvent(new Event('change', { bubbles: true })); } }); }); wordListContainer.addEventListener('click', (e) => { const item = e.target.closest('.word-list-item'); if (!item) return; if (e.target.classList.contains('word-select-checkbox')) return; const originalEng = item.dataset.originalEnglish; const word = allWordCategoriesData[currentManagingDeck].find(w => w.english === originalEng); if (word) { openEditWordModal(word); } }); wordListContainer.addEventListener('change', (e) => { if (e.target.classList.contains('word-select-checkbox')) handleWordSelectionChange(e); });
+                document.getElementById('background-image-uploader').addEventListener('change', (e) => {
+                    if (e.target.files && e.target.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = (ev) => { currentThemeSettings.backgroundImageDataUrl = ev.target.result; handleCustomThemeChange(); };
+                        reader.readAsDataURL(e.target.files[0]);
+                    }
+                });
+                document.getElementById('remove-bg-image-btn').addEventListener('click', () => { currentThemeSettings.backgroundImageDataUrl = null; document.getElementById('background-image-uploader').value = ''; handleCustomThemeChange(); });
                 
                 setInterval(saveProgress, 10000); 
             };
