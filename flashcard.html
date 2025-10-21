@@ -136,11 +136,13 @@
         .quiz-progress-bar-container { width: 90%; height: 8px; background-color: var(--border-color-light); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
         .quiz-progress-bar { width: 0%; height: 100%; background-color: var(--primary-color); transition: width 0.3s ease; }
         .quiz-question-area { display: flex; flex-direction: column; align-items: center; width: 100%; gap: 20px;}
-        .quiz-question-display { font-size: 2em; font-weight: bold; padding: 20px; min-height: 80px; }
+        .quiz-question-wrapper { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;}
+        .quiz-question-display { font-size: 2em; font-weight: bold; padding: 20px; min-height: 80px; flex-grow: 1; text-align: center; }
+        .quiz-speak-btn { font-size: 1.8em; color: var(--accent-color); cursor: pointer; border: none; background: none; padding: 5px; transition: color 0.2s, transform 0.2s; display: none; flex-shrink: 0; }
+        .quiz-speak-btn:hover { color: var(--accent-color-darker); transform: scale(1.1); }
         .quiz-options-container { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; max-width: 400px; }
         .quiz-option { font-size: 1.1em; padding: 15px; background-color: var(--accent-color); color: var(--text-color-light); }
-        .quiz-option:hover:not(:disabled) { background-color: var(--accent-color-darker); }
-        .quiz-option.correct { background-color: var(--primary-color) !important; }
+        .quiz-option.correct { background-color: #4CAF50 !important; }
         .quiz-option.incorrect { background-color: var(--accent-red) !important; }
         .quiz-results-container { display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; flex-grow: 1; }
         .quiz-results-container h2 { color: var(--primary-color-darker); }
@@ -157,7 +159,7 @@
         }
         #spelling-input:focus { border-color: var(--primary-color); outline: none; }
         #spelling-feedback { min-height: 2em; font-size: 1.1em; font-weight: bold; }
-        .feedback-correct { color: var(--primary-color-darker); }
+        .feedback-correct { color: #388E3C; }
         .feedback-incorrect { color: var(--accent-red-darker); }
 
         .top-button { position: absolute; top: 20px; z-index: 20; background-color: rgba(0, 0, 0, 0.3); color: var(--text-color-light); padding: 8px; font-size: 1.8em; border-radius: 5px; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); line-height: 1; cursor: pointer; border: none; flex-shrink: 0; }
@@ -176,6 +178,20 @@
         .word-selection-item input[type="checkbox"] { transform: scale(1.4); cursor: pointer; }
         .word-selection-controls { display: flex; gap: 10px; justify-content: flex-start; margin-bottom: 10px; flex-shrink: 0; }
         .word-selection-actions { margin-top: auto; flex-shrink: 0; }
+
+        /* Online Decks Modal Styles */
+        .online-decks-controls { padding: 10px; border-bottom: 1px solid var(--border-color-light); margin-bottom: 10px; text-align: left;}
+        .online-decks-controls label { font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .online-decks-controls input[type="checkbox"] { transform: scale(1.3); }
+        #online-decks-list-container { flex-grow: 1; overflow-y: auto; border: 1px solid var(--border-color-light); border-radius: 8px; padding: 10px; margin-bottom: 15px; }
+        .online-deck-item { display: flex; align-items: center; gap: 10px; padding: 10px; border-bottom: 1px solid var(--border-color-light); cursor: pointer; }
+        .online-deck-item:last-child { border-bottom: none; }
+        .online-deck-item input[type="checkbox"] { transform: scale(1.4); cursor: pointer; flex-shrink: 0; }
+        .online-deck-item input[type="checkbox"]:disabled + span { color: var(--text-color-muted); text-decoration: line-through; }
+        .online-deck-item .deck-name { flex-grow: 1; text-align: left; }
+        .online-deck-item .status-tag { font-size: 0.8em; font-weight: bold; background-color: var(--primary-color); color: var(--text-color-light); padding: 3px 8px; border-radius: 5px; }
+        #online-decks-actions { margin-top: auto; flex-shrink: 0; display: flex; flex-direction: column; gap: 10px;}
+        #online-decks-feedback { min-height: 1.5em; font-weight: bold; color: var(--primary-color-darker); }
     </style>
 </head>
 <body>
@@ -188,9 +204,10 @@
         <div id="main-menu-view" class="view">
             <div id="main-menu-container" class="main-menu-container"></div>
             <div class="import-section">
-                <label for="file-importer">或從檔案匯入單字包 (可多選 .json):</label>
+                <label for="file-importer">從檔案匯入單字包 (可多選 .json):</label>
                 <input type="file" id="file-importer" accept=".json" multiple>
                 <button id="import-btn">匯入並新增</button> 
+                <button id="open-online-decks-btn" style="margin-top: 10px;">下載線上單字包 ☁️</button>
             </div>
             <div class="settings-section">
                 <button id="open-settings-btn">主題與設定 🎨</button>
@@ -239,7 +256,10 @@
         <div id="mc-quiz-view" class="view quiz-view-common">
             <div class="quiz-progress-bar-container"><div id="mc-quiz-progress-bar" class="quiz-progress-bar"></div></div>
             <div class="quiz-question-area" id="mc-quiz-question-area">
-                <div class="quiz-question-display" id="mc-quiz-question-display">Question Here</div>
+                <div class="quiz-question-wrapper">
+                    <div class="quiz-question-display" id="mc-quiz-question-display">Question Here</div>
+                    <button class="quiz-speak-btn" id="mc-quiz-speak-btn" title="發音">&#x1F50A;</button>
+                </div>
                 <div class="quiz-options-container" id="mc-quiz-options-container">
                     <button class="quiz-option" data-option-index="0"></button>
                     <button class="quiz-option" data-option-index="1"></button>
@@ -263,7 +283,10 @@
         <div id="spelling-quiz-view" class="view quiz-view-common">
             <div class="quiz-progress-bar-container"><div id="spelling-quiz-progress-bar" class="quiz-progress-bar"></div></div>
             <div class="quiz-question-area" id="spelling-quiz-question-area">
-                <div class="quiz-question-display" id="spelling-quiz-question-display">中文題目</div>
+                <div class="quiz-question-wrapper">
+                    <div class="quiz-question-display" id="spelling-quiz-question-display">中文題目</div>
+                    <button class="quiz-speak-btn" id="spelling-quiz-speak-btn" title="發音">&#x1F50A;</button>
+                </div>
                 <form id="spelling-input-form">
                     <input type="text" id="spelling-input" placeholder="請輸入英文" 
                            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>
@@ -303,7 +326,7 @@
     <div id="add-word-modal" class="modal-overlay"><div class="modal-content"><button class="modal-close-btn" title="關閉">&times;</button><h3>新增單字</h3><form class="modal-form" id="add-word-form"><input type="text" id="new-word-english" placeholder="新英文單字" required><input type="text" id="new-word-chinese" placeholder="新中文翻譯" required><div class="add-word-feedback"></div><button type="submit">新增單字</button></form></div></div>
     <div id="edit-word-modal" class="modal-overlay"><div class="modal-content"><button class="modal-close-btn" title="關閉">&times;</button><h3>編輯單字</h3><form class="modal-form" id="edit-word-form"><input type="text" id="edit-word-english" placeholder="英文單字" required><input type="text" id="edit-word-chinese" placeholder="中文翻譯" required><button type="submit">儲存變更</button></form></div></div>
     <div id="confirm-modal" class="modal-overlay"><div class="modal-content"><button class="modal-close-btn" title="關閉">&times;</button><h3 id="confirm-modal-title">請確認</h3><p id="confirm-modal-text" style="margin: 20px 0; font-size: 1.1em; word-wrap: break-word;"></p><div class="confirm-modal-actions"><button id="confirm-modal-cancel-btn">取消</button><button id="confirm-modal-confirm-btn">確認</button></div></div></div>
-    <div id="settings-modal" class="modal-overlay"><div class="modal-content"><button class="modal-close-btn" title="關閉">&times;</button><h3>主題設定</h3><h4>預設主題</h4><div class="themes-container" id="preset-themes-container"></div><h4 id="user-themes-heading" style="display:none;">我的主題</h4><div class="themes-container" id="user-themes-container"></div><h4>自訂主題</h4><div class="custom-theme-container"><div class="color-picker-group"><label for="primary-color-picker">主要顏色</label><input type="color" id="primary-color-picker"></div><div class="color-picker-group"><label for="accent-color-picker">點綴顏色</label><input type="color" id="accent-color-picker"></div><div class="color-picker-group"><label for="background-color-picker">背景顏色</label><input type="color" id="background-color-picker"></div><div class="slider-group"><label for="container-opacity-slider">背景不透明度</label><input type="range" id="container-opacity-slider" min="10" max="100" step="1"><span id="opacity-display">100%</span></div><div class="color-picker-group"><label for="background-image-uploader">上傳背景圖片</label><input type="file" id="background-image-uploader" accept="image/*" style="max-width: 150px;"></div><button id="remove-bg-image-btn">移除背景圖片</button><button id="save-custom-theme-btn">儲存目前主題</button></div><div class="settings-actions"><button id="settings-save-btn">套用並儲存</button></div></div></div>
+    <div id="settings-modal" class="modal-overlay"><div class="modal-content"><button class="modal-close-btn" title="關閉">&times;</button><h3>主題設定</h3><h4>預設主題</h4><div class="themes-container" id="preset-themes-container"></div><h4 id="user-themes-heading" style="display:none;">我的主題</h4><div class="themes-container" id="user-themes-container"></div><h4>自訂主題</h4><div class="custom-theme-container"><div class="color-picker-group"><label for="primary-color-picker">主要顏色</label><input type="color" id="primary-color-picker"></div><div class="color-picker-group"><label for="accent-color-picker">點綴顏色</label><input type="color" id="accent-color-picker"></div><div class="color-picker-group"><label for="background-color-picker">背景顏色</label><input type="color" id="background-color-picker"></div><div class="color-picker-group"><label for="text-color-picker">字體顏色</label><input type="color" id="text-color-picker"></div><div class="slider-group"><label for="container-opacity-slider">背景不透明度</label><input type="range" id="container-opacity-slider" min="10" max="100" step="1"><span id="opacity-display">100%</span></div><div class="color-picker-group"><label for="background-image-uploader">上傳背景圖片</label><input type="file" id="background-image-uploader" accept="image/*" style="max-width: 150px;"></div><button id="remove-bg-image-btn">移除背景圖片</button><button id="save-custom-theme-btn">儲存目前主題</button></div><div class="settings-actions"><button id="settings-save-btn">套用並儲存</button></div></div></div>
     <div id="word-selection-modal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn" title="關閉">&times;</button>
@@ -315,6 +338,23 @@
             <div id="word-selection-list-container"></div>
             <div class="word-selection-actions">
                  <button id="confirm-word-selection-btn">確認選擇</button>
+            </div>
+        </div>
+    </div>
+    <div id="online-decks-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn" title="關閉">&times;</button>
+            <h3>下載線上單字包</h3>
+            <div class="online-decks-controls">
+                <label>
+                    <input type="checkbox" id="auto-sync-checkbox">
+                    <span>啟動時自動同步新單字包</span>
+                </label>
+            </div>
+            <div id="online-decks-list-container"></div>
+            <div id="online-decks-actions">
+                <div id="online-decks-feedback"></div>
+                <button id="download-selected-decks-btn">下載選取項目 (0)</button>
             </div>
         </div>
     </div>
@@ -342,6 +382,8 @@
         const spellingQuizProgressBar = document.getElementById('spelling-quiz-progress-bar'); const spellingQuizQuestionArea = document.getElementById('spelling-quiz-question-area'); const spellingQuizQuestionDisplay = document.getElementById('spelling-quiz-question-display'); const spellingInputForm = document.getElementById('spelling-input-form'); const spellingInput = document.getElementById('spelling-input'); const spellingFeedback = document.getElementById('spelling-feedback'); const spellingSubmitBtn = document.getElementById('spelling-submit-btn'); const spellingQuizResultsContainer = document.getElementById('spelling-quiz-results-container'); const spellingQuizScoreDisplay = document.getElementById('spelling-quiz-score-display'); const spellingQuizPrevBtn = document.getElementById('spelling-quiz-prev-btn'); const spellingQuizNextBtn = document.getElementById('spelling-quiz-next-btn'); const finishSpellingQuizBtn = document.getElementById('finish-spelling-quiz-btn'); const spellingQuizAddUnfamiliarContainer = document.getElementById('spelling-quiz-add-unfamiliar-container');
         const backToModeSelectionBtns = document.querySelectorAll('.back-to-mode-selection-btn');
         const wordSelectionModal = document.getElementById('word-selection-modal'); const wordSelectionListContainer = document.getElementById('word-selection-list-container'); const wordSelectAllBtn = document.getElementById('word-select-all-btn'); const wordSelectNoneBtn = document.getElementById('word-select-none-btn'); const confirmWordSelectionBtn = document.getElementById('confirm-word-selection-btn');
+        const mcQuizSpeakBtn = document.getElementById('mc-quiz-speak-btn');
+        const spellingQuizSpeakBtn = document.getElementById('spelling-quiz-speak-btn');
         
         // Modals and Settings Elements
         const addWordModal = document.getElementById('add-word-modal'); const addWordForm = document.getElementById('add-word-form'); const newWordEnglishInput = document.getElementById('new-word-english'); const newWordChineseInput = document.getElementById('new-word-chinese'); const addWordFeedback = addWordModal.querySelector('.add-word-feedback'); const editWordModal = document.getElementById('edit-word-modal'); const editWordForm = document.getElementById('edit-word-form'); const editWordEnglishInput = document.getElementById('edit-word-english'); const editWordChineseInput = document.getElementById('edit-word-chinese'); const confirmModal = document.getElementById('confirm-modal'); const confirmModalTitle = document.getElementById('confirm-modal-title'); const confirmModalText = document.getElementById('confirm-modal-text'); const confirmModalConfirmBtn = document.getElementById('confirm-modal-confirm-btn'); const confirmModalCancelBtn = document.getElementById('confirm-modal-cancel-btn');
@@ -349,6 +391,14 @@
         let currentThemeSettings = {}; let themeBeforeEdit = {};
         const PRESET_THEMES = { default: { name: '預設綠', primary: '#4CAF50', background: '#f4f7f6', text: '#333333', accent: '#03A9F4', opacity: 95 }, azureWave: { name: '蔚藍浪潮', primary: '#2962FF', background: 'linear-gradient(to right, #72EDF2, #5151E5)', text: '#FFFFFF', accent: '#001F3F', opacity: 10 }, emeraldGrove: { name: '翡翠之森', primary: '#26A69A', background: 'linear-gradient(to top, #134E5E, #71B280)', text: '#FFFFFF', accent: '#FFC107', opacity: 10 }, sakuraTwilight: { name: '櫻花薄暮', primary: '#C2185B', background: 'linear-gradient(to top, #a18cd1, #fbc2eb)', text: '#FFFFFF', accent: '#FFB6C1', opacity: 10 }, midnightNova: { name: '午夜新星', primary: '#00E5FF', background: 'linear-gradient(to bottom, #0d1117, #161b22)', text: '#FFFFFF', accent: '#F50057', opacity: 10 } };
         
+        // Online Decks Modal Elements
+        const openOnlineDecksBtn = document.getElementById('open-online-decks-btn');
+        const onlineDecksModal = document.getElementById('online-decks-modal');
+        const onlineDecksListContainer = document.getElementById('online-decks-list-container');
+        const downloadSelectedDecksBtn = document.getElementById('download-selected-decks-btn');
+        const onlineDecksFeedback = document.getElementById('online-decks-feedback');
+        const autoSyncCheckbox = document.getElementById('auto-sync-checkbox');
+
         const shuffleArray = (array) => { let t=[...array],c=t.length,r;while(0!==c){r=Math.floor(Math.random()*c);c--;[t[c],t[r]]=[t[r],t[c]]}return t; };
         
         // --- App State & Theme Management ---
@@ -370,8 +420,9 @@
 
         // --- THEME SETTINGS FUNCTIONS ---
         function openSettingsModal(){themeBeforeEdit=JSON.parse(JSON.stringify(currentThemeSettings));updateThemeControlsUI(currentThemeSettings);generateAllThemesUI();settingsModal.classList.add('active')}function closeSettingsModal(isCancel = false){if(isCancel){applyTheme(themeBeforeEdit);currentThemeSettings = themeBeforeEdit;}settingsModal.classList.remove('active');}function handleSaveThemeAndClose(){try {localStorage.setItem('flashcardTheme', JSON.stringify(currentThemeSettings));} catch(e){alert("無法儲存主題設定。");}closeSettingsModal();}function generateThemeSwatch(theme, key, isCustom = false){const swatch=document.createElement("div");swatch.className="theme-swatch";swatch.dataset.themeKey=key;const colorDiv = document.createElement('div'); colorDiv.className = 'swatch-color'; if(theme.background&&theme.background.includes("gradient")){colorDiv.style.background=theme.background;}else{colorDiv.style.backgroundColor=theme.background;} swatch.appendChild(colorDiv); const labelDiv = document.createElement('div'); labelDiv.className = 'swatch-label'; labelDiv.textContent = theme.name; swatch.appendChild(labelDiv); swatch.addEventListener("click",()=>{currentThemeSettings={...theme,isCustom:isCustom};if(!isCustom)currentThemeSettings.presetKey=key;applyTheme(currentThemeSettings);updateThemeControlsUI(currentThemeSettings);});if(isCustom){swatch.dataset.customThemeName=theme.name;const deleteBtn=document.createElement("span");deleteBtn.className="delete-theme-btn";deleteBtn.innerHTML="&times;";deleteBtn.title=`刪除主題 "${theme.name}"`;deleteBtn.onclick=(e)=>{e.stopPropagation();if(confirm(`確定要刪除您儲存的主題 "${theme.name}" 嗎？`)){deleteCustomTheme(theme.name);}};swatch.appendChild(deleteBtn);}return swatch;}function generateAllThemesUI(){const presetContainer=document.getElementById("preset-themes-container");const userContainer=document.getElementById("user-themes-container");const userHeading=document.getElementById("user-themes-heading");presetContainer.innerHTML="";userContainer.innerHTML="";for(const key in PRESET_THEMES){presetContainer.appendChild(generateThemeSwatch(PRESET_THEMES[key],key,false));}const customThemes=getCustomThemes();if(customThemes.length>0){userHeading.style.display="block";customThemes.forEach(theme=>{userContainer.appendChild(generateThemeSwatch(theme,theme.name,true));});}else{userHeading.style.display="none";}updateActiveSwatchUI();}function updateActiveSwatchUI(){document.querySelectorAll(".theme-swatch").forEach(swatch=>{let isActive=false;if(currentThemeSettings.isCustom){isActive=swatch.dataset.customThemeName===currentThemeSettings.name;}else{isActive=swatch.dataset.themeKey===currentThemeSettings.presetKey;}swatch.classList.toggle("active",isActive);});}
-        function updateThemeControlsUI(theme){const{primary,accent,background,opacity}=theme;document.getElementById("primary-color-picker").value=chroma(primary).hex();document.getElementById("accent-color-picker").value=chroma(accent).hex();if(background&&!background.includes("gradient")){document.getElementById("background-color-picker").value=chroma(background).hex();}document.getElementById("container-opacity-slider").value=opacity;document.getElementById("opacity-display").textContent=`${opacity}%`;document.getElementById("background-image-uploader").value="";updateActiveSwatchUI();}
-        function handleCustomThemeChange(){currentThemeSettings={primary:document.getElementById("primary-color-picker").value,accent:document.getElementById("accent-color-picker").value,background:document.getElementById("background-color-picker").value,opacity:parseInt(document.getElementById("container-opacity-slider").value,10),backgroundImageDataUrl:currentThemeSettings.backgroundImageDataUrl,isCustom:true,name:"自訂"};applyTheme(currentThemeSettings);document.getElementById("opacity-display").textContent=`${currentThemeSettings.opacity}%`;document.querySelectorAll(".theme-swatch").forEach(s=>s.classList.remove("active"));}function getCustomThemes(){try{return JSON.parse(localStorage.getItem("userSavedThemes")||"[]");}catch{return[];}}
+        function updateThemeControlsUI(theme){const{primary,accent,background,opacity}=theme;document.getElementById("primary-color-picker").value=chroma(primary).hex();document.getElementById("accent-color-picker").value=chroma(accent).hex();if(background&&!background.includes("gradient")){document.getElementById("background-color-picker").value=chroma(background).hex();}const currentTextColor=theme.text||getComputedStyle(document.documentElement).getPropertyValue("--text-color").trim();document.getElementById("text-color-picker").value=chroma(currentTextColor).hex();document.getElementById("container-opacity-slider").value=opacity;document.getElementById("opacity-display").textContent=`${opacity}%`;document.getElementById("background-image-uploader").value="";updateActiveSwatchUI();}
+        function handleCustomThemeChange(){currentThemeSettings={primary:document.getElementById("primary-color-picker").value,accent:document.getElementById("accent-color-picker").value,background:document.getElementById("background-color-picker").value,text:document.getElementById("text-color-picker").value,opacity:parseInt(document.getElementById("container-opacity-slider").value,10),backgroundImageDataUrl:currentThemeSettings.backgroundImageDataUrl,isCustom:true,name:"自訂"};applyTheme(currentThemeSettings);document.getElementById("opacity-display").textContent=`${currentThemeSettings.opacity}%`;document.querySelectorAll(".theme-swatch").forEach(s=>s.classList.remove("active"));}
+        function getCustomThemes(){try{return JSON.parse(localStorage.getItem("userSavedThemes")||"[]");}catch{return[];}}
         function saveCustomThemes(themes){try{localStorage.setItem("userSavedThemes",JSON.stringify(themes));}catch(e){console.error("Error saving custom themes",e);}}
         function handleSaveCustomTheme(){const themeName=prompt("請為您的新主題命名：","我的主題");if(!themeName)return;const themes=getCustomThemes();const existingIndex=themes.findIndex(t=>t.name===themeName);if(existingIndex>-1&&!confirm(`已存在名為 "${themeName}" 的主題。您要覆蓋它嗎？`))return;const newTheme={...currentThemeSettings,name:themeName};if(existingIndex>-1){themes[existingIndex]=newTheme;}else{themes.push(newTheme);}saveCustomThemes(themes);alert(`主題 "${themeName}" 已儲存！`);generateAllThemesUI();updateThemeControlsUI(newTheme);}
         function deleteCustomTheme(themeName){let themes=getCustomThemes();themes=themes.filter(t=>t.name!==themeName);saveCustomThemes(themes);generateAllThemesUI();}
@@ -399,9 +450,148 @@
         }
         function closeWordSelectionModal() { wordSelectionModal.classList.remove('active'); }
         
+        // --- Online Decks Modal & Sync Logic ---
+        async function openOnlineDecksModal() {
+            onlineDecksModal.classList.add('active');
+            onlineDecksListContainer.innerHTML = '<p>正在從伺服器載入列表...</p>';
+            onlineDecksFeedback.textContent = '';
+            downloadSelectedDecksBtn.disabled = true;
+            downloadSelectedDecksBtn.textContent = '下載選取項目 (0)';
+            
+            try {
+                const response = await fetch('./cardholder/index.json?t=' + new Date().getTime()); // Append timestamp to bypass cache
+                if (!response.ok) throw new Error('無法載入單字包列表');
+                const onlineDeckFiles = await response.json();
+                
+                const localDeckNames = new Set(Object.keys(allWordCategoriesData));
+                onlineDecksListContainer.innerHTML = '';
+
+                if (onlineDeckFiles.length === 0) {
+                    onlineDecksListContainer.innerHTML = '<p>伺服器上目前沒有可用的單字包。</p>';
+                    return;
+                }
+
+                onlineDeckFiles.forEach(filename => {
+                    const deckName = filename.replace(/\.json$/i, '');
+                    const isDownloaded = localDeckNames.has(deckName);
+                    
+                    const item = document.createElement('label');
+                    item.className = 'online-deck-item';
+                    item.innerHTML = `
+                        <input type="checkbox" data-filename="${filename}" ${isDownloaded ? 'disabled' : ''}>
+                        <span class="deck-name">${deckName}</span>
+                        ${isDownloaded ? '<span class="status-tag">已下載</span>' : ''}
+                    `;
+                    onlineDecksListContainer.appendChild(item);
+                });
+            } catch (error) {
+                onlineDecksListContainer.innerHTML = `<p style="color:var(--accent-red-darker)">載入失敗: ${error.message}</p>`;
+            }
+        }
+
+        function updateDownloadButtonState() {
+            const selectedCount = onlineDecksListContainer.querySelectorAll('input[type="checkbox"]:checked').length;
+            downloadSelectedDecksBtn.disabled = selectedCount === 0;
+            downloadSelectedDecksBtn.textContent = `下載選取項目 (${selectedCount})`;
+        }
+
+        async function handleDownloadSelectedDecks() {
+            const selectedCheckboxes = onlineDecksListContainer.querySelectorAll('input[type="checkbox"]:checked');
+            if (selectedCheckboxes.length === 0) return;
+
+            downloadSelectedDecksBtn.disabled = true;
+            onlineDecksFeedback.textContent = `正在下載 0 / ${selectedCheckboxes.length}...`;
+
+            let successCount = 0;
+            let errorCount = 0;
+
+            const downloadPromises = Array.from(selectedCheckboxes).map(async (checkbox, index) => {
+                const filename = checkbox.dataset.filename;
+                const deckName = filename.replace(/\.json$/i, '');
+                try {
+                    const response = await fetch(`./cardholder/${filename}?t=` + new Date().getTime());
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    const deckData = await response.json();
+                    
+                    allWordCategoriesData[deckName] = deckData;
+                    successCount++;
+                } catch (error) {
+                    console.error(`下載 ${filename} 失敗:`, error);
+                    errorCount++;
+                }
+                onlineDecksFeedback.textContent = `正在下載 ${index + 1} / ${selectedCheckboxes.length}...`;
+            });
+
+            await Promise.all(downloadPromises);
+
+            saveAppState();
+            let feedbackMessage = `下載完成！成功 ${successCount} 個`;
+            if (errorCount > 0) {
+                feedbackMessage += `，失敗 ${errorCount} 個。`;
+            }
+            onlineDecksFeedback.textContent = feedbackMessage;
+
+            setTimeout(() => {
+                onlineDecksModal.classList.remove('active');
+                renderMainMenu();
+            }, 2000);
+        }
+        
+        function handleAutoSyncToggle(event) {
+            try {
+                localStorage.setItem('autoSyncOnlineDecks', event.target.checked);
+            } catch (e) {
+                console.error("無法儲存自動同步設定。", e);
+                alert("無法儲存設定，您的瀏覽器可能處於隱私模式。");
+            }
+        }
+        
+        async function runAutoSync() {
+            let shouldSync = false;
+            try {
+                shouldSync = localStorage.getItem('autoSyncOnlineDecks') === 'true';
+            } catch(e) { /* ignore */ }
+            
+            if (!shouldSync) return;
+
+            console.log("正在執行背景自動同步...");
+            try {
+                const response = await fetch('./cardholder/index.json?t=' + new Date().getTime());
+                if (!response.ok) return;
+
+                const onlineDeckFiles = await response.json();
+                const localDeckNames = new Set(Object.keys(allWordCategoriesData));
+                const newDecksToDownload = onlineDeckFiles.filter(filename => {
+                    const deckName = filename.replace(/\.json$/i, '');
+                    return !localDeckNames.has(deckName);
+                });
+
+                if (newDecksToDownload.length > 0) {
+                    console.log(`發現 ${newDecksToDownload.length} 個新單字包，開始下載...`);
+                    const downloadPromises = newDecksToDownload.map(async (filename) => {
+                        const deckName = filename.replace(/\.json$/i, '');
+                        try {
+                            const deckResponse = await fetch(`./cardholder/${filename}?t=` + new Date().getTime());
+                            if (deckResponse.ok) {
+                                allWordCategoriesData[deckName] = await deckResponse.json();
+                            }
+                        } catch (e) { /* ignore individual failures */ }
+                    });
+                    await Promise.all(downloadPromises);
+                    saveAppState();
+                    renderMainMenu(); // Refresh main menu to show new decks
+                    console.log("自動同步完成！");
+                } else {
+                    console.log("沒有新的單字包可同步。");
+                }
+            } catch (error) {
+                console.error("自動同步失敗:", error);
+            }
+        }
+
         // --- Learning Flow & Logic ---
         function filterAndPrepareWords(wordList) { if (!wordList) return []; const flatList = Object.values(allWordCategoriesData).flat(); return wordList.filter(w => flatList.some(ow => ow.english === w.english && ow.chinese === w.chinese)).map(w => ({...w, revealed: w.revealed || false})); };
-        function getSelectedWordsForSession() { const baseWords = allWordCategoriesData[currentCategoryName]; if (selectedWordsForSession.size > 0) { return baseWords.filter(w => selectedWordsForSession.has(w.english)); } return [...baseWords]; }
+        function getSelectedWordsForSession() { const baseWords = currentWordsSource; if (selectedWordsForSession.size > 0) { return baseWords.filter(w => selectedWordsForSession.has(w.english)); } return [...baseWords]; }
         function startCategoryLearning(categoryName) {
             currentCategoryName = categoryName;
             currentWordsSource = allWordCategoriesData[categoryName];
@@ -412,28 +602,57 @@
         function startSessionFromLanguageChoice(lang) {
             currentStudyMode = lang;
             if (pendingLearningMode.type === 'reading' || pendingLearningMode.type === 'spelling') { if (lang === 'en-first' && pendingLearningMode.type === 'spelling') { alert('拼寫測驗僅支援「先顯示中文」模式。'); return; } currentStudyMode = 'zh-first'; }
-            if (pendingLearningMode.type === 'basic') startLearningSession(false); else if (pendingLearningMode.type === 'shuffle') startLearningSession(true); else if (pendingLearningMode.type === 'reading') startReadingSession(); else if (pendingLearningMode.type === 'mc-quiz') startMcQuizSession(); else if (pendingLearningMode.type === 'spelling') startSpellingQuizSession();
+            if (pendingLearningMode.type === 'basic') startLearningSession(false); 
+            else if (pendingLearningMode.type === 'shuffle') startLearningSession(true); 
+            else if (pendingLearningMode.type === 'reading') startReadingSession(); 
+            else if (pendingLearningMode.type === 'mc-quiz') startMcQuizSession(); 
+            else if (pendingLearningMode.type === 'spelling') startSpellingQuizSession();
+            else if (pendingLearningMode.type === 'unfamiliar-review') startUnfamiliarSession();
         }
         function startLearningSession(isShuffled) { isReadingMode = false; const wordsToLearn = getSelectedWordsForSession(); if (wordsToLearn.length === 0) { alert('沒有選擇任何單字來學習！'); return; } currentMode = 'normal'; const preparedWords = wordsToLearn.map(w => ({ ...w, revealed: false })); shuffledWords = isShuffled ? shuffleArray(preparedWords) : preparedWords; currentIndex = 0; displayCard(); showView('flashcard-view'); }
         function startReadingSession() { isReadingMode = true; const wordsToLearn = getSelectedWordsForSession(); if (wordsToLearn.length === 0) { alert('沒有選擇任何單字來閱讀！'); return; } currentMode = 'normal'; shuffledWords = wordsToLearn.map(w => ({ ...w, revealed: true })); currentIndex = 0; displayCard(); showView('flashcard-view'); }
 
         // --- MC Quiz Logic ---
-        function startMcQuizSession() { mcQuizResultsContainer.style.display = 'none'; mcQuizQuestionArea.style.display = 'flex'; mcQuizProgressBar.style.width = '0%'; const words = getSelectedWordsForSession(); const allWordsInDeck = allWordCategoriesData[currentCategoryName]; if (words.length < 1) { alert('請至少選擇1個單字進行測驗。'); showView('mode-selection-view'); return; } if (allWordsInDeck.length < 4) { alert('選擇測驗需要單字包中至少有4個單字才能生成選項。'); showView('mode-selection-view'); return; } mcQuizQuestions = shuffleArray(words).map(word => { const correctAnswer = currentStudyMode === 'en-first' ? word.chinese : word.english; let distractors = allWordsInDeck.filter(w => w.english !== word.english).map(w => currentStudyMode === 'en-first' ? w.chinese : w.english); distractors = shuffleArray(distractors).slice(0, 3); const options = shuffleArray([...distractors, correctAnswer]); return { originalWord: word, question: currentStudyMode === 'en-first' ? word.english : word.chinese, options: options, correctAnswer: correctAnswer }; }); currentMcQuizIndex = 0; mcQuizUserAnswers = new Array(mcQuizQuestions.length).fill(null); incorrectMcQuizWords.clear(); displayMcQuizQuestion(); showView('mc-quiz-view');}
-        function displayMcQuizQuestion() { if (currentMcQuizIndex < 0 || currentMcQuizIndex >= mcQuizQuestions.length) return; const q = mcQuizQuestions[currentMcQuizIndex]; mcQuizQuestionDisplay.textContent = q.question; const userAnswer = mcQuizUserAnswers[currentMcQuizIndex]; mcQuizOptionButtons.forEach((btn, index) => { btn.textContent = q.options[index]; btn.className = 'quiz-option'; btn.disabled = !!userAnswer; if (userAnswer) { if (btn.textContent === q.correctAnswer) btn.classList.add('correct'); else if (btn.textContent === userAnswer) btn.classList.add('incorrect'); } }); mcQuizProgressBar.style.width = `${((currentMcQuizIndex + 1) / mcQuizQuestions.length) * 100}%`; mcQuizPrevBtn.disabled = currentMcQuizIndex === 0; mcQuizNextBtn.style.display = currentMcQuizIndex === mcQuizQuestions.length - 1 ? 'none' : 'inline-block'; finishMcQuizBtn.style.display = currentMcQuizIndex === mcQuizQuestions.length - 1 ? 'inline-block' : 'none';}
+        function startMcQuizSession() { mcQuizResultsContainer.style.display = 'none'; mcQuizQuestionArea.style.display = 'flex'; mcQuizProgressBar.style.width = '0%'; const words = getSelectedWordsForSession(); const allWordsInDeck = currentWordsSource; if (words.length < 1) { alert('請至少選擇1個單字進行測驗。'); showView('mode-selection-view'); return; } if (allWordsInDeck.length < 4 && words.length > 1) { alert('選擇測驗需要單字包中至少有4個單字才能生成選項。\n(若只選一個單字則不受此限)'); showView('mode-selection-view'); return; } mcQuizQuestions = shuffleArray(words).map(word => { const correctAnswer = currentStudyMode === 'en-first' ? word.chinese : word.english; let distractors = allWordsInDeck.filter(w => w.english !== word.english).map(w => currentStudyMode === 'en-first' ? w.chinese : w.english); distractors = shuffleArray(distractors).slice(0, 3); const options = shuffleArray([...distractors, correctAnswer]); return { originalWord: word, question: currentStudyMode === 'en-first' ? word.english : word.chinese, options: options, correctAnswer: correctAnswer }; }); currentMcQuizIndex = 0; mcQuizUserAnswers = new Array(mcQuizQuestions.length).fill(null); incorrectMcQuizWords.clear(); displayMcQuizQuestion(); showView('mc-quiz-view');}
+        function displayMcQuizQuestion() { if (currentMcQuizIndex < 0 || currentMcQuizIndex >= mcQuizQuestions.length) return; const q = mcQuizQuestions[currentMcQuizIndex]; mcQuizQuestionDisplay.textContent = q.question; const userAnswer = mcQuizUserAnswers[currentMcQuizIndex]; mcQuizOptionButtons.forEach((btn, index) => { btn.textContent = q.options[index]; btn.className = 'quiz-option'; btn.disabled = !!userAnswer; if (userAnswer) { if (btn.textContent === q.correctAnswer) btn.classList.add('correct'); else if (btn.textContent === userAnswer) btn.classList.add('incorrect'); } }); mcQuizProgressBar.style.width = `${((currentMcQuizIndex + 1) / mcQuizQuestions.length) * 100}%`; mcQuizPrevBtn.disabled = currentMcQuizIndex === 0; mcQuizNextBtn.style.display = currentMcQuizIndex === mcQuizQuestions.length - 1 ? 'none' : 'inline-block'; finishMcQuizBtn.style.display = currentMcQuizIndex === mcQuizQuestions.length - 1 ? 'inline-block' : 'none'; const isEnglishQuestion = currentStudyMode === 'zh-first'; mcQuizSpeakBtn.style.display = isEnglishQuestion ? 'block' : 'none'; if(isEnglishQuestion) { mcQuizSpeakBtn.dataset.wordToSpeak = q.question; } }
         function handleMcQuizAnswer(event) { if (mcQuizUserAnswers[currentMcQuizIndex] !== null) return; const selectedButton = event.target; const userAnswer = selectedButton.textContent; mcQuizUserAnswers[currentMcQuizIndex] = userAnswer; const q = mcQuizQuestions[currentMcQuizIndex]; const isCorrect = userAnswer === q.correctAnswer; if (!isCorrect) { incorrectMcQuizWords.add(q.originalWord); } displayMcQuizQuestion(); if (isCorrect) { setTimeout(showNextMcQuizQuestion, 1200); }}
         function showNextMcQuizQuestion() { if (currentMcQuizIndex < mcQuizQuestions.length - 1) { currentMcQuizIndex++; displayMcQuizQuestion(); }}
         function showMcQuizResults() { let score = 0; for(let i=0; i<mcQuizQuestions.length; i++) { if(mcQuizUserAnswers[i] === mcQuizQuestions[i].correctAnswer) score++; } mcQuizScoreDisplay.textContent = `${score} / ${mcQuizQuestions.length}`; mcQuizAddUnfamiliarContainer.innerHTML = ''; if (incorrectMcQuizWords.size > 0) { const btn = document.createElement('button'); btn.id = 'add-incorrect-to-unfamiliar-btn'; btn.textContent = `將答錯的 ${incorrectMcQuizWords.size} 個單字加入不熟列表`; btn.onclick = () => { incorrectMcQuizWords.forEach(word => { if (!unfamiliarWordsInNormalCycle.some(uw => uw.english === word.english)) { unfamiliarWordsInNormalCycle.push({ ...word, revealed: false }); } }); saveProgress(); alert(`${incorrectMcQuizWords.size} 個單字已加入不熟列表！`); btn.disabled = true; btn.textContent = '已加入'; }; mcQuizAddUnfamiliarContainer.appendChild(btn); } mcQuizResultsContainer.style.display = 'flex'; mcQuizQuestionArea.style.display = 'none';}
         
         // --- Spelling Quiz Logic ---
         function startSpellingQuizSession() { spellingQuizResultsContainer.style.display = 'none'; spellingQuizQuestionArea.style.display = 'flex'; spellingQuizProgressBar.style.width = '0%'; const words = getSelectedWordsForSession(); if (words.length < 1) { alert('請至少選擇1個單字進行測驗。'); showView('mode-selection-view'); return; } spellingQuizQuestions = shuffleArray(words.map(w => ({...w}))); currentSpellingQuizIndex = 0; spellingQuizUserAnswers = new Array(spellingQuizQuestions.length).fill(null); incorrectSpellingQuizWords.clear(); displaySpellingQuizQuestion(); showView('spelling-quiz-view');}
-        function displaySpellingQuizQuestion() { if (currentSpellingQuizIndex < 0 || currentSpellingQuizIndex >= spellingQuizQuestions.length) return; const q = spellingQuizQuestions[currentSpellingQuizIndex]; spellingQuizQuestionDisplay.textContent = q.chinese; const userAnswer = spellingQuizUserAnswers[currentSpellingQuizIndex]; if (userAnswer !== null) { spellingInput.value = userAnswer.answer; spellingInput.disabled = true; spellingSubmitBtn.disabled = true; if (userAnswer.isCorrect) { spellingFeedback.textContent = '正確！'; spellingFeedback.className = 'feedback-correct'; } else { spellingFeedback.innerHTML = `您輸入: ${userAnswer.answer}<br>正確答案是: <strong>${q.english}</strong>`; spellingFeedback.className = 'feedback-incorrect'; } } else { spellingInput.value = ''; spellingInput.disabled = false; spellingSubmitBtn.disabled = false; spellingFeedback.innerHTML = ''; setTimeout(() => spellingInput.focus(), 100); } spellingQuizProgressBar.style.width = `${((currentSpellingQuizIndex + 1) / spellingQuizQuestions.length) * 100}%`; spellingQuizPrevBtn.disabled = currentSpellingQuizIndex === 0; spellingQuizNextBtn.style.display = currentSpellingQuizIndex === spellingQuizQuestions.length - 1 ? 'none' : 'inline-block'; finishSpellingQuizBtn.style.display = currentSpellingQuizIndex === spellingQuizQuestions.length - 1 ? 'inline-block' : 'none';}
+        function displaySpellingQuizQuestion() { if (currentSpellingQuizIndex < 0 || currentSpellingQuizIndex >= spellingQuizQuestions.length) return; const q = spellingQuizQuestions[currentSpellingQuizIndex]; spellingQuizQuestionDisplay.textContent = q.chinese; const userAnswer = spellingQuizUserAnswers[currentSpellingQuizIndex]; if (userAnswer !== null) { spellingInput.value = userAnswer.answer; spellingInput.disabled = true; spellingSubmitBtn.disabled = true; if (userAnswer.isCorrect) { spellingFeedback.textContent = '正確！'; spellingFeedback.className = 'feedback-correct'; } else { spellingFeedback.innerHTML = `您輸入: ${userAnswer.answer}<br>正確答案是: <strong>${q.english}</strong>`; spellingFeedback.className = 'feedback-incorrect'; } } else { spellingInput.value = ''; spellingInput.disabled = false; spellingSubmitBtn.disabled = false; spellingFeedback.innerHTML = ''; setTimeout(() => spellingInput.focus(), 100); } spellingQuizProgressBar.style.width = `${((currentSpellingQuizIndex + 1) / spellingQuizQuestions.length) * 100}%`; spellingQuizPrevBtn.disabled = currentSpellingQuizIndex === 0; spellingQuizNextBtn.style.display = currentSpellingQuizIndex === spellingQuizQuestions.length - 1 ? 'none' : 'inline-block'; finishSpellingQuizBtn.style.display = currentSpellingQuizIndex === spellingQuizQuestions.length - 1 ? 'inline-block' : 'none'; spellingQuizSpeakBtn.style.display = 'block'; spellingQuizSpeakBtn.dataset.wordToSpeak = q.english;}
         function handleSpellingQuizSubmit(event) { event.preventDefault(); if (spellingQuizUserAnswers[currentSpellingQuizIndex] !== null) return; const userAnswer = spellingInput.value.trim(); const correctAnswer = spellingQuizQuestions[currentSpellingQuizIndex].english; const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase(); spellingQuizUserAnswers[currentSpellingQuizIndex] = { answer: userAnswer, isCorrect: isCorrect }; if (!isCorrect) { incorrectSpellingQuizWords.add(spellingQuizQuestions[currentSpellingQuizIndex]); } displaySpellingQuizQuestion(); if(isCorrect) { setTimeout(showNextSpellingQuizQuestion, 1500); }}
         function showNextSpellingQuizQuestion() { if (currentSpellingQuizIndex < spellingQuizQuestions.length - 1) { currentSpellingQuizIndex++; displaySpellingQuizQuestion(); }}
         function showSpellingQuizResults() { let score = spellingQuizUserAnswers.filter(a => a && a.isCorrect).length; spellingQuizScoreDisplay.textContent = `${score} / ${spellingQuizQuestions.length}`; spellingQuizAddUnfamiliarContainer.innerHTML = ''; if (incorrectSpellingQuizWords.size > 0) { const btn = document.createElement('button'); btn.id = 'add-incorrect-to-unfamiliar-btn'; btn.textContent = `將答錯的 ${incorrectSpellingQuizWords.size} 個單字加入不熟列表`; btn.onclick = () => { incorrectSpellingQuizWords.forEach(word => { if (!unfamiliarWordsInNormalCycle.some(uw => uw.english === word.english)) { unfamiliarWordsInNormalCycle.push({ ...word, revealed: false }); } }); saveProgress(); alert(`${incorrectSpellingQuizWords.size} 個單字已加入不熟列表！`); btn.disabled = true; btn.textContent = '已加入'; }; spellingQuizAddUnfamiliarContainer.appendChild(btn); } spellingQuizResultsContainer.style.display = 'flex'; spellingQuizQuestionArea.style.display = 'none';}
 
         // --- Unfamiliar Mode & Speech ---
-        function startUnfamiliarReviewMode() { const validUnfamiliarWords = filterAndPrepareWords(unfamiliarWordsInNormalCycle); if (validUnfamiliarWords.length !== unfamiliarWordsInNormalCycle.length) { unfamiliarWordsInNormalCycle = validUnfamiliarWords; saveProgress(); } if (unfamiliarWordsInNormalCycle.length === 0) { alert('目前沒有不熟的單字可以複習！'); return; } currentCategoryName = '不熟單字'; currentMode = 'review'; shuffledWords = shuffleArray(unfamiliarWordsInNormalCycle.map(w => ({ ...w, revealed: false }))); currentIndex = 0; displayCard(); showView('flashcard-view'); }
-        function handleSpeakWord(event) { event.stopPropagation(); if (shuffledWords.length === 0) return; const wordToSpeak = shuffledWords[currentIndex].english; if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(wordToSpeak); utterance.lang = 'en-US'; window.speechSynthesis.speak(utterance); } else { alert('您的瀏覽器不支援語音合成功能。'); } }
+        function startUnfamiliarReviewMode() {
+            const validUnfamiliarWords = filterAndPrepareWords(unfamiliarWordsInNormalCycle);
+            if (validUnfamiliarWords.length !== unfamiliarWordsInNormalCycle.length) {
+                unfamiliarWordsInNormalCycle = validUnfamiliarWords;
+                saveProgress();
+            }
+            if (unfamiliarWordsInNormalCycle.length === 0) {
+                alert('目前沒有不熟的單字可以複習！');
+                return;
+            }
+            currentCategoryName = '不熟單字';
+            currentWordsSource = [...unfamiliarWordsInNormalCycle];
+            selectedWordsForSession.clear(); 
+            goToLanguageSelection('unfamiliar-review', '複習模式');
+        }
+        function startUnfamiliarSession() {
+            isReadingMode = false;
+            currentMode = 'review';
+            shuffledWords = shuffleArray(currentWordsSource.map(w => ({ ...w, revealed: false })));
+            currentIndex = 0;
+            displayCard();
+            showView('flashcard-view');
+        }
+        function handleSpeakWord(event) { event.stopPropagation(); if (shuffledWords.length === 0) return; const wordToSpeak = shuffledWords[currentIndex].english; speakText(wordToSpeak); }
+        function handleQuizSpeak(event) { event.stopPropagation(); const wordToSpeak = event.currentTarget.dataset.wordToSpeak; if(wordToSpeak) speakText(wordToSpeak); }
+        function speakText(text) { if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(text); utterance.lang = 'en-US'; window.speechSynthesis.speak(utterance); } else { alert('您的瀏覽器不支援語音合成功能。'); } }
         
         // --- Flashcard Display & Interaction ---
         function displayCard() {
@@ -470,7 +689,11 @@
             chromaScript.src = "https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.4.2/chroma.min.js";
             chromaScript.onload = async () => {
                 if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(reg => console.log('SW registered.')).catch(err => console.log('SW registration failed: ', err)); }); }
-                loadAndApplyTheme(); loadAppState(); await loadDefaultDecksFromServer(); loadUnfamiliarWords(); showView('main-menu-view');
+                loadAndApplyTheme(); loadAppState(); 
+                await loadDefaultDecksFromServer(); // Kept for first-time users without local storage
+                await runAutoSync(); // Run auto-sync on startup
+                loadUnfamiliarWords(); 
+                showView('main-menu-view');
                 
                 // --- Event Listeners ---
                 backToMenuBtnTop.addEventListener('click', navigateBack); 
@@ -513,6 +736,8 @@
                     } else { showNextSpellingQuizQuestion(); }
                 });
                 finishSpellingQuizBtn.addEventListener('click', showSpellingQuizResults);
+                mcQuizSpeakBtn.addEventListener('click', handleQuizSpeak);
+                spellingQuizSpeakBtn.addEventListener('click', handleQuizSpeak);
 
                 // Word Selection Modal Listeners
                 openWordSelectionBtn.addEventListener('click', openWordSelectionModal);
@@ -534,11 +759,17 @@
                 editWordForm.addEventListener('submit', handleEditWord);
                 confirmModalConfirmBtn.addEventListener('click', () => { if (typeof confirmAction === 'function') confirmAction(); closeConfirmModal(); }); 
                 confirmModalCancelBtn.addEventListener('click', closeConfirmModal);
-                
-                // **FIX**: Added back the listener for the settings button
                 openSettingsBtn.addEventListener('click', openSettingsModal);
 
-                [addWordModal, editWordModal, confirmModal, settingsModal, wordSelectionModal].forEach(modal => {
+                // Online Decks Modal Listeners
+                openOnlineDecksBtn.addEventListener('click', openOnlineDecksModal);
+                downloadSelectedDecksBtn.addEventListener('click', handleDownloadSelectedDecks);
+                onlineDecksListContainer.addEventListener('change', updateDownloadButtonState);
+                autoSyncCheckbox.addEventListener('change', handleAutoSyncToggle);
+                try { autoSyncCheckbox.checked = localStorage.getItem('autoSyncOnlineDecks') === 'true'; } catch(e) { /* ignore */ }
+
+
+                [addWordModal, editWordModal, confirmModal, settingsModal, wordSelectionModal, onlineDecksModal].forEach(modal => {
                     modal.querySelector('.modal-close-btn').addEventListener('click', () => {
                         if (modal.id === 'settings-modal') closeSettingsModal(true);
                         else {
@@ -564,7 +795,7 @@
                 });
                 document.getElementById('settings-save-btn').addEventListener('click', handleSaveThemeAndClose);
                 document.getElementById('save-custom-theme-btn').addEventListener('click', handleSaveCustomTheme);
-                ['primary-color-picker', 'accent-color-picker', 'background-color-picker', 'container-opacity-slider'].forEach(id => {
+                ['primary-color-picker', 'accent-color-picker', 'background-color-picker', 'text-color-picker', 'container-opacity-slider'].forEach(id => {
                     document.getElementById(id).addEventListener('input', handleCustomThemeChange);
                 });
                 document.getElementById('background-image-uploader').addEventListener('change', (e) => {
