@@ -1,0 +1,618 @@
+[
+  {
+    "english": "usage",
+    "chinese": "n. 用法；使用方式"
+  },
+  {
+    "english": "originate",
+    "chinese": "v. 起源；開創"
+  },
+  {
+    "english": "association",
+    "chinese": "n. 協會；聯想；關聯"
+  },
+  {
+    "english": "pronunciation",
+    "chinese": "n. 發音"
+  },
+  {
+    "english": "confusion",
+    "chinese": "n. 混淆；困惑；混亂"
+  },
+  {
+    "english": "ambiguity",
+    "chinese": "n. 模稜兩可；含糊不清"
+  },
+  {
+    "english": "sophisticated",
+    "chinese": "adj. 高雅的；複雜的"
+  },
+  {
+    "english": "versus",
+    "chinese": "prep. 與……相比；以……為對手"
+  },
+  {
+    "english": "reflect",
+    "chinese": "v. 反映；反射；深思"
+  },
+  {
+    "english": "wildlife",
+    "chinese": "n. 野生生物"
+  },
+  {
+    "english": "economy",
+    "chinese": "n. 經濟"
+  },
+  {
+    "english": "wilderness",
+    "chinese": "n. 荒野"
+  },
+  {
+    "english": "commerce",
+    "chinese": "n. 商業"
+  },
+  {
+    "english": "symbolize",
+    "chinese": "v. 象徵"
+  },
+  {
+    "english": "associate",
+    "chinese": "v. 聯想"
+  },
+  {
+    "english": "ashamed",
+    "chinese": "adj. 感到羞愧的"
+  },
+  {
+    "english": "insulting",
+    "chinese": "adj. 侮辱人的"
+  },
+  {
+    "english": "biological",
+    "chinese": "adj. 生物的"
+  },
+  {
+    "english": "profound",
+    "chinese": "adj. 深刻的；深奧的"
+  },
+  {
+    "english": "realm",
+    "chinese": "n. 領域；範圍"
+  },
+  {
+    "english": "fortunately",
+    "chinese": "adv. 幸運地"
+  },
+  {
+    "english": "restore",
+    "chinese": "v. 恢復；使復原"
+  },
+  {
+    "english": "mammal",
+    "chinese": "n. 哺乳類動物"
+  },
+  {
+    "english": "extinct",
+    "chinese": "adj. 絕種的；滅絕的"
+  },
+  {
+    "english": "predator",
+    "chinese": "n. 掠食者；食肉動物"
+  },
+  {
+    "english": "purity",
+    "chinese": "n. 純淨；純潔"
+  },
+  {
+    "english": "innocence",
+    "chinese": "n. 純真；無辜"
+  },
+  {
+    "english": "participant",
+    "chinese": "n. 參與者"
+  },
+  {
+    "english": "moderate",
+    "chinese": "adj. 適度的；有節制的"
+  },
+  {
+    "english": "consequence",
+    "chinese": "n. 後果"
+  },
+  {
+    "english": "distraction",
+    "chinese": "n. 令人分心的事物"
+  },
+  {
+    "english": "artificial",
+    "chinese": "adj. 人工的；人造的"
+  },
+  {
+    "english": "premature",
+    "chinese": "adj. 早產的；過早的"
+  },
+  {
+    "english": "infant",
+    "chinese": "n. 嬰兒"
+  },
+  {
+    "english": "complication",
+    "chinese": "n. 併發症"
+  },
+  {
+    "english": "ethical",
+    "chinese": "adj. 倫理的；道德的"
+  },
+  {
+    "english": "fundamental",
+    "chinese": "adj. 根本的；基本的"
+  },
+  {
+    "english": "steady",
+    "chinese": "adj. 穩定的"
+  },
+  {
+    "english": "extended",
+    "chinese": "adj. 長期的；延伸的"
+  },
+  {
+    "english": "athlete",
+    "chinese": "n. 運動員"
+  },
+  {
+    "english": "strength",
+    "chinese": "n. 力量；力氣"
+  },
+  {
+    "english": "twist",
+    "chinese": "v. 扭轉；扭曲"
+  },
+  {
+    "english": "contribute",
+    "chinese": "v. 貢獻；捐獻"
+  },
+  {
+    "english": "divine",
+    "chinese": "adj. 神聖的；神（般）的"
+  },
+  {
+    "english": "elaborately",
+    "chinese": "adv. 精心製作地"
+  },
+  {
+    "english": "attendant",
+    "chinese": "n. 侍者；服務員"
+  },
+  {
+    "english": "sacred",
+    "chinese": "adj. 神聖的"
+  },
+  {
+    "english": "authority",
+    "chinese": "n. 權威；權力"
+  },
+  {
+    "english": "sovereignty",
+    "chinese": "n. 統治權；主權"
+  },
+  {
+    "english": "frame",
+    "chinese": "n. 骨架；框架"
+  },
+  {
+    "english": "reinforce",
+    "chinese": "v. 加強；鞏固"
+  },
+  {
+    "english": "resistant",
+    "chinese": "adj. 抵抗的；抗……的"
+  },
+  {
+    "english": "shift",
+    "chinese": "v. 轉移；改變；移動"
+  },
+  {
+    "english": "accessory",
+    "chinese": "n. 配件；附屬品"
+  },
+  {
+    "english": "emphasis",
+    "chinese": "n. 重視；強調"
+  },
+  {
+    "english": "feminine",
+    "chinese": "adj. 女性（化）的"
+  },
+  {
+    "english": "defy",
+    "chinese": "v. 違抗；反抗"
+  },
+  {
+    "english": "convention",
+    "chinese": "n. 傳統；慣例"
+  },
+  {
+    "english": "accelerate",
+    "chinese": "v. 加速"
+  },
+  {
+    "english": "acceptance",
+    "chinese": "n. 接納；接受"
+  },
+  {
+    "english": "compact",
+    "chinese": "adj. 小巧的；密實的"
+  },
+  {
+    "english": "continuously",
+    "chinese": "adv. 持續地；連續地"
+  },
+  {
+    "english": "identify",
+    "chinese": "v. 辨認；識別"
+  },
+  {
+    "english": "densely",
+    "chinese": "adv. 密集地"
+  },
+  {
+    "english": "reef",
+    "chinese": "n. 礁岩"
+  },
+  {
+    "english": "construct",
+    "chinese": "v. 建造；興建"
+  },
+  {
+    "english": "dynasty",
+    "chinese": "n. 王朝；朝代"
+  },
+  {
+    "english": "dedicated",
+    "chinese": "adj. 盡心盡力的；專心致志的"
+  },
+  {
+    "english": "heritage",
+    "chinese": "n. 文化遺產；傳統"
+  },
+  {
+    "english": "site",
+    "chinese": "n. 地點；場所"
+  },
+  {
+    "english": "threshold",
+    "chinese": "n. 門檻；出發點"
+  },
+  {
+    "english": "outrage",
+    "chinese": "n. 憤慨；義憤"
+  },
+  {
+    "english": "integrate",
+    "chinese": "v. 結合；融為一體"
+  },
+  {
+    "english": "contend",
+    "chinese": "v. 主張；爭辯"
+  },
+  {
+    "english": "suspension",
+    "chinese": "n. 吊銷；中止"
+  },
+  {
+    "english": "resort",
+    "chinese": "vi. 訴諸；憑藉"
+  },
+  {
+    "english": "lawmaker",
+    "chinese": "n. 立法者，立法機關成員"
+  },
+  {
+    "english": "addiction",
+    "chinese": "n. 成癮；上癮"
+  },
+  {
+    "english": "curb",
+    "chinese": "vt. 控制；限制"
+  },
+  {
+    "english": "celebration",
+    "chinese": "n. 慶祝（活動）"
+  },
+  {
+    "english": "feast",
+    "chinese": "n. (宗教) 節日；盛宴；享受"
+  },
+  {
+    "english": "herb",
+    "chinese": "n. 藥草；草本植物"
+  },
+  {
+    "english": "romance",
+    "chinese": "n. 浪漫；愛情（故事）"
+  },
+  {
+    "english": "cherish",
+    "chinese": "vt. 珍惜；珍愛；懷念"
+  },
+  {
+    "english": "erect",
+    "chinese": "vt. 豎立；建造"
+  },
+  {
+    "english": "pickled",
+    "chinese": "adj. 醃製的"
+  },
+  {
+    "english": "cottage",
+    "chinese": "n. 小屋；村舍"
+  },
+  {
+    "english": "plunge",
+    "chinese": "n. 跳入；下跌；落下"
+  },
+  {
+    "english": "preference",
+    "chinese": "n. 偏好；喜愛"
+  },
+  {
+    "english": "priority",
+    "chinese": "n. 優先考慮的事"
+  },
+  {
+    "english": "accompany",
+    "chinese": "vt. 陪同；伴隨"
+  },
+  {
+    "english": "trim",
+    "chinese": "vt. 刪減；修剪"
+  },
+  {
+    "english": "proceed",
+    "chinese": "v. 繼續進行"
+  },
+  {
+    "english": "revise",
+    "chinese": "v. 修正；修改"
+  },
+  {
+    "english": "guideline",
+    "chinese": "n. 指導方針；準則"
+  },
+  {
+    "english": "guardian",
+    "chinese": "n. 監護人"
+  },
+  {
+    "english": "attached",
+    "chinese": "adj. 附上的；隨附的"
+  },
+  {
+    "english": "appropriate",
+    "chinese": "adj. 適當的；合適的"
+  },
+  {
+    "english": "insurance",
+    "chinese": "n. 保險"
+  },
+  {
+    "english": "supervise",
+    "chinese": "vt. 監督；管理"
+  },
+  {
+    "english": "abuse",
+    "chinese": "n. 虐待；濫用"
+  },
+  {
+    "english": "spouse",
+    "chinese": "n. 配偶"
+  },
+  {
+    "english": "assault",
+    "chinese": "n. 毆打；襲擊"
+  },
+  {
+    "english": "exert",
+    "chinese": "vt. 施加；行使；運用"
+  },
+  {
+    "english": "humiliation",
+    "chinese": "n. 羞辱；恥辱"
+  },
+  {
+    "english": "undermine",
+    "chinese": "vt. 削弱；損害"
+  },
+  {
+    "english": "subtle",
+    "chinese": "adj. 不易察覺的；細微的"
+  },
+  {
+    "english": "dictate",
+    "chinese": "vt. 命令；規定"
+  },
+  {
+    "english": "obscure",
+    "chinese": "vt. 掩蓋；遮蔽"
+  },
+  {
+    "english": "legislation",
+    "chinese": "n. 法律；立法"
+  },
+  {
+    "english": "mandate",
+    "chinese": "vt. 命令；要求"
+  },
+  {
+    "english": "warrant",
+    "chinese": "n. 拘捕令；搜索票"
+  },
+  {
+    "english": "assessment",
+    "chinese": "n. 評估；評價"
+  },
+  {
+    "english": "lethal",
+    "chinese": "adj. 致命的；極其危險的"
+  },
+  {
+    "english": "preventive",
+    "chinese": "adj. 預防的"
+  },
+  {
+    "english": "confidential",
+    "chinese": "adj. 保密的；機密的"
+  },
+  {
+    "english": "housing",
+    "chinese": "n. 住房；住宅（不可數）"
+  },
+  {
+    "english": "document",
+    "chinese": "vt. 記錄；記載"
+  },
+  {
+    "english": "attorney",
+    "chinese": "n. 律師"
+  },
+  {
+    "english": "divorce",
+    "chinese": "n. 離婚"
+  },
+  {
+    "english": "volunteer",
+    "chinese": "v. 自願（做）"
+  },
+  {
+    "english": "corridor",
+    "chinese": "n. 走廊；通道"
+  },
+  {
+    "english": "procedure",
+    "chinese": "n. 程序；步驟"
+  },
+  {
+    "english": "sensational",
+    "chinese": "adj. 引起轟動的；極好的"
+  },
+  {
+    "english": "accuse",
+    "chinese": "vt. 指控；指責"
+  },
+  {
+    "english": "prosecution",
+    "chinese": "n. 起訴；告發"
+  },
+  {
+    "english": "defendant",
+    "chinese": "n. 被告"
+  },
+  {
+    "english": "financial",
+    "chinese": "adj. 財務的；金融的"
+  },
+  {
+    "english": "speculation",
+    "chinese": "n. 猜測；推測"
+  },
+  {
+    "english": "jury",
+    "chinese": "n. 陪審團；評委會"
+  },
+  {
+    "english": "immigrant",
+    "chinese": "n. （外來的）移民"
+  },
+  {
+    "english": "witness",
+    "chinese": "v. 目睹；見證 & n. 目擊者；證人"
+  },
+  {
+    "english": "murderer",
+    "chinese": "n. 兇手；殺人犯"
+  },
+  {
+    "english": "investigator",
+    "chinese": "n. 調查人員"
+  },
+  {
+    "english": "devise",
+    "chinese": "vt. 設計；發明"
+  },
+  {
+    "english": "testify",
+    "chinese": "v. 證實；作證"
+  },
+  {
+    "english": "authentic",
+    "chinese": "adj. 真正的；可信的"
+  },
+  {
+    "english": "realistically",
+    "chinese": "adv. 實際地；寫實地"
+  },
+  {
+    "english": "vulnerable",
+    "chinese": "adj. 脆弱的；易受影響的"
+  },
+  {
+    "english": "mentor",
+    "chinese": "n. 導師；指導者"
+  },
+  {
+    "english": "diverse",
+    "chinese": "adj. 多種多樣的；不同的"
+  },
+  {
+    "english": "fraud",
+    "chinese": "n. 詐騙；騙子"
+  },
+  {
+    "english": "confront",
+    "chinese": "vt. 面對；正視；對抗"
+  },
+  {
+    "english": "privilege",
+    "chinese": "n. 特權；特別待遇"
+  },
+  {
+    "english": "compelling",
+    "chinese": "adj. 引人入勝的；令人信服的"
+  },
+  {
+    "english": "perfume",
+    "chinese": "n. 香水；香味"
+  },
+  {
+    "english": "soak",
+    "chinese": "v. 浸濕；浸泡"
+  },
+  {
+    "english": "mild",
+    "chinese": "adj. 溫和的"
+  },
+  {
+    "english": "fertile",
+    "chinese": "adj. 肥沃的；能生育的"
+  },
+  {
+    "english": "rainfall",
+    "chinese": "n. 下雨；降雨（量）"
+  },
+  {
+    "english": "ingredient",
+    "chinese": "n. 材料；成分"
+  },
+  {
+    "english": "luxurious",
+    "chinese": "adj. 奢侈的；豪華的"
+  },
+  {
+    "english": "antique",
+    "chinese": "adj. 古董的"
+  },
+  {
+    "english": "exhibit",
+    "chinese": "n. 展品"
+  }
+]
